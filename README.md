@@ -21,7 +21,11 @@ Henri Hakkarainen, 434896, henri.hakkarainen@tuni.fi
 Gitlab repo URL: https://course-gitlab.tuni.fi/tieta12-2019-2020/internal-server-error.git
 
 ## How to run the project application
-During development, its required to start two terminal windows. One is for starting the Express-server on port 8000 and the other is for starting the React build, which runs on port 3000. This helps in following the logs on the server side. After downloading this folder structure, first run the following command on your local machine:
+First of all, modify the Vagrantfile used so that it forwards also port 3001 which is reserved for React in this project. Add the following line to Vagrantfile under "Open ports" part:
+
+- config.vm.network "forwarded_port", guest: 3001, host: 3001   # React
+
+During development, its required to start two terminal windows. One is for starting the Express-server on port 3000 and the other is for starting the React build, which runs on port 3001. This helps in following the logs on the server side. After downloading this folder structure, first run the following command on your local machine:
 
 `$ npm run setup`
 
@@ -29,6 +33,8 @@ During development, its required to start two terminal windows. One is for start
 
 `$ npm run server` - starts the Express server (backend)<br>
 `$ npm run app` - starts the React application (frontend)
+
+Now the React application UI can be viewed on http://localhost:3001.
 
 Server is started with nodemon, so if any changes are made to the code, the server automatically restarts which makes the development and testing much easier. Also changes done to React application are immediately visible on the browser (requires page refresh).
 

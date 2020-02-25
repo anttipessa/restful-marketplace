@@ -15,10 +15,34 @@ For instructions on what to add under these headers, see the course project assi
 ## Course project group information 
 
 ### Internal Server Error
-Antti Pessa, 431566, antti.pessa@tuni.fi
-
+Antti Pessa, 431566, antti.pessa@tuni.fi<br>
+Henri Hakkarainen, 434896, henri.hakkarainen@tuni.fi
 
 Gitlab repo URL: https://course-gitlab.tuni.fi/tieta12-2019-2020/internal-server-error.git
+
+## How to run the project application
+During development, its required to start two terminal windows. One is for starting the Express-server on port 8000 and the other is for starting the React build, which runs on port 3000. This helps in following the logs on the server side. After downloading this folder structure, first run the following command on your local machine:
+
+`$ npm run setup`
+
+ This script installs the required modules for each subdirectory. After that the following commands must be run inside Vagrant on their own terminal windows:
+
+`$ npm run server` - starts the Express server (backend)<br>
+`$ npm run app` - starts the React application (frontend)
+
+Server is started with nodemon, so if any changes are made to the code, the server automatically restarts which makes the development and testing much easier. Also changes done to React application are immediately visible on the browser (requires page refresh).
+
+When the project is ready for deployment, its possible to add the following script to package.json, which both starts the server and the React application at the same time:
+
+`"dev": "run-p server app"`
+
+Then it is possible to start both the backend and frontend with a single command:
+
+`$ npm run dev`
+
+Also on deployment phase, the server script should be modified not to use nodemon anymore, for example like:
+
+`"node backend/app.js"`
 
 ## Planned functionality
 

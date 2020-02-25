@@ -67,7 +67,28 @@ Also on deployment phase, the server script should be modified not to use nodemo
 
 
 ## Pages and navigation    
-## Modules your group created in your Node project    
+## Modules your group created in your Node project
+```
+backend
+├── server.js               --> express app
+├── router.js               --> main router that setups other routes
+├── package.json            --> app info and dependencies
+├── models                  --> models that reflect the db schemes
+│                               and take care of storing data
+├── routes                  --> a dir for router modules
+│   ├── item.js             --> /item router
+│   └── users.js            --> /users router
+
+frontend
+├── src                     --> all react files
+│   ├── app.js              --> react app
+│   ├── components          --> react components
+│   │   ├── 
+│   │   ├── 
+├── public                  
+├── package.json            --> app info and dependencies
+
+```
 ## Mongo database and Mongoose schemas    
 ## API
 ## React and Redux

@@ -147,15 +147,21 @@ Payloads:
     - `/item/id` - { name, userid, onsale, price }
 
 ## React and Redux
-Implement using create-react-app
-## Testing    
-## Project timetable and division of work    
+
+Implement using create-react-app. Inital plan is to start with getting the React parts done first then implementing the Redux. (This can still change) We will use https://material-ui.com/ for different components for the site: navigation, surfaces, sidebars, buttons etc.
+
+## Testing 
+
+We will move on to testing once all the backend and frontend work is done. Testing will be done using Chai and Mocha. React testing with Jest and React testing library.
+
+## Project timetable and division of work  
+
 | Name   | Start  | End    | By who |
 | ------ | ------ | ------ | ------ |
 | Initial project plan          | 24.2. | 3.3.  | All    |
 | Mongoose models               | 3.3.  | 6.3.  | Henri  |
 | API paths and functionality   | 3.3.  | 10.3. | All    |
-| cell                          | cell  | cell  | cell   |
+| Start on frontend             | 10.3  | 20.3  | All    |
 | cell                          | cell  | cell  | cell   |
 
 *Good luck and happy WWWdevvin’!*

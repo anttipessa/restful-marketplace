@@ -68,6 +68,7 @@ Also on deployment phase, the server script should be modified not to use nodemo
 
 
 ## Pages and navigation    
+![picture of navigation](navigation.png)
 ## Modules your group created in your Node project
 ```
 .

@@ -69,36 +69,91 @@ Also on deployment phase, the server script should be modified not to use nodemo
 ## Pages and navigation    
 ## Modules your group created in your Node project
 ```
-backend
-├── server.js               --> express app
-├── router.js               --> main router that setups other routes
-├── package.json            --> app info and dependencies
-├── models                  --> models that reflect the db schemes
-│                               and take care of storing data
-├── routes                  --> a dir for router modules
-│   ├── item.js             --> /item router
-│   └── users.js            --> /users router
-
-frontend
-├── src                     --> all react files
-│   ├── app.js              --> react app
-│   ├── components          --> react components
-│   │   ├── 
-│   │   ├── 
-├── public                  
-├── package.json            --> app info and dependencies
+.
+├── backend
+│   ├── app.js                  --> express app
+│   ├── router.js               --> main router that setups other routes
+│   ├── package.json            --> app info and dependencies
+│   ├── models                  --> models that reflect the db schemas
+│   │                               and take care of storing data
+│   ├── routes                  --> a dir for router modules
+│   │   ├── item.js             --> /item router
+│   └── └── users.js            --> /users router
+│
+├── frontend
+│   ├── src                     --> all react files
+│   │   ├── app.js              --> react app
+│   │   ├── components          --> react components
+│   │   │   ├── ...
+│   │   │   └── ...
+│   ├── public                  
+└── └── package.json            --> app info and dependencies
 
 ```
-## Mongo database and Mongoose schemas    
+## Mongo database and Mongoose schemas
+Models we're planning to use and their attributes:
+- User
+    - Name (String)
+    - Email (String)
+    - Password (String)
+    - Role (String) [`admin`/`shopkeeper`/`registered`]
+    - Offers ([Item])
+- Item
+    - Name (String)
+    - Owner (User)
+    - Price (Number)
+    - Onsale (Boolean)
+
+The system holds information about the items that have been saved to the database and also about users that are buying or selling items. Item is saved the first time it is listed to being sold and a user is created the moment they register at the website.<br><br>
+User model contains a username, email and password. User model also has a role, which defaults to registered user so that the user is able to buy listed items and sell items to the shopkeepers on the webstore. User can be promoted to shopkeeper role (requires admin rights) and that role is able to sell items to all other customers (these offers are listed on the store for everyone). Admin users can edit basically anything. User model also has an attribute list of offers, which holds items that the user is currently selling on the store.<br><br>
+Item model contains name of the item and the current owner of the item, which points to a user (each item belongs to some user). Item model also has attribute that holds information if the items is currently on sale or not (true/false). If the item is on sale, it also must have price attribute set (price must be >= 0).<br><br>
+If a user unregisters from the webstore, all items that he/she owns are also removed from the database, that is why it's good to have information about the owner of the items.
+
 ## API
+Here you describe how your group’s website's API endpoints, URLs, paths, parameters and payloads.
+
+This documentation may change a little during the coursework if more API paths are found the be needed or some changes must be done.
+
+Base API path: http://localhost:3000/api
+
+API endpoints:
+- GET-request
+    - `/users` - list all users from the database
+    - `/user/id` - get information about a specific user by id
+    - `/user/id/offers` - list all items that belong to a specific user and are listed for sale
+    - `/items` - list all items from the database
+    - `/items/userid` - list all items that belong to a specific user
+    - `/items/onsale` - list items that are owned by shopkeepers and are listed for sale
+    - `/items/offers` - list items that are owned by registered users and are listed for sale
+    - `/item/id` - get information about a specific item by id
+- POST-request
+    - `/users` - creates a new user to database
+    - `/items` - creates a new item to database
+- PUT-request
+    - `/user/id` - modify a specific user by id
+    - `/item/id` - modify a specific item by id
+- DELETE-request
+    - `/user/id` - delete a specific user from the database by id
+    - `/item/id` - delete a specific item from the database by id
+
+Payloads:
+- POST-request (all of the listed attributes must be included)
+    - `/users` - { username, email, password }
+    - `/items` - { name, userid, onsale, price }
+- PUT-request (one or more of the listed attributes may be included)
+    - `/user/id` - { username, email, password, role }
+    - `/item/id` - { name, userid, onsale, price }
+
 ## React and Redux
 Implement using create-react-app
 ## Testing    
 ## Project timetable and division of work    
-| Name | Start | End | By who |
+| Name   | Start  | End    | By who |
 | ------ | ------ | ------ | ------ |
-| Initial project plan   | 24.2   | 3.3   | All   |
-| cell   | cell   | cell   | cell   |
-| cell   | cell   | cell   | cell   |
+| Initial project plan          | 24.2. | 3.3.  | All    |
+| Mongoose models               | 3.3.  | 6.3.  | Henri  |
+| API paths and functionality   | 3.3.  | 10.3. | All    |
+| cell                          | cell  | cell  | cell   |
+| cell                          | cell  | cell  | cell   |
 
 *Good luck and happy WWWdevvin’!*

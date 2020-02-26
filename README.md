@@ -16,7 +16,8 @@ For instructions on what to add under these headers, see the course project assi
 
 ### Internal Server Error
 Antti Pessa, 431566, antti.pessa@tuni.fi<br>
-Henri Hakkarainen, 434896, henri.hakkarainen@tuni.fi
+Henri Hakkarainen, 434896, henri.hakkarainen@tuni.fi<br>
+Niki Väänänen, 428612, niki.vaananen@tuni.fi
 
 Gitlab repo URL: https://course-gitlab.tuni.fi/tieta12-2019-2020/internal-server-error.git
 

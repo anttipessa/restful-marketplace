@@ -98,23 +98,27 @@ Models we're planning to use and their attributes:
     - Name (String)
     - Email (String)
     - Password (String)
-    - Role (String) [`admin`/`shopkeeper`/`registered`]
+    - Role (String) [admin/shopkeeper/registered]
     - Offers ([Item])
+    - CreditCard (Creditcard)
 - Item
     - Name (String)
     - Owner (User)
     - Price (Number)
     - Onsale (Boolean)
+- Creditcard
+    - Number (String)
+    - Balance (Number)
 
 The system holds information about the items that have been saved to the database and also about users that are buying or selling items. Item is saved the first time it is listed to being sold and a user is created the moment they register at the website.<br><br>
 User model contains a username, email and password. User model also has a role, which defaults to registered user so that the user is able to buy listed items and sell items to the shopkeepers on the webstore. User can be promoted to shopkeeper role (requires admin rights) and that role is able to sell items to all other customers (these offers are listed on the store for everyone). Admin users can edit basically anything. User model also has an attribute list of offers, which holds items that the user is currently selling on the store.<br><br>
 Item model contains name of the item and the current owner of the item, which points to a user (each item belongs to some user). Item model also has attribute that holds information if the items is currently on sale or not (true/false). If the item is on sale, it also must have price attribute set (price must be >= 0).<br><br>
-If a user unregisters from the webstore, all items that he/she owns are also removed from the database, that is why it's good to have information about the owner of the items.
+Credit card / bank account information is modeled so that the Creditcard model contains number of the credit card and the balance of the card (how much money there is on the corresponding bank account). This model is being kept quite simple and straightforward on this imaginary webstore environment. On a real life application it would of course not be a good idea to keep track of a users bank account information and the payment would require authentication into a specific payment site.
+<br><br>
+If a user unregisters from the webstore, all items that he/she owns are also removed from the database along with the credit card / bank account information of that user.
 
 ## API
-Here you describe how your group’s website's API endpoints, URLs, paths, parameters and payloads.
-
-This documentation may change a little during the coursework if more API paths are found the be needed or some changes must be done.
+This documentation may still change a little during the coursework if more API paths are found the be needed or some changes must be done.
 
 Base API path: http://localhost:3000/api
 
@@ -123,28 +127,37 @@ API endpoints:
     - `/users` - list all users from the database
     - `/user/id` - get information about a specific user by id
     - `/user/id/offers` - list all items that belong to a specific user and are listed for sale
+    - `/user/id/payment` - get a single user credit card / payment information
     - `/items` - list all items from the database
     - `/items/userid` - list all items that belong to a specific user
     - `/items/onsale` - list items that are owned by shopkeepers and are listed for sale
     - `/items/offers` - list items that are owned by registered users and are listed for sale
     - `/item/id` - get information about a specific item by id
+    - `/payments` - list all payment information from the database
+    - `/payment/id` - get information about a specific credit card item by id
 - POST-request
     - `/users` - creates a new user to database
     - `/items` - creates a new item to database
+    - `/payments` - create a new credit card item to database
 - PUT-request
     - `/user/id` - modify a specific user by id
     - `/item/id` - modify a specific item by id
+    - `/payment/id` - modify a specific credit card item by id
 - DELETE-request
     - `/user/id` - delete a specific user from the database by id
     - `/item/id` - delete a specific item from the database by id
+    - `/items/userid` - delete all items that belong to a specific user
+    - `/payment/id` - delete a specific creditcard item from the database by id
 
 Payloads:
 - POST-request (all of the listed attributes must be included)
     - `/users` - { username, email, password }
     - `/items` - { name, userid, onsale, price }
+    - `/payments` - { number, balance }
 - PUT-request (one or more of the listed attributes may be included)
-    - `/user/id` - { username, email, password, role }
+    - `/user/id` - { username, email, password, role, ccid } | *cc = credit card\**
     - `/item/id` - { name, userid, onsale, price }
+    - `/payment/id` - { balance }
 
 ## React and Redux
 

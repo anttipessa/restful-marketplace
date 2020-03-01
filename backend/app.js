@@ -4,12 +4,17 @@ const helmet = require('helmet')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 const app = express()
-const router = require('./router')
 
 app.use(helmet())
 app.use(bodyParser.json())
 
-mongoose.connect('mongodb://localhost/WWWProgrammingCW');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/WWWProgrammingCW', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+});
+
 
 // send app to router
 require('./router.js')(app);

@@ -4,11 +4,11 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//  const {
-//      Joi,
-//     buildErrorObject,
-//     csrfTokenSchema
-//  } = require('./validator');
+const {
+    Joi,
+    buildErrorObject,
+    csrfTokenSchema
+} = require('./validator');
 
 const schemaDefaults = {
     name: {
@@ -25,45 +25,45 @@ const schemaDefaults = {
     }
 };
 
-// const inputSchema = {
-//     name: Joi.string()
-//         .trim()
-//         .normalize()
-//         .min(schemaDefaults.name.minLength)
-//         .max(schemaDefaults.name.maxLength)
-//         .regex(/^((?!\$).)*$/)
-//         .error(() => {
-//             return `Name is required, it must be ${schemaDefaults.name.minLength} - ${schemaDefaults.name.maxLength} chars.`;
-//         }),
-//     email: Joi.string()
-//         .trim()
-//         .normalize()
-//         .email()
-//         .error(() => {
-//             return 'Email is required and it must right format';
-//         }),
-//     password: Joi.string()
-//         .max(schemaDefaults.password.maxLength)
-//         .error(() => {
-//             return `Password must be at least ${schemaDefaults.password.minLength} chars.`;
-//         }),
-//     passwordConfirmation: Joi.string()
-//         .valid(Joi.ref('password'))
-//         .error(() => {
-//             return 'Confirmation does not equal to a password';
-//         }),
-//     role: Joi.string()
-//         .trim()
-//         .lowercase()
-//         .valid(schemaDefaults.role.values)
-//         .default(schemaDefaults.role.defaultValue)
-//         .error(() => {
-//             return `Role must be one of: "${schemaDefaults.role.values.join(
-//                 '", "'
-//             )}"`;
-//         }),
-//     _csrf: csrfTokenSchema
-// };
+const inputSchema = {
+    name: Joi.string()
+        .trim()
+        .normalize()
+        .min(schemaDefaults.name.minLength)
+        .max(schemaDefaults.name.maxLength)
+        .regex(/^((?!\$).)*$/)
+        .error(() => {
+            return `Name is required, it must be ${schemaDefaults.name.minLength} - ${schemaDefaults.name.maxLength} chars.`;
+        }),
+    email: Joi.string()
+        .trim()
+        .normalize()
+        .email()
+        .error(() => {
+            return 'Email is required and it must right format';
+        }),
+    password: Joi.string()
+        .max(schemaDefaults.password.maxLength)
+        .error(() => {
+            return `Password must be at least ${schemaDefaults.password.minLength} chars.`;
+        }),
+    passwordConfirmation: Joi.string()
+        .valid(Joi.ref('password'))
+        .error(() => {
+            return 'Confirmation does not equal to a password';
+        }),
+    role: Joi.string()
+        .trim()
+        .lowercase()
+        .valid(schemaDefaults.role.values)
+        .default(schemaDefaults.role.defaultValue)
+        .error(() => {
+            return `Role must be one of: "${schemaDefaults.role.values.join(
+                '", "'
+            )}"`;
+        }),
+    _csrf: csrfTokenSchema
+};
 
 
 const userSchema = new Schema({
@@ -119,6 +119,12 @@ userSchema.virtual('isRegistered').get(function () {
     // eslint-disable-next-line babel/no-invalid-this
     return this.role === 'admin' || this.role === 'registered';
 });
+
+userSchema.virtual('links').get(function () {
+    return [{ 'self': 'http://localhost:3000/api/user/' + this._id }];
+});
+
+userSchema.set('toJSON', { virtuals: true })
 
 userSchema.statics.getAvailableRoles = function () {
     // FIXME: Do not hard code! Construct this automatically

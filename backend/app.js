@@ -9,6 +9,8 @@ const router = require('./router')
 app.use(helmet())
 app.use(bodyParser.json())
 
+mongoose.connect('mongodb://localhost/WWWProgrammingCW');
+
 // send app to router
 require('./router.js')(app);
 

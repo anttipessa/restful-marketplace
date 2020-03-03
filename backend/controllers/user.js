@@ -10,7 +10,7 @@ module.exports = {
                 res.status(200);
                 res.json(users);
             }
-        })
+        }).populate('creditcard')
     },
 
     showUser(req, res) {
@@ -21,7 +21,7 @@ module.exports = {
                 res.status(200);
                 res.json(user);
             }
-        })
+        }).populate('creditcard')
     },
 
     createUser(req, res) {
@@ -31,7 +31,8 @@ module.exports = {
             const newUser = new User({
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.password
+                password: req.body.password,
+                creditcard: req.body.creditcard
             });
             newUser.save(function (err) {
                 if (err) { res.sendStatus(400); return console.error(err); };

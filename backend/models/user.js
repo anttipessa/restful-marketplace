@@ -102,6 +102,9 @@ const userSchema = new Schema({
         lowercase: true,
         enum: schemaDefaults.role.values,
         default: schemaDefaults.role.defaultValue
+    },
+    creditcard: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'CreditCard' }]
     }
 });
 
@@ -121,7 +124,7 @@ userSchema.virtual('isRegistered').get(function () {
 });
 
 userSchema.virtual('links').get(function () {
-    return [{ 'self': 'http://localhost:3000/api/user/' + this._id }];
+    return [{ 'self': 'http://localhost:3000/api/users/' + this._id }];
 });
 
 userSchema.set('toJSON', { virtuals: true })

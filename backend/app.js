@@ -15,7 +15,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/WWWProgrammingC
     useCreateIndex: true
 });
 
-
 // send app to router
 require('./router.js')(app);
 

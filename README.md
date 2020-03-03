@@ -125,29 +125,29 @@ Base API path: http://localhost:3000/api
 API endpoints:
 - GET-request
     - `/users` - list all users from the database
-    - `/user/id` - get information about a specific user by id
-    - `/user/id/offers` - list all items that belong to a specific user and are listed for sale
-    - `/user/id/payment` - get a single user credit card / payment information
+    - `/users/id` - get information about a specific user by id
+    - `/users/id/offers` - list all items that belong to a specific user and are listed for sale
+    - `/users/id/payment` - get a single user credit card / payment information
     - `/items` - list all items from the database
     - `/items/userid` - list all items that belong to a specific user
     - `/items/onsale` - list items that are owned by shopkeepers and are listed for sale
     - `/items/offers` - list items that are owned by registered users and are listed for sale
-    - `/item/id` - get information about a specific item by id
+    - `/items/id` - get information about a specific item by id
     - `/payments` - list all payment information from the database
-    - `/payment/id` - get information about a specific credit card item by id
+    - `/payments/id` - get information about a specific credit card item by id
 - POST-request
     - `/users` - creates a new user to database
     - `/items` - creates a new item to database
     - `/payments` - create a new credit card item to database
 - PUT-request
-    - `/user/id` - modify a specific user by id
-    - `/item/id` - modify a specific item by id
-    - `/payment/id` - modify a specific credit card item by id
+    - `/users/id` - modify a specific user by id
+    - `/items/id` - modify a specific item by id
+    - `/payments/id` - modify a specific credit card item by id
 - DELETE-request
-    - `/user/id` - delete a specific user from the database by id
-    - `/item/id` - delete a specific item from the database by id
+    - `/users/id` - delete a specific user from the database by id
+    - `/items/id` - delete a specific item from the database by id
     - `/items/userid` - delete all items that belong to a specific user
-    - `/payment/id` - delete a specific creditcard item from the database by id
+    - `/payments/id` - delete a specific creditcard item from the database by id
 
 Payloads:
 - POST-request (all of the listed attributes must be included)
@@ -155,9 +155,9 @@ Payloads:
     - `/items` - { name, userid, onsale, price }
     - `/payments` - { number, balance }
 - PUT-request (one or more of the listed attributes may be included)
-    - `/user/id` - { username, email, password, role, ccid } | *cc = credit card\**
-    - `/item/id` - { name, userid, onsale, price }
-    - `/payment/id` - { balance }
+    - `/users/id` - { username, email, password, role, ccid } | *cc = credit card\**
+    - `/items/id` - { name, userid, onsale, price }
+    - `/payments/id` - { balance }
 
 ## React and Redux
 

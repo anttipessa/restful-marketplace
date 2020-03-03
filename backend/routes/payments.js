@@ -7,7 +7,7 @@ router.get('/payments', function (req, res) {
 })
 
 // get information about a specific credit card item by id
-router.get('/payment/:id', function (req, res) {
+router.get('/payments/:id', function (req, res) {
     res.send('money!')
 })
 
@@ -17,12 +17,12 @@ router.post('/payments/', function (req, res) {
 })
 
 // modify a specific credit card item by id
-router.put('/payment/:id', function (req, res) {
+router.put('/payments/:id', function (req, res) {
     res.send('money!')
 })
 
 // delete a specific creditcard item from the database by id
-router.delete('/payment/:id', function (req, res) {
+router.delete('/payments/:id', function (req, res) {
     res.send('delete money!')
 })
 

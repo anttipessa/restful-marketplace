@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
+const ItemController = require('../controllers/item');
 
 // lists all items from the database
 router.get('/items', function (req, res) {
-    res.send('yay')
+    ItemController.listItems(res)
 })
 
 // list all items that belong to a specific user
@@ -22,23 +23,23 @@ router.get('/items/offers', function (req, res) {
 })
 
 // get information about a specific item by id
-router.get('/item/:id', function (req, res) {
-    res.send('yay')
+router.get('/items/:id', function (req, res) {
+    ItemController.showItem(req, res)
 })
 
 // creates a new item to the database
 router.post('/items', function (req, res) {
-    res.send('yay')
+    ItemController.createItem(req, res)
 })
 
 // modify a specific item by id
-router.put('/item/:id', function (req, res) {
-    res.send('yay')
+router.put('/items/:id', function (req, res) {
+    ItemController.updateItem(req, res)
 })
 
 // delete a specific item from the database by id
-router.delete('/item/:id', function (req, res) {
-    res.send('deleted!')
+router.delete('/items/:id', function (req, res) {
+    ItemController.deleteItem(req, res)
 })
 
 router.delete('/items/userid', function (req, res) {

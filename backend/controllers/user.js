@@ -10,7 +10,7 @@ module.exports = {
                 res.status(200);
                 res.json(users);
             }
-        }).populate('creditcard')
+        }).populate('creditcard').populate('offers')
     },
 
     showUser(req, res) {
@@ -21,7 +21,7 @@ module.exports = {
                 res.status(200);
                 res.json(user);
             }
-        }).populate('creditcard')
+        }).populate('creditcard').populate('offers')
     },
 
     createUser(req, res) {

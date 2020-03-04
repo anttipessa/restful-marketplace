@@ -161,7 +161,7 @@ Payloads:
 
 ## React and Redux
 
-Implement using create-react-app. Inital plan is to start with getting the React parts done first then implementing the Redux. (This can still change) We will use https://material-ui.com/ for different components for the site: navigation, surfaces, sidebars, buttons etc.
+Implement using create-react-app. Inital plan is to start with getting the item listing page done first, then add login and purchase views. React and Redux should be done simultaneously. We will use https://material-ui.com/ for different components for the site: navigation, surfaces, sidebars, buttons etc.
 
 ## Testing 
 

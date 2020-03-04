@@ -3,12 +3,22 @@ const path = 'localhost:3000/'
 
 module.exports = {
 
-     listItems(res) {
+    listItems(res) {
         Item.find(function (err, items) {
             if (err) { res.sendStatus(404); return console.error(err); };
             if (!items) { res.sendStatus(404) } else {
-                res.status(200);  
+                res.status(200);
                 res.json(items);
+            }
+        })
+    },
+
+    listOffers(res) {
+        Item.find({ onsale: true }, function (err, item) {
+            if (err) { res.sendStatus(404); return console.error(err); };
+            if (!item) { res.sendStatus(404) } else {
+                res.status(200);
+                res.json(item);
             }
         })
     },

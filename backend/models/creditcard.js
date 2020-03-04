@@ -7,7 +7,8 @@ const creditCardSchema = new Schema({
         required: true,
     },
     balance: {
-        type: Number
+        type: Number,
+        min: 0
     }
 });
 

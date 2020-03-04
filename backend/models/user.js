@@ -102,6 +102,8 @@ const userSchema = new Schema({
         lowercase: true,
         enum: schemaDefaults.role.values,
         default: schemaDefaults.role.defaultValue
+    }, offers: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'Item' }]
     },
     creditcard: {
         type: [{ type: Schema.Types.ObjectId, ref: 'CreditCard' }]

@@ -9,17 +9,17 @@ router.get('/items', function (req, res) {
 
 // list all items that belong to a specific user
 router.get('/items/userid', function (req, res) {
-    res.send('yay')
+    res.send('todo')
 })
 
 //  list items that are owned by shopkeepers and are listed for sale
 router.get('/items/onsale', function (req, res) {
-    res.send('yay')
+    res.send('todo')
 })
 
 // list items that are owned by registered users and are listed for sale
 router.get('/items/offers', function (req, res) {
-    res.send('yay')
+    ItemController.listOffers(res)
 })
 
 // get information about a specific item by id

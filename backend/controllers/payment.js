@@ -30,7 +30,8 @@ module.exports = {
 
             const newCard = new CreditCard({
                 number: req.body.number,
-                balance: req.body.balance
+                balance: req.body.balance,
+                user: req.body.user
             });
             newCard.save(function (err) {
                 if (err) { res.sendStatus(400); return console.error(err); };

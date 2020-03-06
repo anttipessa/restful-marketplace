@@ -15,6 +15,9 @@ const itemSchema = new Schema({
     onsale: {
         type: Boolean,
         default: true
+    },
+    user: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'User' }]
     }
 });
 

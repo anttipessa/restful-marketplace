@@ -9,6 +9,9 @@ const creditCardSchema = new Schema({
     balance: {
         type: Number,
         min: 0
+    },
+    user: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'User' }]
     }
 });
 

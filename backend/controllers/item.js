@@ -10,7 +10,7 @@ module.exports = {
                 res.status(200);
                 res.json(items);
             }
-        })
+        }).populate('user')
     },
 
     listOffers(res) {
@@ -20,7 +20,27 @@ module.exports = {
                 res.status(200);
                 res.json(item);
             }
-        })
+        }).populate('user')
+    },
+
+    listOffersByUser(req, res) {
+        Item.find({ onsale: true , user: req.params.id}, function (err, item) {
+            if (err) { res.sendStatus(404); return console.error(err); };
+            if (!item) { res.sendStatus(404) } else {
+                res.status(200);
+                res.json(item);
+            }
+        }).populate('user')
+    },
+
+    listByUser(req, res) {
+        Item.find({ user: req.params.id }, function (err, item) {
+            if (err) { res.sendStatus(404); return console.error(err); };
+            if (!item) { res.sendStatus(404) } else {
+                res.status(200);
+                res.json(item);
+            }
+        }).populate('user')
     },
 
     showItem(req, res) {
@@ -31,7 +51,7 @@ module.exports = {
                 res.status(200);
                 res.json(item);
             }
-        })
+        }).populate('user')
     },
 
     createItem(req, res) {
@@ -41,7 +61,8 @@ module.exports = {
             const newItem = new Item({
                 name: req.body.name,
                 price: req.body.price,
-                onsale: req.body.onsale
+                onsale: req.body.onsale,
+                user: req.body.user
             });
             newItem.save(function (err) {
                 if (err) { res.sendStatus(400); return console.error(err); };
@@ -64,7 +85,7 @@ module.exports = {
                 res.json(item);
                 console.log("item updated")
             }
-        })
+        }).populate('user')
     },
 
     deleteItem(req, res) {
@@ -73,11 +94,23 @@ module.exports = {
             if (!item) { res.sendStatus(404) } else {
                 res.set('Location', path + 'api/items/' + item._id);
                 res.status(204);
-                res.json();
-                console.log(item.name + " deleted!")
+                res.json(item)
+                console.log("deleted!")
+            }
+        })
+    },
+
+    deleteItemUser(req, res) {
+         Item.deleteMany({ user: req.params.id }, function (err, item) {
+            console.log(req.params.userid)
+            if (err) { res.sendStatus(404); return console.error(err); };
+            if (!item) { res.sendStatus(404) } else {
+                res.set('Location', path + 'api/items/' + item._id);
+                res.status(204);
+                res.json(item)
+                console.log("deleted!")
             }
         })
     }
-
 
 }

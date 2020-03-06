@@ -8,8 +8,8 @@ router.get('/items', function (req, res) {
 })
 
 // list all items that belong to a specific user
-router.get('/items/userid', function (req, res) {
-    res.send('todo')
+router.get('/items/users/:id', function (req, res) {
+    ItemController.listByUser(req, res)
 })
 
 //  list items that are owned by shopkeepers and are listed for sale
@@ -17,7 +17,13 @@ router.get('/items/onsale', function (req, res) {
     res.send('todo')
 })
 
+//  list all items that belong to a specific user and are listed for sale
+router.get('/items/offers/:id', function (req, res) {
+    ItemController.listOffersByUser(req, res)
+})
+
 // list items that are owned by registered users and are listed for sale
+// currently just lists all items that are onsale
 router.get('/items/offers', function (req, res) {
     ItemController.listOffers(res)
 })
@@ -42,8 +48,8 @@ router.delete('/items/:id', function (req, res) {
     ItemController.deleteItem(req, res)
 })
 
-router.delete('/items/userid', function (req, res) {
-    res.send('deleted!')
+router.delete('/items/users/:id', function (req, res) {
+    ItemController.deleteItemUser(req, res)
 })
 
 module.exports = router

@@ -4,7 +4,9 @@ const helmet = require('helmet')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 const app = express()
+var cors = require('cors');
 
+app.use(cors());
 app.use(helmet())
 app.use(bodyParser.json())
 

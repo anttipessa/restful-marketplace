@@ -8,11 +8,10 @@ const creditCardSchema = new Schema({
     },
     balance: {
         type: Number,
-        min: 0
+        min: 0,
+        default: 0
     },
-    user: {
-        type: [{ type: Schema.Types.ObjectId, ref: 'User' }]
-    }
+    owner: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
 creditCardSchema.virtual('links').get(function () {

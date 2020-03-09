@@ -3,20 +3,20 @@ const router = express.Router()
 const ItemController = require('../controllers/item')
 
 router
-    .route('/items')
-    .get(ItemController.listItems) // lists all items from the database
-    .post(ItemController.createItem) // creates a new item to the database
+  .route('/items')
+  .get(ItemController.listItems) // lists all items from the database
+  .post(ItemController.createItem) // creates a new item to the database
 
 router
-    .route('/items/:id([a-f0-9]{24})')
-    .get(ItemController.showItem) // get information about a specific item by id
-    .put(ItemController.updateItem) // modify a specific item by id
-    .delete(ItemController.deleteItem) // delete a specific item from the database by id
+  .route('/items/:id([a-f0-9]{24})')
+  .get(ItemController.showItem) // get information about a specific item by id
+  .put(ItemController.updateItem) // modify a specific item by id
+  .delete(ItemController.deleteItem) // delete a specific item from the database by id
 
 router
-    .route('/items/users/:id([a-f0-9]{24})')
-    .get(ItemController.listByUser) // list all items that belong to a specific user
-    .delete(ItemController.deleteItemsByUser)
+  .route('/items/users/:id([a-f0-9]{24})')
+  .get(ItemController.listByUser) // list all items that belong to a specific user
+  .delete(ItemController.deleteItemsByUser)
 
 // list items that are owned by registered users and are listed for sale
 router.get('/items/offers', ItemController.listOffers)

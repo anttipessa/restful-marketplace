@@ -1,73 +1,85 @@
 const CreditCard = require('../models/creditcard');
 const path = 'localhost:3000/'
 
+const errorMessage = { 'status': 'error' }
+
 module.exports = {
 
-     listCards(res) {
-        CreditCard.find(function (err, cards) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!cards) { res.sendStatus(404) } else {
-                res.status(200);  
-                res.json(cards);
-            }
-        })
-    },
-
-    showCard(req, res) {
-        CreditCard.findOne({ '_id': req.params.id }, function (err, card) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!card) { res.sendStatus(404) } else {
-                res.set('Location', path + 'api/payments/' + card._id)
-                res.status(200);
-                res.json(card);
-            }
-        })
-    },
-
-    createCard(req, res) {
-        if (req.body) {
-            console.log('adding card', req.body.name);
-
-            const newCard = new CreditCard({
-                number: req.body.number,
-                balance: req.body.balance,
-                user: req.body.user
-            });
-            newCard.save(function (err) {
-                if (err) { res.sendStatus(400); return console.error(err); };
-                console.log("Inserted 1 document into the collection");
-                res.status(201);
-                res.json(newCard);
-            });
-
-        } else {
-            res.sendStatus(400);
-        }
-    },
-
-    updateCard(req, res) {
-        CreditCard.findByIdAndUpdate(req.params.id, req.body, { 'new': true }, function (err, card) {
-            if (err) { res.sendStatus(400); return console.error(err); };
-            if (!card) { res.sendStatus(404) } else {
-                res.set('Location', path + 'api/payments/' + card._id);
-                res.status(200);
-                res.json(card);
-                console.log("card updated")
-            }
-        })
-    },
-
-    deleteCard(req, res) {
-        CreditCard.findByIdAndDelete(req.params.id, function (err, card) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!card) { res.sendStatus(404) } else {
-                res.set('Location', path + 'api/payments/' + card._id);
-                res.status(204);
-                res.json();
-                console.log("card deleted")
-            }
-        })
+  async createCard(req, res) {
+    const { number, balance, owner} = req.body
+    if (number) {
+      console.log('Adding card', number);
+      const newCard = new CreditCard({
+        number,
+        balance,
+        owner
+      })
+      try {
+        newCard.save()
+        console.log('Inserted 1 document into the collection')
+        return res.status(201).json(newCard)
+      } catch (err) {
+        errorMessage.error = err.message
+        return res.status(500).json(errorMessage)
+      }
+    } else {
+      errorMessage.error = 'The following fields are required: number'
+      return res.status(400).json(errorMessage)
     }
+  },
 
+  async listCards(req, res) {
+    const cards = await CreditCard.find({})
+        .sort('_id')
+        .populate('owner')
+    return res.status(200).json(cards)
+  },
+
+  async showCard(req, res) {
+    try {
+      const card = await CreditCard.findOne({ _id: req.params.id })
+          .populate('owner')
+      if (!card) {
+        errorMessage.error = `CreditCard with ID: ${req.params.id} was not found`
+        return res.status(404).json(errorMessage)
+      }
+      res.set('Location', `${path}api/payments/${card._id}`)
+      return res.status(200).json(card)
+    } catch (err) {
+      errorMessage.error = err.message
+      return res.status(500).json(errorMessage)
+    }
+  },
+
+  async updateCard(req, res) {
+    try {
+      const card = await CreditCard.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+          .populate('owner')
+      if (!card) {
+        errorMessage.error = `CreditCard with ID: ${req.params.id} was not found`
+        return res.status(404).json(errorMessage)
+      }
+      res.set('Location', `${path}api/payments/${card._id}`)
+      console.log('Card updated')
+      return res.status(200).json(card)
+    } catch (err) {
+      errorMessage.error = err.message
+      return res.status(500).json(errorMessage)
+    }
+  },
+
+  async deleteCard(req, res) {
+    try {
+      const card = await CreditCard.findByIdAndDelete(req.params.id)
+      if (!card) {
+        errorMessage.error = `CreditCard with ID: ${req.params.id} was not found`
+        return res.status(404).json(errorMessage)
+      }
+      return res.status(200).json({ status: 'success', deleted: card })
+    } catch (err) {
+      errorMessage.error = err.message
+      return res.status(500).json(errorMessage)
+    }
+  }
 
 }

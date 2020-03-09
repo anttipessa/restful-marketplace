@@ -1,38 +1,45 @@
 const User = require('../models/user');
 const path = 'localhost:3000/'
 
+const errorMessage = { 'status': 'error' }
+
 module.exports = {
 
-    listUsers(res) {
-        User.find(function (err, users) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!users) { res.sendStatus(404) } else {
-                res.status(200);
-                res.json(users);
-            }
-        }).populate('creditcard').populate('offers')
+    async listUsers(req, res) {
+        const users = await User.find({})
+                .sort('_id')
+                .populate('offers')
+                .populate('creditcard')
+        return res.status(200).json(users)
     },
 
-    showUser(req, res) {
-        User.findOne({ '_id': req.params.id }, function (err, user) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!user) { res.sendStatus(404) } else {
-                res.set('Location', path + 'api/users/' + user._id)
-                res.status(200);
-                res.json(user);
+    async showUser(req, res) {
+        try {
+            const user = await User.findOne({ '_id': req.params.id })
+                    .populate('offers')
+                    .populate('creditcard')
+            if (!user) {
+                errorMessage.error = `User with ID ${req.params.id} was not found`
+                return res.status(404).json(errorMessage)
             }
-        }).populate('creditcard').populate('offers')
+            res.set('Location', `${path}api/items/${user._id}`)
+            return res.status(200).json(user)
+        } catch (err) {
+            errorMessage.errors = err.errors
+            return res.status(500).json(errorMessage)
+        }
     },
 
     createUser(req, res) {
-        if (req.body && req.body.name) {
-            console.log('adding user', req.body.name);
+        const { name, password, email, creditcard } = req.body
+        if (name && password && email) {
+            console.log('Adding user', name);
 
             const newUser = new User({
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password,
-                creditcard: req.body.creditcard
+                name,
+                email,
+                password,
+                creditcard
             });
             newUser.save(function (err) {
                 if (err) { res.sendStatus(400); return console.error(err); };

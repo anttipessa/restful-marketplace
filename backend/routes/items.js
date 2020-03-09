@@ -1,55 +1,30 @@
 const express = require('express')
 const router = express.Router()
-const ItemController = require('../controllers/item');
+const ItemController = require('../controllers/item')
 
-// lists all items from the database
-router.get('/items', function (req, res) {
-    ItemController.listItems(res)
-})
+router
+    .route('/items')
+    .get(ItemController.listItems) // lists all items from the database
+    .post(ItemController.createItem) // creates a new item to the database
 
-// list all items that belong to a specific user
-router.get('/items/users/:id', function (req, res) {
-    ItemController.listByUser(req, res)
-})
+router
+    .route('/items/:id([a-f0-9]{24})')
+    .get(ItemController.showItem) // get information about a specific item by id
+    .put(ItemController.updateItem) // modify a specific item by id
+    .delete(ItemController.deleteItem) // delete a specific item from the database by id
 
-//  list items that are owned by shopkeepers and are listed for sale
-router.get('/items/onsale', function (req, res) {
-    res.send('todo')
-})
-
-//  list all items that belong to a specific user and are listed for sale
-router.get('/items/offers/:id', function (req, res) {
-    ItemController.listOffersByUser(req, res)
-})
+router
+    .route('/items/users/:id([a-f0-9]{24})')
+    .get(ItemController.listByUser) // list all items that belong to a specific user
+    .delete(ItemController.deleteItemsByUser)
 
 // list items that are owned by registered users and are listed for sale
-// currently just lists all items that are onsale
-router.get('/items/offers', function (req, res) {
-    ItemController.listOffers(res)
-})
+router.get('/items/offers', ItemController.listOffers)
 
-// get information about a specific item by id
-router.get('/items/:id', function (req, res) {
-    ItemController.showItem(req, res)
-})
+// list all items that belong to a specific user and are listed for sale
+router.get('/items/offers/:id([a-f0-9]{24})', ItemController.listOffersByUser)
 
-// creates a new item to the database
-router.post('/items', function (req, res) {
-    ItemController.createItem(req, res)
-})
-
-// modify a specific item by id
-router.put('/items/:id', function (req, res) {
-    ItemController.updateItem(req, res)
-})
-
-// delete a specific item from the database by id
-router.delete('/items/:id', function (req, res) {
-    ItemController.deleteItem(req, res)
-})
-
-router.delete('/items/users/:id', function (req, res) {
-    ItemController.deleteItemUser(req, res)
-})
+// list items that are owned by shopkeepers and are listed for sale
+router.get('/items/onsale', ItemController.listSales)
 
 module.exports = router

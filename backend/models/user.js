@@ -20,8 +20,8 @@ const schemaDefaults = {
         maxLength: 100
     },
     role: {
-        values: ['admin', 'shopkeeper', 'registered'],
-        defaultValue: 'registered'
+        values: ['admin', 'shopkeeper', 'normal'],
+        defaultValue: 'normal'
     }
 };
 
@@ -102,7 +102,8 @@ const userSchema = new Schema({
         lowercase: true,
         enum: schemaDefaults.role.values,
         default: schemaDefaults.role.defaultValue
-    }, offers: {
+    },
+    offers: {
         type: [{ type: Schema.Types.ObjectId, ref: 'Item' }]
     },
     creditcard: {
@@ -122,20 +123,26 @@ userSchema.virtual('isShopkeeper').get(function () {
 
 userSchema.virtual('isRegistered').get(function () {
     // eslint-disable-next-line babel/no-invalid-this
-    return this.role === 'admin' || this.role === 'registered';
+    return this.role === 'admin' || this.role === 'shopkeeper' ||  this.role === 'normal';
 });
 
 userSchema.virtual('links').get(function () {
     return [{ 'self': 'http://localhost:3000/api/users/' + this._id }];
 });
 
-userSchema.set('toJSON', { virtuals: true })
+// don't return hashed password
+userSchema.set('toJSON', {
+    virtuals: true,
+    transform: (doc, ret) => {
+        delete ret.password;
+    }
+  })
 
 userSchema.statics.getAvailableRoles = function () {
     // FIXME: Do not hard code! Construct this automatically
     return [{
-        name: 'Registered',
-        value: 'registered'
+        name: 'Normal',
+        value: 'normal'
     },
     {
         name: 'Shopkeeper',

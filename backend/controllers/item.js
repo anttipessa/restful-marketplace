@@ -1,116 +1,139 @@
 const Item = require('../models/item');
 const path = 'localhost:3000/'
 
+const errorMessage = {status: 'error'}
+
 module.exports = {
 
-    listItems(res) {
-        Item.find(function (err, items) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!items) { res.sendStatus(404) } else {
-                res.status(200);
-                res.json(items);
-            }
-        }).populate('user')
-    },
-
-    listOffers(res) {
-        Item.find({ onsale: true }, function (err, item) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!item) { res.sendStatus(404) } else {
-                res.status(200);
-                res.json(item);
-            }
-        }).populate('user')
-    },
-
-    listOffersByUser(req, res) {
-        Item.find({ onsale: true , user: req.params.id}, function (err, item) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!item) { res.sendStatus(404) } else {
-                res.status(200);
-                res.json(item);
-            }
-        }).populate('user')
-    },
-
-    listByUser(req, res) {
-        Item.find({ user: req.params.id }, function (err, item) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!item) { res.sendStatus(404) } else {
-                res.status(200);
-                res.json(item);
-            }
-        }).populate('user')
-    },
-
-    showItem(req, res) {
-        Item.findOne({ '_id': req.params.id }, function (err, item) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!item) { res.sendStatus(404) } else {
-                res.set('Location', path + 'api/items/' + item._id)
-                res.status(200);
-                res.json(item);
-            }
-        }).populate('user')
-    },
-
-    createItem(req, res) {
-        if (req.body && req.body.name) {
-            console.log('adding item', req.body.name);
-
+    async createItem(req, res) {
+        if (req.body && req.body.name && req.body.price) {
+            console.log('Adding item', req.body.name);
             const newItem = new Item({
                 name: req.body.name,
                 price: req.body.price,
                 onsale: req.body.onsale,
-                user: req.body.user
+                owner: req.body.owner
             });
-            newItem.save(function (err) {
-                if (err) { res.sendStatus(400); return console.error(err); };
-                console.log("Inserted 1 document into the collection");
-                res.status(201);
-                res.json(newItem);
-            });
-
+            try {
+                await newItem.save()
+                console.log('Inserted 1 document into the collection')
+                return res.status(201).json(newItem)
+            } catch (err) {
+                console.error(err)
+                errorMessage.errors = err.errors
+                return res.status(500).json(errorMessage)
+            }
         } else {
-            res.sendStatus(400);
+            errorMessage.error = 'The following fields are required: name, price'
+            return res.status(400).json(errorMessage);
         }
     },
 
-    updateItem(req, res) {
-        Item.findByIdAndUpdate(req.params.id, req.body, { 'new': true }, function (err, item) {
-            if (err) { res.sendStatus(400); return console.error(err); };
-            if (!item) { res.sendStatus(404) } else {
-                res.set('Location', path + 'api/items/' + item._id);
-                res.status(200);
-                res.json(item);
-                console.log("item updated")
-            }
-        }).populate('user')
+    async listItems(req, res) {
+        const items = await Item.find({})
+                .sort('_id')
+                .populate('owner')
+        return res.status(200).json(items)
     },
 
-    deleteItem(req, res) {
-        Item.findByIdAndDelete(req.params.id, function (err, item) {
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!item) { res.sendStatus(404) } else {
-                res.set('Location', path + 'api/items/' + item._id);
-                res.status(204);
-                res.json(item)
-                console.log("deleted!")
-            }
-        })
+    async listOffers(req, res) {
+        try {
+            const items = await Item.find({ onsale: true })
+                    .populate('owner')
+            const offers = items.filter((item) => item.owner.role === 'normal')
+            return res.status(200).json(offers)
+        } catch (err) {
+            errorMessage.errors = err.errors
+            return res.status(404).json(errorMessage)
+        }
     },
 
-    deleteItemUser(req, res) {
-         Item.deleteMany({ user: req.params.id }, function (err, item) {
-            console.log(req.params.userid)
-            if (err) { res.sendStatus(404); return console.error(err); };
-            if (!item) { res.sendStatus(404) } else {
-                res.set('Location', path + 'api/items/' + item._id);
-                res.status(204);
-                res.json(item)
-                console.log("deleted!")
+    async listSales(req, res) {
+        try {
+            const items = await Item.find({ onsale: true })
+                    .populate('owner')
+            const sales = items.filter((item) => item.owner.role === 'shopkeeper')
+            return res.status(200).json(sales)
+        } catch (err) {
+            errorMessage.errors = err.errors
+            return res.status(404).json(errorMessage)
+        }
+    },
+
+    async listOffersByUser(req, res) {
+        try {
+            const offers = await Item.find({ onsale: true, user: req.params.id })
+                    .populate('owner')
+            return res.status(200).json(offers)
+        } catch (err) {
+            errorMessage.errors = err.errors
+            return res.status(404).json(errorMessage)
+        }
+    },
+
+    async listByUser(req, res) {
+        try {
+            const items = await Item.find({ user: req.params.id })
+                    .populate('owner')
+            return res.status(200).json(items)
+        } catch (err) {
+            errorMessage.errors = err.errors
+            return res.status(404).json(errorMessage)
+        }
+    },
+
+    async showItem(req, res) {
+        try {
+            const item = await Item.findOne({ '_id': req.params.id })
+                    .populate('owner')
+            res.set('Location', path + 'api/items/' + item._id)
+            return res.status(200).json(item)
+        } catch (err) {
+            errorMessage.errors = err.errors
+            return res.status(404).json(errorMessage)
+        }
+    },
+
+    async updateItem(req, res) {
+        try {
+            const item = await Item.findByIdAndUpdate(req.params.id, req.body, { 'new' : true })
+                    .populate('owner')
+            if (!item) {
+                errorMessage.error = `Item with ID: ${req.params.id} was not found`
+                return res.status(404).json(errorMessage)
             }
-        })
+            res.set('Location', `${path}api/items/${item._id}`)
+            console.log('Item updated')
+            return res.status(200).json(item)
+        } catch (err) {
+            errorMessage.errors = err.errors
+            return res.status(404).json(errorMessage)
+        }
+    },
+
+    async deleteItem(req, res) {
+        try {
+            const item = await Item.findByIdAndDelete(req.params.id)
+            if (!item) {
+                errorMessage.error = `Item with ID: ${req.params.id} was not found`
+                return res.status(404).json(errorMessage)
+            }
+            console.log('Item deleted')
+            return res.status(200).json({ status: 'success', deleted: item })
+        } catch (err) {
+            errorMessage.errors = err.errors
+            return res.status(500).json(errorMessage)
+        }
+    },
+
+    async deleteItemsByUser(req, res) {
+        try {
+            const items = await Item.deleteMany({ user: req.params.id })
+            return res.status(200).json({ status: 'success', deleted: items })
+        } catch (err) {
+            errorMessage.errors = err.errors
+            return res.status(500).json(errorMessage)
+        }
     }
 
 }

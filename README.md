@@ -26,6 +26,16 @@ First of all, modify the Vagrantfile used so that it forwards also port 3001 whi
 
 - config.vm.network "forwarded_port", guest: 3001, host: 3001   # React
 
+Next step:
+
+**Copy** `.env.dist` in the root with the name `.env` (note the dot in the beginning of the file). This can be done on terminal with:
+
+`$ cp -i .env.dist .env`
+
+**Obs: If `.env`-file already exists, do not overwrite it!**
+
+**Note: Do not modify `.env.dist` file. It is a model to be copied as .env, it neither must not contain any sensitive data!**
+
 During development, its required to start two terminal windows. One is for starting the Express-server on port 3000 and the other is for starting the React build, which runs on port 3001. This helps in following the logs on the server side. After downloading this folder structure, first run the following command on your local machine:
 
 `$ npm run setup`

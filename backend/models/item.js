@@ -16,11 +16,14 @@ const itemSchema = new Schema({
     type: Boolean,
     default: true
   },
-  owner: { type: Schema.Types.ObjectId, ref: 'User' }
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 });
 
 itemSchema.virtual('links').get(function () {
-  return [{ 'self': 'http://localhost:3000/api/items/' + this._id }];
+  return { 'self': `/api/items/${this._id}` }
 });
 
 itemSchema.set('toJSON', {
@@ -30,6 +33,7 @@ itemSchema.set('toJSON', {
     delete ret.owner
   }
   */
+  
 })
 
 const Item = new mongoose.model('Item', itemSchema);

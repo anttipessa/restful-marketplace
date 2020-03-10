@@ -13,9 +13,12 @@ router
   .put(UserController.updateUser) // modify a specific user by id
   .delete(UserController.deleteUser) // delete a specific user from the database by id
 
-// get a single users credit card / payment information
-router.get('/users/:id([a-f0-9]{24})/payment', function (req, res) {
-  res.send('get by id')
-})
+/*
+ * Ei välttämättä tarvita, koska credit card tiedot näkyvät
+ * käyttäjän tiedoissa: /users/id
+router
+  .route('/users/:id([a-f0-9]{24})/payment')
+  .get(UserController.viewCard) // get a single users credit card / payment information
+*/
 
 module.exports = router

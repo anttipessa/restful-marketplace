@@ -2,11 +2,11 @@ const express = require('express')
 const path = require('path')
 const helmet = require('helmet')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
+const cors = require('cors')
 const app = express()
-var cors = require('cors');
 
-app.use(cors());
+app.use(cors())
 app.use(helmet())
 app.use(bodyParser.json())
 
@@ -18,11 +18,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/WWWProgrammingC
 });
 
 // send app to router
-require('./router.js')(app);
+require('./router.js')(app)
 
 const PORT = 3000
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}!`)
 })
 
-module.exports = app;
+module.exports = app

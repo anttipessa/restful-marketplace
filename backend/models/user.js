@@ -3,6 +3,7 @@
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const CreditCard = require('../models/creditcard')
 
 const {
   Joi,
@@ -103,11 +104,9 @@ const userSchema = new Schema({
     enum: schemaDefaults.role.values,
     default: schemaDefaults.role.defaultValue
   },
-  offers: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'Item' }]
-  },
   creditcard: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'CreditCard' }]
+    type: Schema.Types.ObjectId,
+    ref: 'CreditCard'
   }
 });
 
@@ -127,7 +126,7 @@ userSchema.virtual('isRegistered').get(function () {
 });
 
 userSchema.virtual('links').get(function () {
-  return [{ 'self': 'http://localhost:3000/api/users/' + this._id }];
+  return { 'self': `/api/users/${this._id}` }
 });
 
 // don't return hashed password

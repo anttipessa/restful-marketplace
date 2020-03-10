@@ -18,13 +18,16 @@ router
   .get(ItemController.listByUser) // list all items that belong to a specific user
   .delete(ItemController.deleteItemsByUser)
 
-// list items that are owned by registered users and are listed for sale
-router.get('/items/offers', ItemController.listOffers)
+router
+  .route('/items/users/:id([a-f0-9]{24})/offers')
+  .get(ItemController.listOffersByUser) // list all items that belong to a specific user and are listed for sale
 
-// list all items that belong to a specific user and are listed for sale
-router.get('/items/offers/:id([a-f0-9]{24})', ItemController.listOffersByUser)
+router
+  .route('/items/offers')
+  .get(ItemController.listOffers) // list items that are owned by registered users and are listed for sale
 
-// list items that are owned by shopkeepers and are listed for sale
-router.get('/items/onsale', ItemController.listSales)
+router
+  .route('/items/onsale')
+  .get(ItemController.listSales) // list items that are owned by shopkeepers and are listed for sale
 
 module.exports = router

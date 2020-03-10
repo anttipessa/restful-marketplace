@@ -1,5 +1,5 @@
-const Item = require('../models/item');
-const path = 'localhost:3000/'
+const Item = require('../models/item')
+const User = require('../models/user')
 
 const errorMessage = { status: 'error' }
 
@@ -7,7 +7,7 @@ module.exports = {
 
   async createItem(req, res) {
     const { name, price, onsale, owner } = req.body
-    if (name && price) {
+    if (name && price && owner) {
       console.log('Adding item', req.body.name);
       const newItem = new Item({
         name,
@@ -16,15 +16,20 @@ module.exports = {
         owner
       })
       try {
-        await newItem.save()
+        const user = await User.findOne({ _id: owner })
+        if (!user) {
+          errorMessage.error = `User matching the owner-field (${owner}) was not found`
+          return res.status(400).json(errorMessage)
+        }
+        const item = await newItem.save()
         console.log('Inserted 1 document into the collection')
-        return res.status(201).json(newItem)
+        return res.status(201).json(item)
       } catch (err) {
         errorMessage.error = err.message
         return res.status(500).json(errorMessage)
       }
     } else {
-      errorMessage.error = 'The following fields are required: name, price'
+      errorMessage.error = 'The following fields are required: name, price, owner'
       return res.status(400).json(errorMessage);
     }
   },
@@ -32,7 +37,6 @@ module.exports = {
   async listItems(req, res) {
     const items = await Item.find({})
       .sort('_id')
-      .populate('owner')
     return res.status(200).json(items)
   },
 
@@ -51,7 +55,7 @@ module.exports = {
   async listSales(req, res) {
     try {
       const items = await Item.find({ onsale: true })
-        .populate('owner')
+          .populate('owner')
       const sales = items.filter((item) => item.owner.role === 'shopkeeper')
       return res.status(200).json(sales)
     } catch (err) {
@@ -62,8 +66,12 @@ module.exports = {
 
   async listOffersByUser(req, res) {
     try {
+      const user = await User.findOne({ _id: req.params.id })
+      if (!user) {
+        errorMessage.error = `User with ID: (${req.params.id}) was not found`
+        return res.status(400).json(errorMessage)
+      }
       const offers = await Item.find({ onsale: true, owner: req.params.id })
-        .populate('owner')
       return res.status(200).json(offers)
     } catch (err) {
       errorMessage.error = err.message
@@ -73,8 +81,12 @@ module.exports = {
 
   async listByUser(req, res) {
     try {
+      const user = await User.findOne({ _id: req.params.id })
+      if (!user) {
+        errorMessage.error = `User with ID: (${req.params.id}) was not found`
+        return res.status(400).json(errorMessage)
+      }
       const items = await Item.find({ owner: req.params.id })
-        .populate('owner')
       return res.status(200).json(items)
     } catch (err) {
       errorMessage.error = err.message
@@ -84,9 +96,13 @@ module.exports = {
 
   async showItem(req, res) {
     try {
-      const item = await Item.findOne({ '_id': req.params.id })
+      const item = await Item.findOne({ _id: req.params.id })
         .populate('owner')
-      res.set('Location', `${path}api/items/${item._id}`)
+      if (!item) {
+        errorMessage.error = `Item with ID: ${req.params.id} was not found`
+        return res.status(404).json(errorMessage)
+      }
+      res.set('Location', `/api/items/${item._id}`)
       return res.status(200).json(item)
     } catch (err) {
       errorMessage.error = err.message
@@ -102,7 +118,7 @@ module.exports = {
         errorMessage.error = `Item with ID: ${req.params.id} was not found`
         return res.status(404).json(errorMessage)
       }
-      res.set('Location', `${path}api/items/${item._id}`)
+      res.set('Location', `/api/items/${item._id}`)
       console.log('Item updated')
       return res.status(200).json(item)
     } catch (err) {

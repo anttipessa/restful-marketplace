@@ -1,5 +1,5 @@
-const CreditCard = require('../models/creditcard');
-const path = 'localhost:3000/'
+const CreditCard = require('../models/creditcard')
+const User = require('../models/user')
 
 const errorMessage = { 'status': 'error' }
 
@@ -7,15 +7,22 @@ module.exports = {
 
   async createCard(req, res) {
     const { number, balance, owner} = req.body
-    if (number) {
-      console.log('Adding card', number);
+    if (number && owner) {
+      console.log('Adding card', number)
       const newCard = new CreditCard({
         number,
         balance,
         owner
       })
       try {
-        newCard.save()
+        const user = await User.findOne({ _id: owner })
+        if (!user) {
+          errorMessage.error = `User matching the owner-field (${owner}) was not found`
+          return res.status(400).json(errorMessage)
+        }
+        const card = await newCard.save()
+        user.creditcard = card._id
+        await user.save()
         console.log('Inserted 1 document into the collection')
         return res.status(201).json(newCard)
       } catch (err) {
@@ -23,7 +30,7 @@ module.exports = {
         return res.status(500).json(errorMessage)
       }
     } else {
-      errorMessage.error = 'The following fields are required: number'
+      errorMessage.error = 'The following fields are required: number, owner'
       return res.status(400).json(errorMessage)
     }
   },
@@ -31,7 +38,6 @@ module.exports = {
   async listCards(req, res) {
     const cards = await CreditCard.find({})
         .sort('_id')
-        .populate('owner')
     return res.status(200).json(cards)
   },
 
@@ -43,7 +49,7 @@ module.exports = {
         errorMessage.error = `CreditCard with ID: ${req.params.id} was not found`
         return res.status(404).json(errorMessage)
       }
-      res.set('Location', `${path}api/payments/${card._id}`)
+      res.set('Location', `/api/payments/${card._id}`)
       return res.status(200).json(card)
     } catch (err) {
       errorMessage.error = err.message
@@ -52,14 +58,19 @@ module.exports = {
   },
 
   async updateCard(req, res) {
+    const { balance } = req.body
+    if (!balance) {
+      errorMessage.error = 'The following information is required on update: balance'
+      return res.status(400).json(errorMessage)
+    }
     try {
-      const card = await CreditCard.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+      const card = await CreditCard.findByIdAndUpdate(req.params.id, { balance }, { new: true, runValidators: true })
           .populate('owner')
       if (!card) {
         errorMessage.error = `CreditCard with ID: ${req.params.id} was not found`
         return res.status(404).json(errorMessage)
       }
-      res.set('Location', `${path}api/payments/${card._id}`)
+      res.set('Location', `/api/payments/${card._id}`)
       console.log('Card updated')
       return res.status(200).json(card)
     } catch (err) {
@@ -75,6 +86,7 @@ module.exports = {
         errorMessage.error = `CreditCard with ID: ${req.params.id} was not found`
         return res.status(404).json(errorMessage)
       }
+      await User.findOneAndUpdate({ creditcard: card._id }, { creditcard: null })
       return res.status(200).json({ status: 'success', deleted: card })
     } catch (err) {
       errorMessage.error = err.message

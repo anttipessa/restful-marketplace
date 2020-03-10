@@ -15,7 +15,7 @@ const creditCardSchema = new Schema({
 });
 
 creditCardSchema.virtual('links').get(function () {
-    return [{ 'self': 'http://localhost:3000/api/payments/' + this._id }];
+    return { 'self': `/api/payments/${this._id}` }
 });
 
 creditCardSchema.set('toJSON', { virtuals: true })

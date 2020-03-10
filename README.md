@@ -28,13 +28,13 @@ First of all, modify the Vagrantfile used so that it forwards also port 3001 whi
 
 Next step:
 
-**Copy** `.env.dist` in the root with the name `.env` (note the dot in the beginning of the file). This can be done on terminal with:
+Copy `.env.dist` in the root with the name `.env` (note the dot in the beginning of the file). This can be done on terminal with:
 
 `$ cp -i .env.dist .env`
 
-**Obs: If `.env`-file already exists, do not overwrite it!**
+**Obs:** If `.env`-file already exists, do not overwrite it!
 
-**Note: Do not modify `.env.dist` file. It is a model to be copied as .env, it neither must not contain any sensitive data!**
+**Note:** Do not modify `.env.dist` file. It is a model to be copied as .env, it neither must not contain any sensitive data!
 
 During development, its required to start two terminal windows. One is for starting the Express-server on port 3000 and the other is for starting the React build, which runs on port 3001. This helps in following the logs on the server side. After downloading this folder structure, first run the following command on your local machine:
 
@@ -86,11 +86,20 @@ Also on deployment phase, the server script should be modified not to use nodemo
 │   ├── app.js                  --> express app
 │   ├── router.js               --> main router that setups other routes
 │   ├── package.json            --> app info and dependencies
+│   ├── controllers             --> control the application behaviour
+│   │   ├── item.js             --> functions for item handling
+│   │   ├── payment.js          --> functions for payment handling
+│   │   └── user.js             --> functions for user handling
 │   ├── models                  --> models that reflect the db schemas
-│   │                               and take care of storing data
+│   │   ├── creditcard.js       --> hold data about credit cards
+│   │   ├── item.js             --> hold data about items
+│   │   └── user.js             --> hold data about users
 │   ├── routes                  --> a dir for router modules
-│   │   ├── item.js             --> /item router
-│   └── └── users.js            --> /users router
+│   │   ├── items.js            --> /items router
+│   │   ├── payments.js         --> /payments router
+│   │   └── users.js            --> /users router
+│   ├── setup                   --> setup on startup
+│   └── └── createusers.js      --> create admin user for the database
 │
 ├── frontend
 │   ├── src                     --> all react files

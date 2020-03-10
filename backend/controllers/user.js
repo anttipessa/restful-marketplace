@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const CreditCard = require('../models/creditcard')
 const Item = require('../models/item')
@@ -5,6 +7,36 @@ const Item = require('../models/item')
 const errorMessage = { 'status': 'error' }
 
 module.exports = {
+
+  async login(req, res) {
+    const { name, password } = req.body
+    if (name && password) {
+      try {
+        const user = await User.findOne({ name })
+        if (!user) {
+          errorMessage.error = `User: ${name} was not found`
+          return res.status(404).json(errorMessage)
+        }
+        bcrypt.compare(password, user.password, (err, result) => {
+          if (result) {
+            jwt.sign({ name }, 'SECRET', { algorithm: 'HS256' }, (err, token) => {
+              console.log(token)
+              return res.status(200).json({ token })
+            })
+          } else {
+            errorMessage.error = 'Invalid credentials'
+            return res.status(401).json(errorMessage)
+          }
+        })
+      } catch (err) {
+        errorMessage.error = err.message
+        return res.status(401).json(errorMessage)
+      }
+    } else {
+      errorMessage.error = 'Name and password are required for login'
+      return res.status(401).json(errorMessage)
+    }
+  },
 
   async createUser(req, res) {
     const { name, password, email } = req.body
@@ -27,7 +59,7 @@ module.exports = {
       res.status(400).json(errorMessage)
     }
   },
-  
+
   async listUsers(req, res) {
     const users = await User.find({})
       .sort('_id')

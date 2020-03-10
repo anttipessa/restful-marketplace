@@ -4,6 +4,10 @@ const auth = require('../middleware/auth')
 const UserController = require('../controllers/user');
 
 router
+  .route('/login')
+  .post(UserController.login) // login with credentials
+
+router
   .route('/users')
   .get(UserController.listUsers) // list all users from the database
   .post(UserController.createUser) // add new user to database

@@ -71,6 +71,7 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
     trim: true,
     minlength: schemaDefaults.name.minLength,
     maxlength: schemaDefaults.name.maxLength

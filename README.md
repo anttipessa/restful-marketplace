@@ -102,11 +102,15 @@ Also on deployment phase, the server script should be modified not to use nodemo
 │   └── └── createusers.js      --> create admin user for the database
 │
 ├── frontend
-│   ├── src                     --> all react files
-│   │   ├── app.js              --> react app
-│   │   ├── components          --> react components
+│   ├── src                     --> all react and redux files
+│   │   ├── index.js            --> react app and store creation
+│   │   ├── actions             --> action creators
+│   │   ├── components          --> react presentational components
 │   │   │   ├── ...
 │   │   │   └── ...
+│   │   ├── containers          --> container components
+│   │   ├── reducers            --> redux reducers
+│   │   ├── store               --> redux store config
 │   ├── public                  
 └── └── package.json            --> app info and dependencies
 

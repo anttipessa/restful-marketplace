@@ -31,7 +31,7 @@ class Itemlist extends React.Component {
              <div onClick={() => this.setState({clicked: true,
               clickID:item._id, 
               clickName:item.name})} key={item._id}>
-              <h2>{item.name}</h2>   Hinta:{item.price}€
+              <h2>{item.name}</h2>   Price:{item.price}€
               </div>
           ))}
         </div>

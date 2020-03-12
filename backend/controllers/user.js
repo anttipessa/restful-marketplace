@@ -1,10 +1,13 @@
+require('dotenv').config()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const config = require('config')
 const User = require('../models/user')
 const CreditCard = require('../models/creditcard')
 const Item = require('../models/item')
 
 const errorMessage = { 'status': 'error' }
+const SECRET = config.get('session').secret
 
 module.exports = {
 
@@ -19,7 +22,7 @@ module.exports = {
         }
         bcrypt.compare(password, user.password, (err, result) => {
           if (result) {
-            jwt.sign({ name }, 'SECRET', { algorithm: 'HS256' }, (err, token) => {
+            jwt.sign({ name }, SECRET, { algorithm: 'HS256' }, (err, token) => {
               console.log(token)
               return res.status(200).json({ token })
             })
@@ -83,12 +86,11 @@ module.exports = {
   },
 
   async updateUser(req, res) {
-    const { name, email, password, role, creditcard } = req.body
+    const { name, email, password, creditcard } = req.body
     const update = {
       name,
       email,
       password,
-      role,
       creditcard
     }
     Object.keys(update).forEach(key => {
@@ -105,6 +107,26 @@ module.exports = {
     } catch (err) {
       errorMessage.error = err.message
       return res.status(500).json(errorMessage)
+    }
+  },
+
+  async changeRole(req, res) {
+    const { role } = req.body
+    if (role) {
+      try {
+        const user = await User.findByIdAndUpdate(req.params.id, { role }, { new: true, runValidators: true })
+        if (!user) {
+          errorMessage.error = `User with ID: ${req.params.id} was not found`
+          return res.status(404).json(errorMessage)
+        }
+        res.set('Location', `/api/users/${user._id}`)
+        return res.status(200).json(user)
+      } catch (err) {
+        errorMessage.error = err.message
+        return res.status(500).json(errorMessage)
+      }
+    } else {
+      errorMessage.error = 'The following fields are required: role'
     }
   },
 

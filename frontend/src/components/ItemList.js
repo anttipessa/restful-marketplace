@@ -28,9 +28,9 @@ class ItemList extends React.Component {
        <div>
           <h1>Items currently on sale!</h1>
           {this.state.items.map(item => (           
-             <List>
-             <ListItem button>
-             {item.name}   Price: {item.price} € 
+             <List> 
+             <ListItem button divider='true' >
+             {item.name}  Price: {item.price} € 
              </ListItem>
               </List>
           ))}

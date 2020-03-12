@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Itemlist extends React.Component {
+class ItemList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,4 +38,4 @@ class Itemlist extends React.Component {
    }
  }
 
-export default Itemlist;
+export default ItemList;

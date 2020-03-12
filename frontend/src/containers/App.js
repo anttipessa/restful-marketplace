@@ -3,13 +3,14 @@ import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import Container from '@material-ui/core/Container'
-import Itemlist from '../components/itemlist';
-
+import Nav from '../components/Nav'
+import ItemList from '../components/ItemList';
 
 function App ()  {
       return (
        <Container maxWidth="lg">
-         <Itemlist />
+         <Nav />
+         <ItemList />
        </Container>
       );
    }

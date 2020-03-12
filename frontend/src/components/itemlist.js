@@ -12,13 +12,12 @@ class Itemlist extends React.Component {
     };
   }
   async componentDidMount() {
-    const response=await fetch("http://localhost:3000/api/items");
-    const data=await response.json(); 
-    const filtered = data.filter(d => d.onsale === true);
-    this.setState({items:filtered, isLoaded:true}); 
+    const response = await fetch('/api/items/onsale');
+    const data = await response.json();
+    this.setState({ items: data, isLoaded: true }); 
   }
   render() {
-    if(this.state.isLoaded===false){
+    if(this.state.isLoaded === false){
       return <div>
         <h1>Items currently on sale!</h1>
         <p>Loading</p>
@@ -29,9 +28,9 @@ class Itemlist extends React.Component {
           <h1>Items currently on sale!</h1>
           {this.state.items.map(item => (           
              <div onClick={() => this.setState({clicked: true,
-              clickID:item._id, 
+              clickID: item._id, 
               clickName:item.name})} key={item._id}>
-              <h2>{item.name}</h2>   Price:{item.price}€
+              <h2>{item.name}</h2>   Price: {item.price} €
               </div>
           ))}
         </div>

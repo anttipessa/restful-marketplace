@@ -26,6 +26,9 @@ setup(config.get('admin'))
 // send app to router
 require('./router.js')(app)
 
+// middleware to serve the static files from React app
+app.use(express.static(path.join(__dirname, '../frontend/build')))
+
 const PORT = 3000
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}!`)

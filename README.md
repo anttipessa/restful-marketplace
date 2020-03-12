@@ -36,6 +36,10 @@ Copy `.env.dist` in the root with the name `.env` (note the dot in the beginning
 
 **Note:** Do not modify `.env.dist` file. It is a model to be copied as .env, it neither must not contain any sensitive data!
 
+Also copy `.env.react` in the root with the name `.env` to directory frontend. This makes it that React complies automatically when changes are made to the React code on the local machine. You can use the following command:
+
+`$ cp -i .env.react frontend/.env`
+
 During development, its required to start two terminal windows. One is for starting the Express-server on port 3000 and the other is for starting the React build, which runs on port 3001. This helps in following the logs on the server side. After downloading this folder structure, first run the following command on your local machine:
 
 `$ npm run setup`

@@ -1,4 +1,5 @@
 import React from 'react';
+import { List, ListItem } from '@material-ui/core';
 
 class ItemList extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class ItemList extends React.Component {
     };
   }
   async componentDidMount() {
-    const response = await fetch('/api/items/onsale');
+    const response = await fetch('/api/items/');
     const data = await response.json();
     this.setState({ items: data, isLoaded: true }); 
   }
@@ -27,11 +28,11 @@ class ItemList extends React.Component {
        <div>
           <h1>Items currently on sale!</h1>
           {this.state.items.map(item => (           
-             <div onClick={() => this.setState({clicked: true,
-              clickID: item._id, 
-              clickName:item.name})} key={item._id}>
-              <h2>{item.name}</h2>   Price: {item.price} €
-              </div>
+             <List>
+             <ListItem button>
+             {item.name}   Price: {item.price} € 
+             </ListItem>
+              </List>
           ))}
         </div>
       );

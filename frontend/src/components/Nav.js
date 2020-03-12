@@ -1,23 +1,16 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { Button, AppBar, Tabs, Tab, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 
 class RegisterForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { open: this.props.open,
-                   username: '',
-                   email: '',
-                   pw: '',
-                   pwconf: '' }
+    this.state = {
+      open: this.props.open,
+      username: '',
+      email: '',
+      pw: '',
+      pwconf: ''
+    }
   }
 
   componentDidUpdate(prevProps) {

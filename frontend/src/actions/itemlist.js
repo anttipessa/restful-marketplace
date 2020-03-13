@@ -1,6 +1,8 @@
-import { ADD_ITEM,
-         REQUEST_ITEMS,
-         RECEIVE_ITEMS } from '../constants/action-types'
+import {
+  ADD_ITEM,
+  REQUEST_ITEMS,
+  RECEIVE_ITEMS
+} from '../constants/action-types'
 
 export const addItem = (payload) => {
   return {
@@ -25,7 +27,7 @@ export const receiveItems = (json) => {
 }
 
 export const fetchItems = (url) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestItems(url))
     return fetch(url)
       .then(res => res.json())

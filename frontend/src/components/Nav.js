@@ -1,13 +1,23 @@
 import React from 'react';
 import { AppBar, Tabs, Tab, } from '@material-ui/core';
+import PersonPinIcon from '@material-ui/icons/PersonPin';
+import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
+import { connect } from 'react-redux'
 import RegisterForm from '../components/RegisterForm'
 import LoginForm from '../components/LoginForm'
 
-class Nav extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    user: state.loggedInUser
+  }
+}
+
+class ConnectNav extends React.Component {
   constructor(props) {
     super(props)
     this.state = { value: 0, open: false, login: false }
   }
+
   handleClick = () => {
     this.setState({ open: !this.state.open })
   }
@@ -19,24 +29,45 @@ class Nav extends React.Component {
   handleLoginClick = () => {
     this.setState({ login: !this.state.login })
   }
-  
+
+  handleLogoutClick = () => {
+    console.log('Logout')
+  }
+
   render() {
-    return (
-      <div>
-        <AppBar position="static" title="My App">
-          <Tabs value={this.state.value} onChange={this.handleChange} centered>
-            <Tab label="Main" />
-            <Tab label="Second" />
-            <Tab label="Third" />
-            <Tab label="Register" onClick={this.handleClick} />
-            <Tab label="Login" onClick={this.handleLoginClick} />
-          </Tabs>
-        </AppBar>
-        <RegisterForm open={this.state.open} />
-        <LoginForm open={this.state.login} />
-      </div>
-    )
+    if (this.props.user.loggedIn) {
+      return (
+        <div>
+          <AppBar position="static" title="My App">
+            <Tabs value={this.state.value} onChange={this.handleChange} centered>
+              <Tab label="Main" icon={<ShoppingBasket />}/>
+              <Tab label="Second" />
+              <Tab label="Third" />
+              <Tab label="Account information" icon={<PersonPinIcon />} />
+              <Tab label="Logout" onClick={this.handleLogoutClick} />
+            </Tabs>
+          </AppBar>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <AppBar position="static" title="My App">
+            <Tabs value={this.state.value} onChange={this.handleChange} centered>
+              <Tab label="Main" icon={<ShoppingBasket />} />
+              <Tab label="Second" />
+              <Tab label="Third" />
+              <Tab label="Register" onClick={this.handleClick} />
+              <Tab label="Login" onClick={this.handleLoginClick} />
+            </Tabs>
+          </AppBar>
+          <RegisterForm open={this.state.open} />
+          <LoginForm open={this.state.login} />
+        </div>
+      )
+    }
   }
 }
 
+const Nav = connect(mapStateToProps)(ConnectNav)
 export default Nav

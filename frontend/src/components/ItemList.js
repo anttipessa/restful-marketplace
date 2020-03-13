@@ -22,26 +22,28 @@ class ConnectedList extends React.Component {
   }
 
   render() {
-    if(this.props.items.isFetching === true){
-      return <div>
-        <h1>Items currently on sale!</h1>
-        <p>Loading</p>
-      </div>
-    }
+    if (this.props.items.isFetching === true) {
       return (
-       <div>
+        <div>
           <h1>Items currently on sale!</h1>
-          <List> 
-          {this.props.items.items.map(item => (          
-             <ListItem button divider={true} key={item._id} >
-             {item.name}  Price: {item.price} € 
-             </ListItem>
-          ))}
-          </List>
+          <p>Loading</p>
         </div>
-      );
-   }
- }
+      )
+    }
+    return (
+      <div>
+        <h1>Items currently on sale!</h1>
+        <List>
+          {this.props.items.items.map(item => (
+            <ListItem button divider={true} key={item._id} >
+              {item.name}  Price: {item.price} €
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    );
+  }
+}
 
 const ItemList = connect(mapStateToProps, mapDispatchToProps)(ConnectedList)
 export default ItemList;

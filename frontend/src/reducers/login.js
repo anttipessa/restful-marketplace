@@ -1,7 +1,8 @@
 import {
   REQUEST_USER_LOGIN,
   RECEIVE_USER_LOGIN,
-  ERROR_USER_LOGIN
+  ERROR_USER_LOGIN,
+  USER_LOGOUT
 } from '../constants/action-types'
 
 const initialState = {
@@ -36,6 +37,12 @@ const loggedInUser = (state = initialState, action) => {
         isFetching: false,
         didInvalidate: true,
         error: action.error
+      }
+    case USER_LOGOUT:
+      return {
+        ...state,
+        loggedIn: false,
+        user: {}
       }
     default:
       return state

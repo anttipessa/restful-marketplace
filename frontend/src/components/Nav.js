@@ -3,12 +3,19 @@ import { AppBar, Tabs, Tab, } from '@material-ui/core';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import { connect } from 'react-redux'
+import { postLogout } from '../actions/login'
 import RegisterForm from '../components/RegisterForm'
 import LoginForm from '../components/LoginForm'
 
 const mapStateToProps = (state) => {
   return {
     user: state.loggedInUser
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    postLogout: () => dispatch(postLogout())
   }
 }
 
@@ -31,7 +38,8 @@ class ConnectNav extends React.Component {
   }
 
   handleLogoutClick = () => {
-    console.log('Logout')
+    this.props.postLogout()
+    this.setState({ login: !this.state.login })
   }
 
   render() {
@@ -69,5 +77,5 @@ class ConnectNav extends React.Component {
   }
 }
 
-const Nav = connect(mapStateToProps)(ConnectNav)
+const Nav = connect(mapStateToProps, mapDispatchToProps)(ConnectNav)
 export default Nav

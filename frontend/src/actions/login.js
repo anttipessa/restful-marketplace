@@ -1,7 +1,8 @@
 import {
   REQUEST_USER_LOGIN,
   RECEIVE_USER_LOGIN,
-  ERROR_USER_LOGIN
+  ERROR_USER_LOGIN,
+  USER_LOGOUT
 } from '../constants/action-types'
 
 export const requestUserLogin = (url, payload) => {
@@ -24,6 +25,12 @@ export const errorLogin = (error) => {
   return {
     type: ERROR_USER_LOGIN,
     error: error.message
+  }
+}
+
+export const postLogout = () => {
+  return {
+    type: USER_LOGOUT
   }
 }
 

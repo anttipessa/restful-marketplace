@@ -8,11 +8,12 @@ import {
 } from 'react-router-dom'
 import './App.css';
 import Container from '@material-ui/core/Container'
-import Nav from '../components/Nav'
-import ItemList from '../components/ItemList';
 import { connect } from 'react-redux';
 import { postLogout, postLogin } from '../actions/login';
 import { postRegister } from '../actions/register'
+import Nav from '../components/Nav';
+import ItemList from '../components/ItemList';
+import UserInfo from '../components/UserInfo';
 import RegisterForm from '../components/RegisterForm';
 import LoginForm from '../components/LoginForm';
 
@@ -69,6 +70,9 @@ class Page extends React.Component {
           <Switch>
             <Route exact path="/">
               <ItemList />
+            </Route>
+            <Route exact path="/me">
+              <UserInfo />
             </Route>
           </Switch>
 

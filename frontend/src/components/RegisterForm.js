@@ -105,7 +105,7 @@ class RegisterForm extends React.Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={this.props.close} color="primary">
             Cancel
             </Button>
           <Button onClick={this.handleRegister} color="primary">

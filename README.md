@@ -85,7 +85,6 @@ Also on deployment phase, the server script should be modified not to use nodemo
 ![picture of navigation](navigation.png)
 ## Modules your group created in your Node project
 ```
-.
 ├── backend
 │   ├── app.js                  --> express app
 │   ├── router.js               --> main router that setups other routes
@@ -113,8 +112,9 @@ Also on deployment phase, the server script should be modified not to use nodemo
 │   │   │   ├── ...
 │   │   │   └── ...
 │   │   ├── containers          --> container components
+│   │   ├── constants           --> redux constants
 │   │   ├── reducers            --> redux reducers
-│   │   ├── store               --> redux store config
+│   │   └── store               --> redux store config
 │   ├── public                  
 └── └── package.json            --> app info and dependencies
 
@@ -188,6 +188,9 @@ Payloads:
 
 Implement using create-react-app. Inital plan is to start with getting the item listing page done first, then add login and purchase views. React and Redux should be done simultaneously. We will use https://material-ui.com/ for different components for the site: navigation, surfaces, sidebars, buttons etc.
 
+We use Rails-style code structure which has separate folders for actions, constants, reducers, containers, store, and components. 
+https://github.com/reduxjs/redux/blob/master/docs/faq/CodeStructure.md
+
 ## Testing 
 
 We will move on to testing once all the backend and frontend work is done. Testing will be done using Chai and Mocha. React testing with Jest and React testing library.
@@ -200,6 +203,5 @@ We will move on to testing once all the backend and frontend work is done. Testi
 | Mongoose models               | 3.3.  | 6.3.  | Henri  |
 | API paths and functionality   | 3.3.  | 10.3. | All    |
 | Start on frontend             | 10.3  | 20.3  | All    |
-| cell                          | cell  | cell  | cell   |
 
 *Good luck and happy WWWdevvin’!*

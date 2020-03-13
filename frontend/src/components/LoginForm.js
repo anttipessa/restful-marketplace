@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { postLogin } from '../actions/login'
 import {
   Button,
   TextField,
@@ -11,13 +9,7 @@ import {
   DialogTitle
 } from '@material-ui/core';
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    postLogin: (url, payload) => dispatch(postLogin(url, payload))
-  }
-}
-
-class Login extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -25,20 +17,6 @@ class Login extends React.Component {
       username: '',
       pw: '',
     }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.open !== prevProps.open) {
-      this.handleOpen()
-    }
-  }
-
-  handleOpen = () => {
-    this.setState({ open: true })
-  }
-
-  handleClose = () => {
-    this.setState({ open: false })
   }
 
   handleChange = (e) => {
@@ -50,7 +28,8 @@ class Login extends React.Component {
       name: this.state.username,
       password: this.state.pw
     }
-    this.props.postLogin('/api/login', login)
+    this.props.login('/api/login', login)
+    this.props.close()
     this.setState({ username: '', pw: '', open: false })
   }
 
@@ -91,7 +70,7 @@ class Login extends React.Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={this.props.close} color="primary">
             Cancel
             </Button>
           <Button onClick={this.handleLogin} color="primary">
@@ -103,5 +82,4 @@ class Login extends React.Component {
   }
 }
 
-const LoginForm = connect(null, mapDispatchToProps)(Login)
 export default LoginForm;

@@ -1,24 +1,28 @@
 import React from 'react';
 import { List, ListItem } from '@material-ui/core';
+import { connect } from 'react-redux'
+import { fetchItems } from '../actions/itemlist'
 
-class ItemList extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    items: state.items
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchItems: url => dispatch(fetchItems(url))
+  }
+}
+
+class ConnectedList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoaded: false,
-      items: [],
-      clicked: false,
-      clickID: null,
-      clickName: null
-    };
+    this.props.fetchItems('/api/items/')
   }
-  async componentDidMount() {
-    const response = await fetch('/api/items/');
-    const data = await response.json();
-    this.setState({ items: data, isLoaded: true }); 
-  }
+
   render() {
-    if(this.state.isLoaded === false){
+    if(this.props.items.isFetching === true){
       return <div>
         <h1>Items currently on sale!</h1>
         <p>Loading</p>
@@ -27,16 +31,17 @@ class ItemList extends React.Component {
       return (
        <div>
           <h1>Items currently on sale!</h1>
-          {this.state.items.map(item => (           
-             <List> 
-             <ListItem button divider='true' >
+          <List> 
+          {this.props.items.items.map(item => (          
+             <ListItem button divider={true} key={item._id} >
              {item.name}  Price: {item.price} € 
              </ListItem>
-              </List>
           ))}
+          </List>
         </div>
       );
    }
  }
 
+const ItemList = connect(mapStateToProps, mapDispatchToProps)(ConnectedList)
 export default ItemList;

@@ -24,7 +24,7 @@ module.exports = {
           if (result) {
             jwt.sign({ id: user._id }, SECRET, { algorithm: 'HS256' }, (err, token) => {
               console.log(token)
-              return res.status(200).json({ token })
+              return res.status(200).json({ token, role: user.role })
             })
           } else {
             errorMessage.error = 'Invalid credentials'

@@ -1,24 +1,38 @@
 import React from 'react';
-import {
-  Button,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from '@material-ui/core';
+import { connect } from 'react-redux'
+import { postRegister } from '../actions/register'
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 
-class RegisterForm extends React.Component {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    postRegister: (url, payload) => dispatch(postRegister(url, payload))
+  }
+}
+
+class Register extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       open: this.props.open,
       username: '',
       email: '',
-      pw: '',
-      pwconf: ''
+      password: '',
+      passwordconf: '',
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.open !== prevProps.open) {
+      this.handleOpen()
+    }
+  }
+
+  handleOpen = () => {
+    this.setState({ open: true })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
   }
 
   handleChange = (e) => {
@@ -26,9 +40,13 @@ class RegisterForm extends React.Component {
   }
 
   handleRegister = () => {
-    // tähän joku fetch('/api/login' { METHOD: 'POST' }) ..
-    this.props.close()
-    this.setState({ username: '', email: '', pw: '', pwconf: '', open: false })
+    const register = {
+      name: this.state.username,
+      email: this.state.email,
+      password: this.state.password
+    }
+    this.props.postRegister('/api/users', register)
+    this.setState({ username: '', email: '', password: '', passwordconf: '', open: false })
   }
 
   render() {
@@ -78,10 +96,10 @@ class RegisterForm extends React.Component {
               shrink: true,
             }}
             type="password"
-            name="pw"
+            name="password"
             onChange={this.handleChange}
             variant="outlined"
-            value={this.state.pw}
+            value={this.state.password}
           />
           <TextField
             required
@@ -93,14 +111,14 @@ class RegisterForm extends React.Component {
               shrink: true,
             }}
             type="password"
-            name="pwconf"
+            name="passwordconf"
             onChange={this.handleChange}
             variant="outlined"
-            value={this.state.pwconf}
+            value={this.state.passwordconf}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.close} color="primary">
+          <Button onClick={this.handleClose} color="primary">
             Cancel
             </Button>
           <Button onClick={this.handleRegister} color="primary">
@@ -111,5 +129,5 @@ class RegisterForm extends React.Component {
     )
   }
 }
-
+const RegisterForm = connect(null, mapDispatchToProps)(Register)
 export default RegisterForm;

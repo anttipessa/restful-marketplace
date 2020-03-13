@@ -12,6 +12,7 @@ import Nav from '../components/Nav'
 import ItemList from '../components/ItemList';
 import { connect } from 'react-redux';
 import { postLogout, postLogin } from '../actions/login';
+import { postRegister } from '../actions/register'
 import RegisterForm from '../components/RegisterForm';
 import LoginForm from '../components/LoginForm';
 
@@ -24,7 +25,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     postLogout: () => dispatch(postLogout()),
-    postLogin: (url, payload) => dispatch(postLogin(url, payload))
+    postLogin: (url, payload) => dispatch(postLogin(url, payload)),
+    postRegister: (url, payload) => dispatch(postRegister(url, payload))
   }
 }
 
@@ -66,7 +68,7 @@ class Page extends React.Component {
           </Switch>
 
           {this.state.registerDialog ?
-          <RegisterForm open={this.state.registerDialog} close={this.closeRegisterForm}/> : '' }
+          <RegisterForm open={this.state.registerDialog} close={this.closeRegisterForm} register={this.props.postRegister}/> : '' }
           {this.state.loginDialog ?
           <LoginForm open={this.state.loginDialog} close={this.closeLoginForm} login={this.props.postLogin}/> : '' }
         </Container>

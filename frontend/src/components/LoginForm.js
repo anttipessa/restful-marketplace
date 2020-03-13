@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={this.state.open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Login</DialogTitle>
         <DialogContent>
           <DialogContentText>

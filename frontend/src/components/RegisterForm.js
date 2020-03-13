@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { postRegister } from '../actions/register'
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from '@material-ui/core';
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    postRegister: (url, payload) => dispatch(postRegister(url, payload))
-  }
-}
-
-class Register extends React.Component {
+class RegisterForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -19,20 +20,6 @@ class Register extends React.Component {
       password: '',
       passwordconf: '',
     }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.open !== prevProps.open) {
-      this.handleOpen()
-    }
-  }
-
-  handleOpen = () => {
-    this.setState({ open: true })
-  }
-
-  handleClose = () => {
-    this.setState({ open: false })
   }
 
   handleChange = (e) => {
@@ -45,7 +32,8 @@ class Register extends React.Component {
       email: this.state.email,
       password: this.state.password
     }
-    this.props.postRegister('/api/users', register)
+    this.props.register('/api/users', register)
+    this.props.close()
     this.setState({ username: '', email: '', password: '', passwordconf: '', open: false })
   }
 
@@ -129,5 +117,5 @@ class Register extends React.Component {
     )
   }
 }
-const RegisterForm = connect(null, mapDispatchToProps)(Register)
+
 export default RegisterForm;

@@ -59,7 +59,12 @@ class Page extends React.Component {
     return (
       <Router>
         <Container maxWidth="lg">
-          <Nav registerClick={this.openRegisterForm} loginClick={this.openLoginForm}/>
+          <Nav
+            registerClick={this.openRegisterForm}
+            loginClick={this.openLoginForm}
+            logoutClick={this.props.postLogout}
+            role={this.props.user.user.role}
+          />
   
           <Switch>
             <Route exact path="/">
@@ -68,9 +73,18 @@ class Page extends React.Component {
           </Switch>
 
           {this.state.registerDialog ?
-          <RegisterForm open={this.state.registerDialog} close={this.closeRegisterForm} register={this.props.postRegister}/> : '' }
+          <RegisterForm
+            open={this.state.registerDialog}
+            close={this.closeRegisterForm}
+            register={this.props.postRegister}
+          /> : '' }
           {this.state.loginDialog ?
-          <LoginForm open={this.state.loginDialog} close={this.closeLoginForm} login={this.props.postLogin}/> : '' }
+          <LoginForm
+            open={this.state.loginDialog}
+            close={this.closeLoginForm}
+            login={this.props.postLogin}
+          /> : '' }
+
         </Container>
       </Router>
     );

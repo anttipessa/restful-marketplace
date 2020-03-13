@@ -6,31 +6,15 @@ import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import CreateIcon from '@material-ui/icons/Create';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { connect } from 'react-redux';
-import { postLogout } from '../actions/login';
-import RegisterForm from '../components/RegisterForm';
-import LoginForm from '../components/LoginForm';
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.loggedInUser
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    postLogout: () => dispatch(postLogout())
-  }
-}
-
-class ConnectNav extends React.Component {
+class Nav extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { open: false, login: false }
   }
 
   render() {
-    if (this.props.user.loggedIn) {
+    if (this.props.role) {
       return (
         <div>
           <AppBar position="static" title="My App">
@@ -39,7 +23,7 @@ class ConnectNav extends React.Component {
               <Tab label="Second" />
               <Tab label="Third" />
               <Tab label="Account information" icon={<PersonPinIcon />} />
-              <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.handleLogoutClick} />
+              <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.props.logoutClick} />
             </Tabs>
           </AppBar>
         </div>
@@ -62,5 +46,4 @@ class ConnectNav extends React.Component {
   }
 }
 
-const Nav = connect(mapStateToProps, mapDispatchToProps)(ConnectNav)
 export default Nav

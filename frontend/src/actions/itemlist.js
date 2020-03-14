@@ -31,6 +31,9 @@ export const fetchItems = (url) => {
     dispatch(requestItems(url))
     return fetch(url)
       .then(res => res.json())
-      .then(json => dispatch(receiveItems(json)))
+      .then(json => {
+        json = json.filter(d => d.onsale === true);
+        dispatch(receiveItems(json));
+      })
   }
 }

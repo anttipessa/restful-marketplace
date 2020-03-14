@@ -1,8 +1,14 @@
 import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import { connect } from 'react-redux'
 import { fetchItems } from '../actions/itemlist'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const mapStateToProps = (state) => {
   return {
@@ -20,7 +26,29 @@ class ConnectedList extends React.Component {
   constructor(props) {
     super(props);
     this.props.fetchItems('/api/items/')
+    this.state = {
+      name: '',
+      price: '',
+      owner: '',
+      open: false,
+    }
   }
+
+  handleClick = (item) => {
+    this.setState({
+      name: item.name,
+      price: item.price,
+      owner: item.owner,
+      open: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
+  };
+
 
   render() {
     if (this.props.items.isFetching === true) {
@@ -31,12 +59,32 @@ class ConnectedList extends React.Component {
         </div>
       )
     }
+    if (this.state.open === true) {
+      return (
+        <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Item preview </DialogTitle>
+          <DialogContent>
+            <DialogContentText>You must register to buy this item.</DialogContentText>
+            <p>Name: {this.state.name}</p>
+            <p>Price: {this.state.price}€</p>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+          </Button>
+            <Button onClick={this.handleClose} disabled>
+              Buy
+          </Button>
+          </DialogActions>
+        </Dialog>
+      )
+    }
     return (
       <div>
         <h1>Items currently on sale!</h1>
         <List>
           {this.props.items.items.map(item => (
-            <ListItem button divider={true} key={item._id} >
+            <ListItem button divider={true} key={item._id} onClick={this.handleClick.bind(this, item)}>
               {item.name}  Price: {item.price} €
             </ListItem>
           ))}

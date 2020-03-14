@@ -1,5 +1,11 @@
-import React from 'react';
+import React from 'react'
+import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
+import Alert from '@material-ui/lab/Alert'
+import AlertTitle from '@material-ui/lab/AlertTitle'
+import IconButton from '@material-ui/core/IconButton'
+import Collapse from '@material-ui/core/Collapse'
+import CloseIcon from '@material-ui/icons/Close'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -7,10 +13,17 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 
-class LoginForm extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    user: state.loggedInUser
+  }
+}
+
+class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      alert: false,
       open: this.props.open,
       username: '',
       pw: '',
@@ -21,14 +34,17 @@ class LoginForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  handleLogin = () => {
+  handleLogin = async () => {
     const login = {
       name: this.state.username,
       password: this.state.pw
     }
-    this.props.login('/api/login', login)
-    this.props.close()
-    this.setState({ username: '', pw: '', open: false })
+    await this.props.login('/api/login', login)
+    if (this.props.user.loggedIn) {
+      this.props.checkLogin()
+    } else {
+      this.setState({ alert: true, alertMsg: 'Invalid credentials!' })
+    }
   }
 
   render() {
@@ -67,6 +83,26 @@ class LoginForm extends React.Component {
             value={this.state.pw}
           />
         </DialogContent>
+        <Collapse in={this.state.alert}>
+          <Alert
+            severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  this.setState({ alert: false });
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+            <AlertTitle>Error</AlertTitle>
+            {this.state.alertMsg}
+          </Alert>
+        </Collapse>
         <DialogActions>
           <Button onClick={this.props.close} color="primary">
             Cancel
@@ -80,4 +116,5 @@ class LoginForm extends React.Component {
   }
 }
 
+const LoginForm = connect(mapStateToProps)(Login)
 export default LoginForm;

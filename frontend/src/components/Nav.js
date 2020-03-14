@@ -1,6 +1,17 @@
 import React from 'react';
-import { AppBar, Tabs, Tab, } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { setView } from '../actions/viewFilter'
+import {
+  VIEW_MAIN_PAGE,
+  VIEW_ITEMS_ALL,
+  VIEW_ITEMS_OWN,
+  VIEW_ITEMS_OFFERS,
+  VIEW_USERS,
+  VIEW_USER_INFO
+} from '../constants/action-types'
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
@@ -11,17 +22,28 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setView: (filter) => dispatch(setView(filter))
+  }
+}
 
-class Nav extends React.Component {
+class ConnectNav extends React.Component {
+
+  logout = () => {
+    this.props.logoutClick()
+    this.props.setView(VIEW_MAIN_PAGE)
+  }
+
   render() {
     if (this.props.role && this.props.role === 'normal') {
       return (
         <AppBar position="static" title="My App">
           <Tabs value={false} centered>
-            <Tab label="Main" icon={<ShoppingBasket />} component={Link} to="/" />
-            <Tab label="Own offers" icon={<LoyaltyIcon />} />
-            <Tab label="Account information" icon={<PersonPinIcon />} component={Link} to="/me" />
-            <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.props.logoutClick} />
+            <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)}/>
+            <Tab label="Own offers" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
+            <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
+            <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
           </Tabs>
         </AppBar>
       )
@@ -29,11 +51,11 @@ class Nav extends React.Component {
       return (
         <AppBar position="static" title="My App">
           <Tabs value={false} centered>
-            <Tab label="Main" icon={<ShoppingBasket />} component={Link} to="/" />
-            <Tab label="Own offers" icon={<LoyaltyIcon />} />
-            <Tab label="On sale" icon={<AssessmentIcon />} />
-            <Tab label="Account information" icon={<PersonPinIcon />} component={Link} to="/me" />
-            <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.props.logoutClick} />
+            <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
+            <Tab label="Own offers" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
+            <Tab label="On sale" icon={<AssessmentIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OFFERS)} />
+            <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
+            <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
           </Tabs>
         </AppBar>
       )
@@ -41,11 +63,11 @@ class Nav extends React.Component {
       return (
         <AppBar position="static" title="My App">
           <Tabs value={false} centered>
-            <Tab label="Main" icon={<ShoppingBasket />} component={Link} to="/" />
-            <Tab label="All items" icon={<FormatListBulletedIcon />}/>
-            <Tab label="Users" icon={<SupervisorAccountIcon />}/>
-            <Tab label="Account information" icon={<PersonPinIcon />} component={Link} to="/me" />
-            <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.props.logoutClick} />
+            <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
+            <Tab label="All items" icon={<FormatListBulletedIcon />} onClick={() => this.props.setView(VIEW_ITEMS_ALL)}/>
+            <Tab label="Users" icon={<SupervisorAccountIcon />} onClick={() => this.props.setView(VIEW_USERS)} />
+            <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
+            <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
           </Tabs>
         </AppBar>
       )
@@ -53,7 +75,7 @@ class Nav extends React.Component {
       return (
         <AppBar position="static" title="My App">
           <Tabs value={false} centered>
-            <Tab label="Main" icon={<ShoppingBasket />} component={Link} to="/" />
+            <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
             <Tab label="Register" icon={<CreateIcon />} onClick={this.props.registerClick} />
             <Tab label="Login" icon={<VpnKeyIcon />} onClick={this.props.loginClick} />
           </Tabs>
@@ -63,4 +85,5 @@ class Nav extends React.Component {
   }
 }
 
+const Nav = connect(null, mapDispatchToProps)(ConnectNav)
 export default Nav

@@ -2,13 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { fetchItemsAll } from '../actions/allList'
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import CollapseItem from './CollapseItem';
 
 const mapStateToProps = (state) => {
@@ -27,12 +20,6 @@ class ItemList extends React.Component {
   constructor(props) {
     super(props);
     this.props.fetchItems('/api/items/')
-    this.state = {
-      name: '',
-      price: '',
-      owner: '',
-      open: false,
-    }
   }
   
   render() {

@@ -33,6 +33,7 @@ class ConnectNav extends React.Component {
   logout = () => {
     this.props.logoutClick()
     this.props.setView(VIEW_MAIN_PAGE)
+    this.props.logout()
   }
 
   render() {

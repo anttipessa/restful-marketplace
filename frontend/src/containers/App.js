@@ -16,7 +16,11 @@ import {
 } from '../constants/action-types'
 import Nav from '../components/Nav';
 import ItemList from '../components/ItemList';
+import SalesList from '../components/SalesList';
+import OwnItems from '../components/OwnItems';
+import OfferList from '../components/OfferList'
 import UserInfo from '../components/UserInfo';
+import UserList from '../components/UserList';
 import RegisterForm from '../components/RegisterForm';
 import LoginForm from '../components/LoginForm';
 
@@ -64,19 +68,19 @@ class Page extends React.Component {
   view = () => {
     switch (this.props.view) {
       case VIEW_MAIN_PAGE:
-        return <ItemList />
+        return <SalesList />
       case VIEW_USER_INFO:
         return <UserInfo />
       case VIEW_ITEMS_ALL:
         return <ItemList />
       case VIEW_ITEMS_OFFERS:
-        return <ItemList />
+        return <OfferList />
       case VIEW_ITEMS_OWN:
-        return <ItemList />
+        return <OwnItems />
       case VIEW_USERS:
-        return <ItemList />
+        return <UserList />
       default:
-        return <ItemList />
+        return <SalesList />
     }
   }
 

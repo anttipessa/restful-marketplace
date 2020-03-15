@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchItems } from '../actions/itemlist'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -25,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
 class ConnectedList extends React.Component {
   constructor(props) {
     super(props);
-    this.props.fetchItems('/api/items/')
+    this.props.fetchItems('/api/items/onsale')
     this.state = {
       name: '',
       price: '',
@@ -65,7 +66,10 @@ class ConnectedList extends React.Component {
         <List>
           {this.props.items.items.map(item => (
             <ListItem button divider={true} key={item._id} onClick={this.handleClick.bind(this, item)}>
-              {item.name}  Price: {item.price} €
+              <ListItemText
+                primary={item.name}
+                secondary={`Price: ${item.price} €`}
+              />
             </ListItem>
           ))}
         </List>
@@ -74,7 +78,7 @@ class ConnectedList extends React.Component {
           <DialogContent>
             <DialogContentText>You must register to buy this item.</DialogContentText>
             <p>Name: {this.state.name}</p>
-            <p>Price: {this.state.price}€</p>
+            <p>Price: {this.state.price} €</p>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">

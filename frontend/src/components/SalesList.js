@@ -13,7 +13,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const mapStateToProps = (state) => {
   return {
-    items: state.items
+    items: state.items,
+    user: state.loggedInUser
   }
 }
 
@@ -84,7 +85,7 @@ class ConnectedList extends React.Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
           </Button>
-            <Button onClick={this.handleClose} disabled>
+            <Button onClick={this.handleClose} disabled={!this.props.user.loggedIn}>
               Buy
           </Button>
           </DialogActions>

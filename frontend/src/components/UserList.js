@@ -121,6 +121,7 @@ class Users extends React.Component {
             createName: '',
             createEmail: '',
             createPw: '',
+            alert: false,
             success: true,
             successMsg: 'User created!'
           })
@@ -150,7 +151,6 @@ class Users extends React.Component {
   }
 
   handleUpdate = () => {
-    console.log('updating')
     const update = { role: this.state.role }
     if (this.state.name) update.name = this.state.name
     if (this.state.email) update.email = this.state.email
@@ -171,6 +171,7 @@ class Users extends React.Component {
         this.props.updateUser(data)
         this.setState({
           open: false,
+          alert: false,
           password: '',
           success: true,
           successMsg: 'User updated!'

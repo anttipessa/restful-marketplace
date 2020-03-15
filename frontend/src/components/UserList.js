@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchUsers, addUser, deleteUser } from '../actions/userlist';
+import { fetchUsers, addUser, updateUser, deleteUser } from '../actions/userlist';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -30,6 +30,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addUser: (payload) => dispatch(addUser(payload)),
+    updateUser: (payload) => dispatch(updateUser(payload)),
     deleteUser: (payload) => dispatch(deleteUser(payload)),
     fetchUsers: (url, payload) => dispatch(fetchUsers(url, payload))
   }
@@ -45,6 +46,7 @@ class Users extends React.Component {
       name: '',
       email: '',
       role: '',
+      password: '',
       id: '',
       open: false,
       createName: '',
@@ -73,6 +75,7 @@ class Users extends React.Component {
   handleClose = () => {
     this.setState({
       open: false,
+      password: '',
       createOpen: false,
       createName: '',
       createEmail: '',
@@ -103,8 +106,7 @@ class Users extends React.Component {
       fetch('/api/users', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.props.user.user.token
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(newUser)
       })
@@ -149,6 +151,33 @@ class Users extends React.Component {
 
   handleUpdate = () => {
     console.log('updating')
+    const update = { role: this.state.role }
+    if (this.state.name) update.name = this.state.name
+    if (this.state.email) update.email = this.state.email
+    if (this.state.password) update.password = this.state.password
+    fetch(`/api/users/${this.state.id}/role`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.props.user.user.token
+      },
+      body: JSON.stringify(update)
+    })
+      .then(res => {
+        if (!res.ok) throw Error(res.statusText)
+        return res.json()
+      })
+      .then((data) => {
+        this.props.updateUser(data)
+        this.setState({
+          open: false,
+          password: '',
+          success: true,
+          successMsg: 'User updated!'
+        })
+
+      })
+      .catch(() => this.setState({ alert: true, alertMsg: 'Update failed - check information!' }))
   }
 
   successClose = (event, reason) => {
@@ -193,7 +222,7 @@ class Users extends React.Component {
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Update or delete user </DialogTitle>
           <DialogContent>
-            <DialogContentText>You change the username, email, role or delete the user.</DialogContentText>
+            <DialogContentText>You can change the username, email, password and role or delete the user.</DialogContentText>
             <TextField
               margin="dense"
               label="Username"
@@ -209,6 +238,19 @@ class Users extends React.Component {
               value={this.state.email}
               name="email"
               type="email"
+              onChange={this.handleChange}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              label="Password"
+              value={this.state.password}
+              name="password"
+              type="password"
+              helperText="Set a new password for user"
+              InputLabelProps={{
+                shrink: true,
+              }}
               onChange={this.handleChange}
               fullWidth
             />

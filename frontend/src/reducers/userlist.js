@@ -41,7 +41,10 @@ const users = (state = initialState, action) => {
     case UPDATE_USER:
       return {
         ...state,
-        //users: state.users.map(user =>)
+        users: state.users.map(user => {
+          if (user._id === action.payload._id) return action.payload
+          return user
+        })
       }
     default:
       return state

@@ -32,7 +32,6 @@ export const fetchItems = (url) => {
     return fetch(url)
       .then(res => res.json())
       .then(json => {
-        json = json.filter(d => d.onsale === true);
         dispatch(receiveItems(json));
       })
   }

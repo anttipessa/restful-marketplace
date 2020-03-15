@@ -5,6 +5,7 @@ import viewFilter from './views'
 import users from './userlist'
 import allitems from './itemsAll'
 import userInfo from './userData'
+import ownitems from './ownitems'
 
 export default combineReducers({
   items,
@@ -12,5 +13,6 @@ export default combineReducers({
   viewFilter,
   users,
   allitems,
-  userInfo
+  userInfo,
+  ownitems
 })

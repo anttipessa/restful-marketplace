@@ -201,6 +201,9 @@ class Users extends React.Component {
     return (
       <div>
         <h1>User management</h1>
+        <Button variant="contained" color="primary" onClick={this.openCreate}>
+          Create a new user
+        </Button>
         <List>
           {this.props.users.users.map(user => (
             <ListItem button divider={true} key={user._id} onClick={this.handleClick.bind(this, user)}>
@@ -217,9 +220,6 @@ class Users extends React.Component {
             </ListItem>
           ))}
         </List>
-        <Button variant="contained" color="primary" onClick={this.openCreate}>
-          Create new user
-        </Button>
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Update or delete user </DialogTitle>
           <DialogContent>
@@ -304,7 +304,7 @@ class Users extends React.Component {
           </DialogActions>
         </Dialog>
         <Dialog open={this.state.createOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Create new user</DialogTitle>
+          <DialogTitle id="form-dialog-title">Create a new user</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Give the required information to create a new normal user.

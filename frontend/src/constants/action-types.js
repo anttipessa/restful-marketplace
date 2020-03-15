@@ -1,4 +1,6 @@
 export const ADD_ITEM = 'ADD_ITEM'
+export const DELETE_ITEM = 'DELETE_ITEM'
+export const UPDATE_ITEM = 'UPDATE_ITEM'
 export const REQUEST_ITEMS = 'REQUEST_ITEMS'
 export const RECEIVE_ITEMS = 'RECEIVE_ITEMS'
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addItem, updateItem, deleteItem, fetchUserItems } from '../actions/ownitems'
+import { addItem, updateItem, deleteItem, fetchItems } from '../actions/items'
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => {
     addItem: (payload) => dispatch(addItem(payload)),
     deleteItem: (payload) => dispatch(deleteItem(payload)),
     updateItem: (payload) => dispatch(updateItem(payload)),
-    fetchUserItems: (url) => dispatch(fetchUserItems(url)),
+    fetchItems: (url) => dispatch(fetchItems(url)),
   }
 }
 
@@ -38,7 +38,7 @@ class Owned extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.fetchUserItems(`/api/items/users/${props.user.user.id}`)
+    this.props.fetchItems(`/api/items/users/${props.user.user.id}`)
     this.state = {
       name: '',
       price: '',

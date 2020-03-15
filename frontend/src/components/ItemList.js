@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { fetchItemsAll } from '../actions/allList'
+import { fetchItems } from '../actions/items'
 import List from '@material-ui/core/List';
 import CollapseItem from './CollapseItem';
 
 const mapStateToProps = (state) => {
   return {
-    items: state.allitems
+    items: state.items
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchItems: url => dispatch(fetchItemsAll(url))
+    fetchItems: url => dispatch(fetchItems(url))
   }
 }
 

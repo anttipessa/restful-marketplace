@@ -42,7 +42,7 @@ import {
     }
   }
   
-  export const fetchUserItems = (url) => {
+  export const fetchItems = (url) => {
     return (dispatch) => {
       dispatch(requestItems(url))
       return fetch(url)

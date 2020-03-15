@@ -6,7 +6,7 @@ const initialState = {
   items: []
 }
 
-const ownitems = (state = initialState, action) => {
+const items = (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_ITEMS:
       return {
@@ -44,4 +44,4 @@ const ownitems = (state = initialState, action) => {
       return state
   }
 }
-export default ownitems
+export default items

@@ -1,6 +1,8 @@
 import {
     REQUEST_USERS,
-    RECEIVE_USERS
+    RECEIVE_USERS,
+    ADD_USER,
+    DELETE_USER
 } from '../constants/action-types'
 
 
@@ -11,11 +13,25 @@ export const requestUsers = (url) => {
     }
 }
 
-export const reciveUsers = (json) => {
+export const receiveUsers = (json) => {
     return {
         type: RECEIVE_USERS,
         payload: json,
         receivedAt: Date.now()
+    }
+}
+
+export const addUser = (json) => {
+    return {
+        type: ADD_USER,
+        payload: json
+    }
+}
+
+export const deleteUser = (json) => {
+    return {
+        type: DELETE_USER,
+        payload: json._id
     }
 }
 
@@ -30,6 +46,6 @@ export const fetchUsers = (url, payload) => {
             }
           })
             .then(res => res.json())
-            .then(json => dispatch(reciveUsers(json)))
+            .then(json => dispatch(receiveUsers(json)))
     }
 }

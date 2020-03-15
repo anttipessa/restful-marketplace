@@ -27,7 +27,8 @@ const loggedInUser = (state = initialState, action) => {
         loggedIn: true,
         user: {
           token: action.payload.token,
-          role: action.payload.role
+          role: action.payload.role,
+          id: action.payload.id
         },
         receivedAt: action.receivedAt
       }

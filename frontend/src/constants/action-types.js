@@ -17,6 +17,7 @@ export const VIEW_USER_INFO = 'VIEW_USER_INFO'
 
 export const REQUEST_USERS = 'REQUEST_USERS'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
+export const ADD_USER = 'ADD_USER'
 export const VIEW_USER = 'VIEW_USER'
 export const DELETE_USER = 'DELETE_USER'
 export const UPDATE_USER = 'UPDATE_USER'

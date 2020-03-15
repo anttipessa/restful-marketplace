@@ -59,8 +59,16 @@ class ConnectedList extends React.Component {
         </div>
       )
     }
-    if (this.state.open === true) {
-      return (
+    return (
+      <div>
+        <h1>Items currently on sale!</h1>
+        <List>
+          {this.props.items.items.map(item => (
+            <ListItem button divider={true} key={item._id} onClick={this.handleClick.bind(this, item)}>
+              {item.name}  Price: {item.price} €
+            </ListItem>
+          ))}
+        </List>
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Item preview </DialogTitle>
           <DialogContent>
@@ -77,18 +85,6 @@ class ConnectedList extends React.Component {
           </Button>
           </DialogActions>
         </Dialog>
-      )
-    }
-    return (
-      <div>
-        <h1>Items currently on sale!</h1>
-        <List>
-          {this.props.items.items.map(item => (
-            <ListItem button divider={true} key={item._id} onClick={this.handleClick.bind(this, item)}>
-              {item.name}  Price: {item.price} €
-            </ListItem>
-          ))}
-        </List>
       </div>
     );
   }

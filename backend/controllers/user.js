@@ -110,23 +110,28 @@ module.exports = {
     }
   },
 
-  async changeRole(req, res) {
-    const { role } = req.body
-    if (role) {
-      try {
-        const user = await User.findByIdAndUpdate(req.params.id, { role }, { new: true, runValidators: true })
-        if (!user) {
-          errorMessage.error = `User with ID: ${req.params.id} was not found`
-          return res.status(404).json(errorMessage)
-        }
-        res.set('Location', `/api/users/${user._id}`)
-        return res.status(200).json(user)
-      } catch (err) {
-        errorMessage.error = err.message
-        return res.status(500).json(errorMessage)
+  async updateWithRole(req, res) {
+    const { name, email, password, role } = req.body
+    const update = {
+      name,
+      email,
+      password,
+      role
+    }
+    Object.keys(update).forEach(key => {
+      if (!update[key]) delete update[key]
+    })
+    try {
+      const user = await User.findByIdAndUpdate(req.params.id, update, { new: true, runValidators: true })
+      if (!user) {
+        errorMessage.error = `User with ID: ${req.params.id} was not found`
+        return res.status(404).json(errorMessage)
       }
-    } else {
-      errorMessage.error = 'The following fields are required: role'
+      res.set('Location', `/api/users/${user._id}`)
+      return res.status(200).json(user)
+    } catch (err) {
+      errorMessage.error = err.message
+      return res.status(500).json(errorMessage)
     }
   },
 

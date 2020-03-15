@@ -22,6 +22,6 @@ router
 router
   .route('/users/:id([a-f0-9]{24})/role')
   .all(auth.verifyAuth, auth.ensureAdmin)
-  .put(UserController.changeRole)
+  .put(UserController.updateWithRole)
 
 module.exports = router

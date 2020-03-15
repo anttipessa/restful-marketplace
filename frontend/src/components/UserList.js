@@ -133,8 +133,6 @@ class Users extends React.Component {
     if (this.props.user.user.id === this.state.id) {
       this.setState({ alert: true, alertMsg: 'Can\'t delete self!' })
     } else {
-      console.log(this.state.id)
-      console.log('deleting')
       fetch(`/api/users/${this.state.id}`, {
         method: 'DELETE',
         headers: {

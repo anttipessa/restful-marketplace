@@ -2,9 +2,7 @@ import React from 'react';
 import './App.css';
 import Container from '@material-ui/core/Container'
 import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CloseIcon from '@material-ui/icons/Close';
+import Snackbar from '@material-ui/core/Snackbar';
 import { connect } from 'react-redux';
 import { postLogout, postLogin } from '../actions/login';
 import {
@@ -88,6 +86,14 @@ class Page extends React.Component {
     this.setState({ loginDialog: false })
   }
 
+  successClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ alert: false })
+  }
+
   // Define which component to render on the App
   view = () => {
     switch (this.props.view) {
@@ -118,24 +124,6 @@ class Page extends React.Component {
           logout={this.logoutOk}
           role={this.props.user.user.role}
         />
-        <Collapse in={this.state.alert}>
-          <Alert
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  this.setState({ alert: false });
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-          >
-            {this.state.alertMsg}
-            </Alert>
-        </Collapse>
         {this.view()}
 
         {this.state.registerDialog ?
@@ -151,7 +139,11 @@ class Page extends React.Component {
             login={this.props.postLogin}
             checkLogin={this.loginOk}
           /> : ''}
-
+        <Snackbar open={this.state.alert} autoHideDuration={3000} onClose={this.successClose}>
+          <Alert onClose={this.successClose} severity="success" variant="filled">
+            {this.state.alertMsg}
+          </Alert>
+        </Snackbar>
       </Container>
     );
   }

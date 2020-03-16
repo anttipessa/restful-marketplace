@@ -36,7 +36,13 @@ class ItemList extends React.Component {
         <h1>All items</h1>
         <List>
           {this.props.items.items.map(item => (
-            <CollapseItem key={item._id} id={item._id} name={item.name} price={item.price} sale={item.onsale}/>
+            <CollapseItem
+              key={item._id}
+              id={item._id}
+              name={item.name}
+              price={item.price}
+              sale={item.onsale}
+            />
           ))}
         </List>
       </div>

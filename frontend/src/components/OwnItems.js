@@ -69,7 +69,6 @@ class Owned extends React.Component {
   }
 
   handleClose = () => {
-    console.log(this.state.id)
     this.setState({
       open: false,
       createOpen: false,

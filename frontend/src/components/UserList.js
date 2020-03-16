@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchUsers, addUser, updateUser, deleteUser } from '../actions/userlist';
+import { fetchUsers, addUser, updateUser, deleteUser } from '../actions/userList';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';

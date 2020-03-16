@@ -35,12 +35,10 @@ class Info extends React.Component {
       addCardDialog: false,
       editCardDialog: false,
       deleteCardDialog: false,
-      success: false
+      deleteUserDialog: false,
+      success: false,
+      alert: false
     }
-  }
-
-  unregister = () => {
-    console.log('unregister')
   }
 
   handleClose = (event) => {
@@ -49,36 +47,35 @@ class Info extends React.Component {
       addCardDialog: false,
       editCardDialog: false,
       deleteCardDialog: false,
+      deleteUserDialog: false,
       dialogAlert: false,
       dialogAlertMsg: ''
     }
     if (event === 'edituser') {
       newState.success = true
       newState.successMsg = 'User information updated!'
-      this.setState(newState)
     } else if (event === 'addcard') {
       newState.success = true
       newState.successMsg = 'Credit card created!'
-      this.setState(newState)
     } else if (event === 'updatecard') {
       newState.success = true
       newState.successMsg = 'Card balance updated!'
-      this.setState(newState)
     } else if (event === 'deletecard') {
       newState.success = true
       newState.successMsg = 'Credit card deleted!'
-      this.setState(newState)
-    } else {
-      this.setState(newState)
+    } else if(event === 'error') {
+      newState.alert = true
+      newState.alertMsg = 'Error occurred!'
     }
+    this.setState(newState)
   }
 
-  successClose = (event, reason) => {
+  popupClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
 
-    this.setState({ success: false })
+    this.setState({ success: false, alert: false })
   }
 
   render() {
@@ -120,9 +117,13 @@ class Info extends React.Component {
             }}>
               Add credit card
             </Button>}
-            <Button size="small" color="primary" style={{ marginLeft: 'auto' }} onClick={this.unregister}>
+            {this.props.user.user.role !== 'admin' ?
+            <Button size="small" color="primary" style={{ marginLeft: 'auto' }} onClick={() => {
+              this.setState({ deleteUserDialog: true })
+            }}>
               Unregister
             </Button>
+            : '' }
           </CardActions>
         </Card>
         {this.props.userData.data.creditcard ?
@@ -160,11 +161,17 @@ class Info extends React.Component {
           editCardDialog={this.state.editCardDialog}
           addCardDialog={this.state.addCardDialog}
           deleteCardDialog={this.state.deleteCardDialog}
+          deleteUserDialog={this.state.deleteUserDialog}
           handleClose={this.handleClose}
         />
-        <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.successClose}>
-          <Alert onClose={this.successClose} severity="success" variant="filled">
+        <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.popupClose}>
+          <Alert onClose={this.popupClose} severity="success" variant="filled">
             {this.state.successMsg}
+          </Alert>
+        </Snackbar>
+        <Snackbar open={this.state.alert} autoHideDuration={3000} onClose={this.popupClose}>
+          <Alert onClose={this.popupClose} severity="error" variant="filled">
+            {this.state.alertMsg}
           </Alert>
         </Snackbar>
       </div>

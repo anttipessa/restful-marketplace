@@ -2,7 +2,8 @@ import {
   REQUEST_USER_LOGIN,
   RECEIVE_USER_LOGIN,
   ERROR_USER_LOGIN,
-  USER_LOGOUT
+  USER_LOGOUT,
+  USER_UNREGISTER
 } from '../constants/action-types'
 
 const initialState = {
@@ -40,6 +41,12 @@ const loggedInUser = (state = initialState, action) => {
         error: action.error
       }
     case USER_LOGOUT:
+      return {
+        ...state,
+        loggedIn: false,
+        user: {}
+      }
+    case USER_UNREGISTER:
       return {
         ...state,
         loggedIn: false,

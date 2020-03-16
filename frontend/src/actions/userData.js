@@ -5,7 +5,8 @@ import {
   ADD_CREDITCARD_DATA,
   UPDATE_CREDITCARD_DATA,
   UPDATE_USER_DATA,
-  DELETE_CREDITCARD_DATA
+  DELETE_CREDITCARD_DATA,
+  REMOVE_USER
 } from '../constants/action-types'
 
 export const requestData = (url, token) => {
@@ -70,5 +71,11 @@ export const updateUser = (payload) => {
   return {
     type: UPDATE_USER_DATA,
     payload
+  }
+}
+
+export const removeUser = () => {
+  return {
+    type: REMOVE_USER
   }
 }

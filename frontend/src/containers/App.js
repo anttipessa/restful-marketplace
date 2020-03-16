@@ -11,7 +11,8 @@ import {
   VIEW_ITEMS_OWN,
   VIEW_ITEMS_OFFERS,
   VIEW_USERS,
-  VIEW_USER_INFO
+  VIEW_USER_INFO,
+  VIEW_UNREGISTER_PAGE
 } from '../constants/action-types';
 import Nav from '../components/Nav';
 import ItemList from '../components/ItemList';
@@ -20,6 +21,7 @@ import OwnItems from '../components/OwnItems';
 import OfferList from '../components/OfferList'
 import UserInfo from '../components/UserInfo';
 import UserList from '../components/UserList';
+import Unregister from '../components/Unregister';
 import RegisterForm from '../components/RegisterForm';
 import LoginForm from '../components/LoginForm';
 
@@ -78,6 +80,13 @@ class Page extends React.Component {
     })
   }
 
+  unregisterOk = () => {
+    this.setState({
+      alert: true,
+      alertMsg: 'Unregister successful - account deleted!'
+    })
+  }
+
   openLoginForm = () => {
     this.setState({ loginDialog: true })
   }
@@ -100,7 +109,7 @@ class Page extends React.Component {
       case VIEW_MAIN_PAGE:
         return <SalesList />
       case VIEW_USER_INFO:
-        return <UserInfo />
+        return <UserInfo/>
       case VIEW_ITEMS_ALL:
         return <ItemList />
       case VIEW_ITEMS_OFFERS:
@@ -109,6 +118,8 @@ class Page extends React.Component {
         return <OwnItems />
       case VIEW_USERS:
         return <UserList />
+      case VIEW_UNREGISTER_PAGE:
+        return <Unregister />
       default:
         return <SalesList />
     }

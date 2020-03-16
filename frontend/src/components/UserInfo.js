@@ -8,6 +8,8 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import CreditCardIcon from '@material-ui/icons/CreditCard'
 
@@ -32,7 +34,8 @@ class Info extends React.Component {
       editUserDialog: false,
       addCardDialog: false,
       editCardDialog: false,
-      deleteCardDialog: false
+      deleteCardDialog: false,
+      success: false
     }
   }
 
@@ -40,15 +43,42 @@ class Info extends React.Component {
     console.log('unregister')
   }
 
-  handleClose = () => {
-    this.setState({
+  handleClose = (event) => {
+    const newState = {
       editUserDialog: false,
       addCardDialog: false,
       editCardDialog: false,
       deleteCardDialog: false,
       dialogAlert: false,
       dialogAlertMsg: ''
-    })
+    }
+    if (event === 'edituser') {
+      newState.success = true
+      newState.successMsg = 'User information updated!'
+      this.setState(newState)
+    } else if (event === 'addcard') {
+      newState.success = true
+      newState.successMsg = 'Credit card created!'
+      this.setState(newState)
+    } else if (event === 'updatecard') {
+      newState.success = true
+      newState.successMsg = 'Card balance updated!'
+      this.setState(newState)
+    } else if (event === 'deletecard') {
+      newState.success = true
+      newState.successMsg = 'Credit card deleted!'
+      this.setState(newState)
+    } else {
+      this.setState(newState)
+    }
+  }
+
+  successClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ success: false })
   }
 
   render() {
@@ -132,6 +162,11 @@ class Info extends React.Component {
           deleteCardDialog={this.state.deleteCardDialog}
           handleClose={this.handleClose}
         />
+        <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.successClose}>
+          <Alert onClose={this.successClose} severity="success" variant="filled">
+            {this.state.successMsg}
+          </Alert>
+        </Snackbar>
       </div>
     )
   }

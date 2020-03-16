@@ -98,6 +98,7 @@ module.exports = {
     })
     try {
       const user = await User.findByIdAndUpdate(req.params.id, update, { new: true, runValidators: true })
+        .populate('creditcard')
       if (!user) {
         errorMessage.error = `User with ID: ${req.params.id} was not found`
         return res.status(404).json(errorMessage)

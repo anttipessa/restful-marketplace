@@ -66,7 +66,7 @@ class ConnectDialog extends React.Component {
       })
       .then(data => {
         this.props.addCard(data)
-        this.props.handleClose()
+        this.props.handleClose('addcard')
         this.setState({
           number: '',
           alert: false
@@ -97,7 +97,7 @@ class ConnectDialog extends React.Component {
       })
       .then(data => {
         this.props.updateCard(data)
-        this.props.handleClose()
+        this.props.handleClose('updatecard')
         this.setState({
           balance: 0,
           alert: false
@@ -120,13 +120,12 @@ class ConnectDialog extends React.Component {
     })
     .then(data => {
       this.props.deleteCard()
-      this.props.handleClose()
+      this.props.handleClose('deletecard')
     })
     .catch()
   }
 
   editUser = () => {
-    console.log('edit user')
     if (!this.state.username) {
       this.setState({ alert: true, alertMsg: 'Username is required!' })
     } else if (!this.state.email) {
@@ -134,7 +133,32 @@ class ConnectDialog extends React.Component {
     } else if ((this.state.password || this.state.passwordconf) && this.state.password !== this.state.passwordconf) {
       this.setState({ alert: true, alertMsg: 'Passwords must match!' })
     } else {
-      console.log('all gucci to go')
+      const update = {
+        name: this.state.username,
+        email: this.state.email
+      }
+      if (this.state.password) update.password = this.state.password
+      fetch(`/api/users/${this.props.user.user.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.props.user.user.token
+        },
+        body: JSON.stringify(update)
+      })
+      .then(res => {
+        if (!res.ok) throw Error(res.statusText)
+        return res.json()
+      })
+      .then(data => {
+        this.props.updateUser(data)
+        this.props.handleClose('edituser')
+        this.setState({ alert: false, password: '', passwordconf: '' })
+      })
+      .catch(() => this.setState({
+        alert: true,
+        alertMsg: 'Update failed, check username and email address!'
+      }))
     }
   }
 

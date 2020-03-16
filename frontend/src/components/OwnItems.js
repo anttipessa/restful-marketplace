@@ -17,6 +17,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
 
 const mapStateToProps = (state) => {
   return {
@@ -34,6 +40,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+
 class Owned extends React.Component {
 
   constructor(props) {
@@ -44,6 +51,7 @@ class Owned extends React.Component {
       price: '',
       itemid: '',
       id: props.user.user.id,
+      onsale: null,
       open: false,
       createName: '',
       createPrice: '',
@@ -52,6 +60,7 @@ class Owned extends React.Component {
       success: false
     }
   }
+
 
   handleChange = (e) => {
     this.setState({
@@ -64,6 +73,7 @@ class Owned extends React.Component {
       name: item.name,
       price: item.price,
       itemid: item.id,
+      onsale: item.onsale,
       open: true
     })
   }
@@ -216,6 +226,21 @@ class Owned extends React.Component {
               onChange={this.handleChange}
               fullWidth
             />
+            <FormControl component="fieldset" >
+              <FormLabel component="legend">Onsale?</FormLabel>
+              <RadioGroup aria-label="onsale" name="onsale">
+                <FormControlLabel
+                  value="yes"
+                  onChange={this.handleChange} 
+                  control={<Radio />} 
+                  label="yes" />
+                <FormControlLabel 
+                value="no" 
+                onChange={this.handleChange}
+                control={<Radio />} 
+                label="no" />
+              </RadioGroup>
+            </FormControl>
           </DialogContent>
           <Collapse in={this.state.alert}>
             <Alert

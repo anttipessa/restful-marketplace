@@ -1,7 +1,11 @@
 import {
   REQUEST_USER_DATA,
   RECEIVE_USER_DATA,
-  ERROR_USER_DATA
+  ERROR_USER_DATA,
+  ADD_CREDITCARD_DATA,
+  UPDATE_CREDITCARD_DATA,
+  UPDATE_USER_DATA,
+  DELETE_CREDITCARD_DATA
 } from '../constants/action-types'
 
 export const requestData = (url, token) => {
@@ -39,5 +43,32 @@ export const fetchData = (url, token) => {
       .then(json => {
         dispatch(receiveData(json))
       })
+  }
+}
+
+export const addCard = (payload) => {
+  return {
+    type: ADD_CREDITCARD_DATA,
+    payload
+  }
+}
+
+export const updateCard = (payload) => {
+  return {
+    type: UPDATE_CREDITCARD_DATA,
+    payload
+  }
+}
+
+export const deleteCard = () => {
+  return {
+    type: DELETE_CREDITCARD_DATA
+  }
+}
+
+export const updateUser = (payload) => {
+  return {
+    type: UPDATE_USER_DATA,
+    payload
   }
 }

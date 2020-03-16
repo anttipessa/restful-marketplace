@@ -32,25 +32,8 @@ class Info extends React.Component {
       editUserDialog: false,
       addCardDialog: false,
       editCardDialog: false,
-      dialogAlert: false,
-      dialogAlertMsg: ''
+      deleteCardDialog: false
     }
-  }
-
-  addCard = () => {
-    console.log('add card')
-  }
-
-  editCard = () => {
-    console.log('edit card')
-  }
-
-  deleteCard = () => {
-    console.log('delete card')
-  }
-
-  editUser = () => {
-    console.log('edit user')
   }
 
   unregister = () => {
@@ -62,6 +45,7 @@ class Info extends React.Component {
       editUserDialog: false,
       addCardDialog: false,
       editCardDialog: false,
+      deleteCardDialog: false,
       dialogAlert: false,
       dialogAlertMsg: ''
     })
@@ -123,7 +107,7 @@ class Info extends React.Component {
                 Card number: {this.props.userData.data.creditcard.number}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                Balance: {this.props.userData.data.creditcard.balance}
+                Balance: {this.props.userData.data.creditcard.balance} €
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -131,9 +115,11 @@ class Info extends React.Component {
             <Button size="small" color="primary" onClick={() => {
               this.setState({ editCardDialog: true })
             }}>
-              Edit information
+              Add credits
             </Button>
-            <Button size="small" color="primary" style={{ marginLeft: 'auto' }} onClick={this.deleteCard}>
+            <Button size="small" color="primary" style={{ marginLeft: 'auto' }} onClick={() => {
+              this.setState({ deleteCardDialog: true })
+            }}>
               Delete
             </Button>
           </CardActions>
@@ -143,11 +129,7 @@ class Info extends React.Component {
           editUserDialog={this.state.editUserDialog}
           editCardDialog={this.state.editCardDialog}
           addCardDialog={this.state.addCardDialog}
-          alert={this.state.dialogAlert}
-          alertMsg={this.state.dialogAlertMsg}
-          addCard={this.addCard}
-          editCard={this.editCard}
-          editUser={this.editUser}
+          deleteCardDialog={this.state.deleteCardDialog}
           handleClose={this.handleClose}
         />
       </div>

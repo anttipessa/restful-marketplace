@@ -178,7 +178,7 @@ Payloads:
 - POST-request (all of the listed attributes must be included)
     - `/users` - { username, email, password }
     - `/items` - { name, price, owner }
-    - `/payments` - { number, balance, owner }
+    - `/payments` - { number, owner }
 - PUT-request (one or more of the listed attributes may be included)
     - `/users/id` - { username, email, password, role, ccid } | *cc = credit card\**
     - `/items/id` - { name, owner, onsale, price }

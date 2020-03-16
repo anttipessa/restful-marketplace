@@ -1,57 +1,183 @@
 import React from 'react'
-import Button from '@material-ui/core/Button';
-import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CloseIcon from '@material-ui/icons/Close';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { connect } from 'react-redux'
+import { addCard, updateCard, updateUser, deleteCard } from '../actions/userData'
+import Button from '@material-ui/core/Button'
+import Alert from '@material-ui/lab/Alert'
+import AlertTitle from '@material-ui/lab/AlertTitle'
+import IconButton from '@material-ui/core/IconButton'
+import Collapse from '@material-ui/core/Collapse'
+import CloseIcon from '@material-ui/icons/Close'
+import TextField from '@material-ui/core/TextField'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
-class UserInfoDialog extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    user: state.loggedInUser,
+    userData: state.userInfo
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateCard: (payload) => dispatch(updateCard(payload)),
+    addCard: (payload) => dispatch(addCard(payload)),
+    updateUser: (payload) => dispatch(updateUser(payload)),
+    deleteCard: () => dispatch(deleteCard())
+  }
+}
+
+class ConnectDialog extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      alert: false,
       number: '',
-      balance: ''
+      balance: 0,
+      username: this.props.userData.data.name,
+      email: this.props.userData.data.email,
+      password: '',
+      passwordconf: ''
     }
   }
 
-  handleChange = () => {
+  addCard = () => {
+    if (!this.state.number) {
+      this.setState({ alert: true, alertMsg: 'Credit card number is required!' })
+    } else {
+      const newCard = {
+        number: this.state.number,
+        owner: this.props.userData.data._id
+      }
+      fetch('/api/payments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.props.user.user.token
+        },
+        body: JSON.stringify(newCard)
+      })
+      .then(res => {
+        if (!res.ok) throw Error(res.statusText)
+        return res.json()
+      })
+      .then(data => {
+        this.props.addCard(data)
+        this.props.handleClose()
+        this.setState({
+          number: '',
+          alert: false
+        })
+      })
+      .catch()
+    }
+  }
 
+  editCard = () => {
+    if ((!this.state.balance && this.state.balance !== 0) || this.state.balance < 0) {
+      this.setState({ alert: true, alertMsg: 'Balance can\'t be negative or empty!' })
+    } else {
+      const update = {
+        balance: Number(this.state.balance) + Number(this.props.userData.data.creditcard.balance)
+      }
+      fetch(`/api/payments/${this.props.userData.data.creditcard._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.props.user.user.token
+        },
+        body: JSON.stringify(update)
+      })
+      .then(res => {
+        if (!res.ok) throw Error(res.statusText)
+        return res.json()
+      })
+      .then(data => {
+        this.props.updateCard(data)
+        this.props.handleClose()
+        this.setState({
+          balance: 0,
+          alert: false
+        })
+      })
+      .catch()
+    }
+  }
+
+  deleteCard = () => {
+    fetch(`/api/payments/${this.props.userData.data.creditcard._id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.user.user.token
+      }
+    })
+    .then(res => {
+      if (!res.ok) throw Error(res.statusText)
+      return res.json()
+    })
+    .then(data => {
+      this.props.deleteCard()
+      this.props.handleClose()
+    })
+    .catch()
+  }
+
+  editUser = () => {
+    console.log('edit user')
+    if (!this.state.username) {
+      this.setState({ alert: true, alertMsg: 'Username is required!' })
+    } else if (!this.state.email) {
+      this.setState({ alert: true, alertMsg: 'Email is required!' })
+    } else if ((this.state.password || this.state.passwordconf) && this.state.password !== this.state.passwordconf) {
+      this.setState({ alert: true, alertMsg: 'Passwords must match!' })
+    } else {
+      console.log('all gucci to go')
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  handleClose = () => {
+    this.props.handleClose()
+    this.setState({
+      alert: false,
+      balance: 0,
+      username: this.props.userData.data.name,
+      email: this.props.userData.data.email,
+      password: '',
+      passwordconf: ''
+    })
   }
 
   render() {
     return (
       <div>
-        <Dialog open={this.props.addCardDialog} onClose={this.props.handleClose}>
+        <Dialog open={this.props.addCardDialog} onClose={this.handleClose}>
           <DialogTitle>Add card</DialogTitle>
           <DialogContent>
-            <DialogContentText>You can add a new credit card by giving the following information.</DialogContentText>
+            <DialogContentText>You can add a new credit card by giving credit card number.</DialogContentText>
             <TextField
-              margin="dense"
+              required
               label="Number"
+              style={{ margin: 8 }}
+              fullWidth
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
               value={this.state.number}
               name="number"
               type="text"
+              variant="outlined"
               onChange={this.handleChange}
-              fullWidth
-            />
-            <TextField
-              margin="dense"
-              label="Balance"
-              value={this.state.balance}
-              name="balance"
-              type="number"
-              onChange={this.handleChange}
-              fullWidth
             />
           </DialogContent>
-          <Collapse in={this.props.alert}>
+          <Collapse in={this.state.alert}>
             <Alert
               severity="error"
               action={
@@ -68,41 +194,26 @@ class UserInfoDialog extends React.Component {
               }
             >
               <AlertTitle>Error</AlertTitle>
-              {this.props.alertMsg}
+              {this.state.alertMsg}
             </Alert>
           </Collapse>
           <DialogActions>
-            <Button onClick={this.props.handleClose} color="primary">
+            <Button onClick={this.handleClose} color="primary">
               Cancel
           </Button>
-            <Button onClick={this.props.addCard} color="primary">
+            <Button onClick={this.addCard} color="primary">
               Create
           </Button>
           </DialogActions>
         </Dialog>
-        <Dialog open={this.props.editCardDialog} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle>Edit card information</DialogTitle>
+        <Dialog open={this.props.editCardDialog} onClose={this.handleClose}>
+          <DialogTitle>Increase card balance</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              You can change the card number or add more credits to the account.
+              You can add more credits to the account.
             </DialogContentText>
             <TextField
-              required
-              label="Number"
-              style={{ margin: 8 }}
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              name="number"
-              onChange={this.handleChange}
-              variant="outlined"
-              value={this.state.number}
-            />
-            <TextField
-              required
-              label="Balance"
+              label="Amount"
               style={{ margin: 8 }}
               fullWidth
               margin="normal"
@@ -112,11 +223,12 @@ class UserInfoDialog extends React.Component {
               name="balance"
               type="number"
               onChange={this.handleChange}
+              helperText="This amount will be added to your current balance"
               variant="outlined"
               value={this.state.balance}
             />
           </DialogContent>
-          <Collapse in={this.props.alert}>
+          <Collapse in={this.state.alert}>
             <Alert
               severity="error"
               action={
@@ -133,19 +245,19 @@ class UserInfoDialog extends React.Component {
               }
             >
               <AlertTitle>Error</AlertTitle>
-              {this.props.alertMsg}
+              {this.state.alertMsg}
             </Alert>
           </Collapse>
           <DialogActions>
-            <Button onClick={this.props.handleClose} color="primary">
+            <Button onClick={this.handleClose} color="primary">
               Cancel
           </Button>
-            <Button onClick={this.props.editCard} color="primary">
+            <Button onClick={this.editCard} color="primary">
               Update
           </Button>
           </DialogActions>
         </Dialog>
-        <Dialog open={this.props.editUserDialog} onClose={this.props.handleClose} aria-labelledby="form-dialog-title">
+        <Dialog open={this.props.editUserDialog} onClose={this.handleClose}>
           <DialogTitle>Edit user information</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -181,7 +293,6 @@ class UserInfoDialog extends React.Component {
               value={this.state.email}
             />
             <TextField
-              required
               label="Password"
               style={{ margin: 8 }}
               fullWidth
@@ -194,10 +305,9 @@ class UserInfoDialog extends React.Component {
               onChange={this.handleChange}
               helperText="Set a new password"
               variant="outlined"
-              value={this.state.pw}
+              value={this.state.password}
             />
             <TextField
-              required
               label="Password confirmation"
               style={{ margin: 8 }}
               fullWidth
@@ -210,10 +320,10 @@ class UserInfoDialog extends React.Component {
               onChange={this.handleChange}
               helperText="Confirm new password"
               variant="outlined"
-              value={this.state.pwconf}
+              value={this.state.passwordconf}
             />
           </DialogContent>
-          <Collapse in={this.props.alert}>
+          <Collapse in={this.state.alert}>
             <Alert
               severity="error"
               action={
@@ -230,16 +340,30 @@ class UserInfoDialog extends React.Component {
               }
             >
               <AlertTitle>Error</AlertTitle>
-              {this.props.alertMsg}
+              {this.state.alertMsg}
             </Alert>
           </Collapse>
           <DialogActions>
-            <Button onClick={this.props.handleClose} color="primary">
+            <Button onClick={this.handleClose} color="primary">
               Cancel
           </Button>
-            <Button onClick={this.props.editCard} color="primary">
+            <Button onClick={this.editUser} color="primary">
               Update
           </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={this.props.deleteCardDialog} onClose={this.handleClose}>
+          <DialogTitle>Confirmation</DialogTitle>
+          <DialogContent>
+            <p>Are you sure you want to delete this card?</p>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.deleteCard} color="primary">
+              Delete
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -247,4 +371,5 @@ class UserInfoDialog extends React.Component {
   }
 }
 
+const UserInfoDialog = connect(mapStateToProps, mapDispatchToProps)(ConnectDialog)
 export default UserInfoDialog

@@ -6,12 +6,11 @@ const errorMessage = { 'status': 'error' }
 module.exports = {
 
   async createCard(req, res) {
-    const { number, balance, owner} = req.body
+    const { number, owner} = req.body
     if (number && owner) {
       console.log('Adding card', number)
       const newCard = new CreditCard({
         number,
-        balance,
         owner
       })
       try {
@@ -59,7 +58,7 @@ module.exports = {
 
   async updateCard(req, res) {
     const { balance } = req.body
-    if (!balance) {
+    if (!balance && balance !== 0) {
       errorMessage.error = 'The following information is required on update: balance'
       return res.status(400).json(errorMessage)
     }

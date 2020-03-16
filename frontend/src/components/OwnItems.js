@@ -17,11 +17,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 
 
 const mapStateToProps = (state) => {
@@ -51,7 +48,7 @@ class Owned extends React.Component {
       price: '',
       itemid: '',
       id: props.user.user.id,
-      onsale: null,
+      onsale: true,
       open: false,
       createName: '',
       createPrice: '',
@@ -59,6 +56,7 @@ class Owned extends React.Component {
       alert: false,
       success: false
     }
+    this.handleCheckBox = this.handleCheckBox.bind(this)
   }
 
 
@@ -92,6 +90,11 @@ class Owned extends React.Component {
     this.setState({ createOpen: true })
   }
 
+  handleCheckBox = (e) => {
+    this.setState({
+      onsale: e.target.checked
+    })
+  }
 
   handleCreate = () => {
     if (!this.state.createName) {
@@ -145,9 +148,10 @@ class Owned extends React.Component {
   }
 
   handleUpdate = () => {
-    const update = {}
+    const update = {onsale: this.state.onsale}
     if (this.state.name) update.name = this.state.name
     if (this.state.price) update.price = this.state.price
+    update.onsale = this.state.onsale
     fetch(`/api/items/${this.state.itemid}`, {
       method: 'PUT',
       headers: {
@@ -226,21 +230,17 @@ class Owned extends React.Component {
               onChange={this.handleChange}
               fullWidth
             />
-            <FormControl component="fieldset" >
-              <FormLabel component="legend">Onsale?</FormLabel>
-              <RadioGroup aria-label="onsale" name="onsale">
-                <FormControlLabel
-                  value="yes"
-                  onChange={this.handleChange} 
-                  control={<Radio />} 
-                  label="yes" />
-                <FormControlLabel 
-                value="no" 
-                onChange={this.handleChange}
-                control={<Radio />} 
-                label="no" />
-              </RadioGroup>
-            </FormControl>
+     <FormControlLabel
+        control={
+          <Checkbox
+            checked={this.state.onsale}
+            onChange={this.handleCheckBox}
+            value="checkedB"
+            color="primary"
+          />
+        }
+        label="Onsale?"
+      />
           </DialogContent>
           <Collapse in={this.state.alert}>
             <Alert

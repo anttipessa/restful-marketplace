@@ -1,6 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addCard, updateCard, updateUser, deleteCard } from '../actions/userData'
+import { addCard, updateCard, updateUser, deleteCard, removeUser } from '../actions/userData'
+import { setView } from '../actions/viewFilter'
+import { postUnregister } from '../actions/login'
+import { VIEW_UNREGISTER_PAGE } from '../constants/action-types'
 import Button from '@material-ui/core/Button'
 import Alert from '@material-ui/lab/Alert'
 import AlertTitle from '@material-ui/lab/AlertTitle'
@@ -26,7 +29,10 @@ const mapDispatchToProps = (dispatch) => {
     updateCard: (payload) => dispatch(updateCard(payload)),
     addCard: (payload) => dispatch(addCard(payload)),
     updateUser: (payload) => dispatch(updateUser(payload)),
-    deleteCard: () => dispatch(deleteCard())
+    deleteCard: () => dispatch(deleteCard()),
+    removeUser: () => dispatch(removeUser()),
+    postUnregister: () => dispatch(postUnregister()),
+    setView: (filter) => dispatch(setView(filter))
   }
 }
 
@@ -72,7 +78,7 @@ class ConnectDialog extends React.Component {
           alert: false
         })
       })
-      .catch()
+      .catch(() => this.props.handleClose('error'))
     }
   }
 
@@ -103,7 +109,7 @@ class ConnectDialog extends React.Component {
           alert: false
         })
       })
-      .catch()
+      .catch(() => this.props.handleClose('error'))
     }
   }
 
@@ -122,7 +128,7 @@ class ConnectDialog extends React.Component {
       this.props.deleteCard()
       this.props.handleClose('deletecard')
     })
-    .catch()
+    .catch(() => this.props.handleClose('error'))
   }
 
   editUser = () => {
@@ -162,6 +168,25 @@ class ConnectDialog extends React.Component {
     }
   }
 
+  deleteUser = () => {
+    fetch(`/api/users/${this.props.user.user.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.user.user.token
+      }
+    })
+    .then(res => {
+      if (!res.ok) throw Error(res.statusText)
+      return res.json()
+    })
+    .then(() => {
+      this.props.postUnregister()
+      this.props.removeUser()
+      this.props.setView(VIEW_UNREGISTER_PAGE)
+    })
+    .catch(() => this.props.handleClose('error'))
+  }
+
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
   }
@@ -170,6 +195,7 @@ class ConnectDialog extends React.Component {
     this.props.handleClose()
     this.setState({
       alert: false,
+      number: '',
       balance: 0,
       username: this.props.userData.data.name,
       email: this.props.userData.data.email,
@@ -387,6 +413,20 @@ class ConnectDialog extends React.Component {
             </Button>
             <Button onClick={this.deleteCard} color="primary">
               Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={this.props.deleteUserDialog} onClose={this.handleClose}>
+          <DialogTitle>Confirmation</DialogTitle>
+          <DialogContent>
+            <p>Are you sure you want to unregister - this will delete your account?</p>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.deleteUser} color="primary">
+              Unregister
             </Button>
           </DialogActions>
         </Dialog>

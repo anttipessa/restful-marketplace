@@ -2,7 +2,8 @@ import {
   REQUEST_USER_LOGIN,
   RECEIVE_USER_LOGIN,
   ERROR_USER_LOGIN,
-  USER_LOGOUT
+  USER_LOGOUT,
+  USER_UNREGISTER
 } from '../constants/action-types'
 
 export const requestUserLogin = (url, payload) => {
@@ -31,6 +32,12 @@ export const errorLogin = (error) => {
 export const postLogout = () => {
   return {
     type: USER_LOGOUT
+  }
+}
+
+export const postUnregister = () => {
+  return {
+    type: USER_UNREGISTER
   }
 }
 

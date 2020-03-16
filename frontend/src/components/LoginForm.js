@@ -57,6 +57,7 @@ class Login extends React.Component {
             </DialogContentText>
           <TextField
             label="Username"
+            autoFocus
             style={{ margin: 8 }}
             fullWidth
             margin="normal"

@@ -69,7 +69,13 @@ class ConnectedList extends React.Component {
             <ListItem button divider={true} key={item._id} onClick={this.handleClick.bind(this, item)}>
               <ListItemText
                 primary={item.name}
-                secondary={`Price: ${item.price} €`}
+                secondary={
+                  <span>
+                    <span>Price: {item.price} €</span>
+                    <br />
+                    <span>Seller: {item.owner.name}</span>
+                  </span>
+                }
               />
             </ListItem>
           ))}

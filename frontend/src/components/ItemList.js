@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { fetchItems, deleteItem, updateItem, addItem } from '../actions/items'
+import { fetchItems, deleteItem, updateItem } from '../actions/items'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -28,8 +28,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchItems: url => dispatch(fetchItems(url)),
     deleteItem: (payload) => dispatch(deleteItem(payload)),
-    updateItem: (payload) => dispatch(updateItem(payload)),
-    addItem: (payload) => dispatch(addItem(payload))
+    updateItem: (payload) => dispatch(updateItem(payload))
   }
 }
 
@@ -42,7 +41,6 @@ class ItemList extends React.Component {
       name: "",
       price: "",
       id: "",
-      createOpen: false,
       alert: false,
       success: false
     }
@@ -60,9 +58,6 @@ class ItemList extends React.Component {
   handleClose = () => {
     this.setState({
       open: false,
-      createOpen: false,
-      createName: '',
-      createPrice: '',
       alert: false
     })
   }
@@ -110,11 +105,6 @@ class ItemList extends React.Component {
       .catch(() => this.setState({ alert: true, alertMsg: 'Update failed - check information!' }))
   }
 
-  handleAdd = () => {
-
-  }
-
-
   render() {
     if (this.props.items.isFetching === true) {
       return (
@@ -124,6 +114,7 @@ class ItemList extends React.Component {
         </div>
       )
     }
+    
     return (
       <div>
         <h1>All items</h1>
@@ -136,14 +127,14 @@ class ItemList extends React.Component {
                   <span>
                     <span>Price: {item.price} €</span>
                     <br />
-                    <span>On sale: {item.onsale.toString()}</span>
+                    <span>On sale? {item.onsale ? 'yes' : 'no'}</span>
                   </span>
                 }
               />
             </ListItem>
           ))}
         </List>
-        
+
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Update or delete item </DialogTitle>
           <DialogContent>

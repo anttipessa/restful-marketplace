@@ -30,6 +30,7 @@ module.exports = {
         }
         sellerCC.balance += item.price
         item.owner = buyerCC.owner
+        item.onsale = false
 
         // finally save changes
         await buyerCC.save()

@@ -88,6 +88,10 @@ class ConnectedList extends React.Component {
       })
     } else {
       console.log('can buy')
+      const sellerCCid=this.state.owner.creditcard;
+      const buyerCCid=this.props.userData.data.creditcard._id;
+      const itemId=this.state.id;
+      this.handlePayment(sellerCCid, buyerCCid, itemId);
       this.setState({
         open: false,
         alert: false,
@@ -95,6 +99,26 @@ class ConnectedList extends React.Component {
         successMsg: 'Purchase successful, item was added to your own items!'
       })
     }
+  }
+
+  handlePayment = (sellerCCid, buyerCCid, itemId) => {
+    const payment = {}
+    payment.sellerCCid = sellerCCid;
+    payment.buyerCCid = buyerCCid;
+    payment.itemId = itemId;
+
+    fetch(`/api/purchase`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payment)
+    })
+    .then(res => {
+      if (!res.ok) throw Error(res.statusText)
+      return res.json()
+    })
+    .catch(()=>this.setState({alert: true, alertMsg: 'Something went wrong with the purchase, please contact admin!'}))
   }
 
   alertClose = (event, reason) => {

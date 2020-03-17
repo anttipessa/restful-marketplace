@@ -49,7 +49,7 @@ class Owned extends React.Component {
       price: '',
       itemid: '',
       id: props.user.user.id,
-      onsale: true,
+      onsale: null,
       open: false,
       createName: '',
       createPrice: '',
@@ -251,7 +251,7 @@ class Owned extends React.Component {
           <Checkbox
             checked={this.state.onsale}
             onChange={this.handleCheckBox.bind(this)}
-            value="checkedB"
+            value="onsale"
             color="primary"
           />
         }

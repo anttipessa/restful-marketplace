@@ -221,7 +221,9 @@ class Users extends React.Component {
         </Button>
         <List>
           {this.props.users.users.map(user => (
-            <ListItem button divider={true} key={user._id} onClick={this.handleClick.bind(this, user)}>
+            <ListItem
+              style={{ backgroundColor: 'white', opacity: 0.95 }}
+              button divider={true} key={user._id} onClick={this.handleClick.bind(this, user)}>
               <ListItemText
                 primary={user.name}
                 secondary={

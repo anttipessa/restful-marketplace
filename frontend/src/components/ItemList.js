@@ -136,7 +136,9 @@ class ItemList extends React.Component {
         </Typography>
         <List>
           {this.props.items.items.map(item => (
-            <ListItem button onClick={this.handleClick.bind(this, item)} divider={true} key={item._id} >
+            <ListItem
+              style={{ backgroundColor: 'white', opacity: 0.95 }}
+              button onClick={this.handleClick.bind(this, item)} divider={true} key={item._id} >
               <ListItemText
                 primary={item.name}
                 secondary={

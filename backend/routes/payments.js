@@ -14,4 +14,8 @@ router
   .put(PaymentController.updateCard) // modify a specific credit card item by id
   .delete(PaymentController.deleteCard) // delete a specific creditcard item from the database by id
 
+router
+  .route('/purchase')
+  .post(PaymentController.purchase) // handle a purcase event
+
 module.exports = router

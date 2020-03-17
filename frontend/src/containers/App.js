@@ -5,6 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { connect } from 'react-redux';
 import { postLogout, postLogin } from '../actions/login';
+import { fetchData } from '../actions/userData';
 import {
   VIEW_MAIN_PAGE,
   VIEW_ITEMS_ALL,
@@ -35,7 +36,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     postLogout: () => dispatch(postLogout()),
-    postLogin: (url, payload) => dispatch(postLogin(url, payload))
+    postLogin: (url, payload) => dispatch(postLogin(url, payload)),
+    fetchData: (url, token) => dispatch(fetchData(url, token))
   }
 }
 
@@ -66,11 +68,12 @@ class Page extends React.Component {
   }
 
   loginOk = () => {
-    this.setState({
+    this.props.fetchData(`/api/users/${this.props.user.user.id}`, this.props.user.user.token)
+    .then(() => this.setState({
       alert: true,
       alertMsg: 'Login succesful!',
       loginDialog: false
-    })
+    }))
   }
 
   logoutOk = () => {

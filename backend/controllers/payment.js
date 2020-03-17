@@ -1,9 +1,50 @@
 const CreditCard = require('../models/creditcard')
 const User = require('../models/user')
+const Item = require('../models/item')
 
 const errorMessage = { 'status': 'error' }
 
 module.exports = {
+
+  async purchase(req, res) {
+    const { sellerCCid, buyerCCid, itemId } = req.body
+    if (!sellerCCid || !buyerCCid || !itemId) {
+      errorMessage.error = 'The following fields are required: sellerCCid, buyerCCid, itemId'
+      return res.status(400).json(errorMessage)
+    } else {
+      try {
+        // find buyers credit card information
+        const buyerCC = await CreditCard.findOne({ _id: buyerCCid })
+
+        // find seller credit card information
+        const sellerCC = await CreditCard.findOne({ _id: sellerCCid })
+        
+        // check that the item with id is found and the owner is the seller
+        const item = await Item.findOne({ _id: itemId, owner: sellerCC.owner._id })
+        console.log(item)
+
+        // calculate new balances and change item owner
+        buyerCC.balance -= item.price
+        if (buyerCC.balance < 0) {
+          throw new Error(`Credit card - ${buyerCC.number} has insufficient funds`);
+        }
+        sellerCC.balance += item.price
+        item.owner = buyerCC.owner
+
+        // finally save changes
+        await buyerCC.save()
+        await sellerCC.save()
+        await item.save()
+        return res.status(200).json({ 'status': 'success' })
+
+      } catch (err) {
+        console.error(err)
+        errorMessage.error = err.message
+        return res.status(500).json(errorMessage)
+      }
+    }
+
+  },
 
   async createCard(req, res) {
     const { number, owner} = req.body

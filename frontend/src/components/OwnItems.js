@@ -56,7 +56,6 @@ class Owned extends React.Component {
       alert: false,
       success: false
     }
-    this.handleCheckBox = this.handleCheckBox.bind(this)
   }
 
 
@@ -234,7 +233,7 @@ class Owned extends React.Component {
         control={
           <Checkbox
             checked={this.state.onsale}
-            onChange={this.handleCheckBox}
+            onChange={this.handleCheckBox.bind(this)}
             value="checkedB"
             color="primary"
           />

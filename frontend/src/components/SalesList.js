@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchItems } from '../actions/items';
+import { fetchItems, deleteItem } from '../actions/items';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
@@ -24,7 +24,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchItems: url => dispatch(fetchItems(url))
+    fetchItems: url => dispatch(fetchItems(url)),
+    deleteItem: (payload) => dispatch(deleteItem(payload))
   }
 }
 
@@ -92,6 +93,9 @@ class ConnectedList extends React.Component {
       const buyerCCid=this.props.userData.data.creditcard._id;
       const itemId=this.state.id;
       this.handlePayment(sellerCCid, buyerCCid, itemId);
+      const toDelete={};
+      toDelete._id=itemId;
+      this.props.deleteItem(toDelete);
       this.setState({
         open: false,
         alert: false,

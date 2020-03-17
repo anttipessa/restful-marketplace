@@ -42,7 +42,7 @@ class ConnectNav extends React.Component {
         <AppBar position="static" title="My App">
           <Tabs value={false} centered>
             <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)}/>
-            <Tab label="Own offers" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
+            <Tab label="Sell items" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
             <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
             <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
           </Tabs>
@@ -53,7 +53,7 @@ class ConnectNav extends React.Component {
         <AppBar position="static" title="My App">
           <Tabs value={false} centered>
             <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
-            <Tab label="Own offers" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
+            <Tab label="Sell items" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
             <Tab label="On sale" icon={<AssessmentIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OFFERS)} />
             <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
             <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />

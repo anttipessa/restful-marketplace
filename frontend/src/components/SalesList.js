@@ -1,6 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { fetchItems } from '../actions/items'
+import { connect } from 'react-redux';
+import { fetchItems } from '../actions/items';
+import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -56,14 +57,28 @@ class ConnectedList extends React.Component {
     if (this.props.items.isFetching === true) {
       return (
         <div>
-          <h1>Items currently on sale!</h1>
+          <Typography
+            variant="h3"
+            component="h4"
+            align="center"
+            style={{ marginTop: 20, marginBottom: 10 }}
+          >
+            Items currently on sale!
+          </Typography>
           <p>Loading</p>
         </div>
       )
     }
     return (
       <div>
-        <h1>Items currently on sale!</h1>
+        <Typography
+          variant="h3"
+          component="h4"
+          align="center"
+          style={{ marginTop: 20, marginBottom: 10 }}
+        >
+          Items currently on sale!
+        </Typography>
         <List>
           {this.props.items.items.map(item => (
             <ListItem button divider={true} key={item._id} onClick={this.handleClick.bind(this, item)}>

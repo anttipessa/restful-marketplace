@@ -82,14 +82,29 @@ class Info extends React.Component {
     if (this.props.userData.isFetching === true) {
       return (
         <div>
-          <h1>User information</h1>
+          <Typography
+            variant="h3"
+            component="h4"
+            align="center"
+            gutterBottom
+            style={{ marginTop: 20 }}
+          >
+            Account information
+          </Typography>
           <p>Loading</p>
         </div>
       )
     }
     return (
       <div>
-        <h1>User information</h1>
+        <Typography
+          variant="h3"
+          component="h4"
+          align="center"
+          style={{ marginTop: 20 }}
+        >
+          Account information
+        </Typography>
         <Card style={{ margin: 40 }} variant="outlined">
           <CardActionArea>
             <CardContent>

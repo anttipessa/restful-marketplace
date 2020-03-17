@@ -4,6 +4,7 @@ import { fetchItems, deleteItem, updateItem } from '../actions/items'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -110,7 +111,14 @@ class ItemList extends React.Component {
     if (this.props.items.isFetching === true) {
       return (
         <div>
-          <h1>All items</h1>
+          <Typography
+            variant="h3"
+            component="h4"
+            align="center"
+            style={{ marginTop: 20, marginBottom: 10 }}
+          >
+            All items
+          </Typography>
           <p>Loading</p>
         </div>
       )
@@ -118,7 +126,14 @@ class ItemList extends React.Component {
     
     return (
       <div>
-        <h1>All items</h1>
+        <Typography
+          variant="h3"
+          component="h4"
+          align="center"
+          style={{ marginTop: 20, marginBottom: 10 }}
+        >
+          All items
+        </Typography>
         <List>
           {this.props.items.items.map(item => (
             <ListItem button onClick={this.handleClick.bind(this, item)} divider={true} key={item._id} >

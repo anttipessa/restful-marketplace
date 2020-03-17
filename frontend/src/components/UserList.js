@@ -4,6 +4,7 @@ import { fetchUsers, addUser, updateUser, deleteUser } from '../actions/userList
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
@@ -193,14 +194,28 @@ class Users extends React.Component {
     if (this.props.users.isFetching === true) {
       return (
         <div>
-          <h1>User management</h1>
+          <Typography
+            variant="h3"
+            component="h4"
+            align="center"
+            style={{ marginTop: 20, marginBottom: 10 }}
+          >
+            User management
+          </Typography>
           <p>Loading</p>
         </div>
       )
     }
     return (
       <div>
-        <h1>User management</h1>
+        <Typography
+          variant="h3"
+          component="h4"
+          align="center"
+          style={{ marginTop: 20, marginBottom: 10 }}
+        >
+          User management
+        </Typography>
         <Button variant="contained" color="primary" onClick={this.openCreate}>
           Create a new user
         </Button>

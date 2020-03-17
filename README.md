@@ -164,6 +164,7 @@ API endpoints:
     - `/users` - creates a new user to database
     - `/items` - creates a new item to database
     - `/payments` - create a new credit card item to database
+    - `/purchase` - item changes owner and money transfers between credit cards
 - PUT-request
     - `/users/id` - modify a specific user by id
     - `/items/id` - modify a specific item by id
@@ -179,6 +180,7 @@ Payloads:
     - `/users` - { username, email, password }
     - `/items` - { name, price, owner }
     - `/payments` - { number, owner }
+    - `/purchase` - { sellerCCid, buyerCCid, itemId }
 - PUT-request (one or more of the listed attributes may be included)
     - `/users/id` - { username, email, password, role, ccid } | *cc = credit card\**
     - `/items/id` - { name, owner, onsale, price }

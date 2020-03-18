@@ -251,7 +251,6 @@ class Owned extends React.Component {
                   <span>
                     <span>Price: {item.price}</span>
                     <br />
-                    <span>On sale: {item.onsale ? 'yes' : 'no' }</span>
                   </span>
                 }
               />

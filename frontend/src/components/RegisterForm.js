@@ -75,6 +75,7 @@ class RegisterForm extends React.Component {
             </DialogContentText>
           <TextField
             required
+            autoFocus
             label="Username"
             style={{ margin: 8 }}
             fullWidth

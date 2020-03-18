@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
@@ -18,8 +19,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 const mapStateToProps = (state) => {
@@ -90,12 +89,6 @@ class Owned extends React.Component {
     this.setState({ createOpen: true })
   }
 
-  handleCheckBox = (e) => {
-    this.setState({
-      onsale: e.target.checked
-    })
-  }
-
   handleCreate = () => {
     if (!this.state.createName) {
       this.setState({ alert: true, alertMsg: 'Item name is required!' })
@@ -152,10 +145,9 @@ class Owned extends React.Component {
   }
 
   handleUpdate = () => {
-    const update = {onsale: this.state.onsale}
+    const update = {}
     if (this.state.name) update.name = this.state.name
     if (this.state.price) update.price = this.state.price
-    update.onsale = this.state.onsale
     fetch(`/api/items/${this.state.itemid}`, {
       method: 'PUT',
       headers: {
@@ -179,6 +171,31 @@ class Owned extends React.Component {
 
       })
       .catch(() => this.setState({ alert: true, alertMsg: 'Update failed - check information!' }))
+  }
+
+  changeSaleStatus = (item) => {
+    const update = { onsale: !item.onsale }
+    fetch(`/api/items/${item._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.props.user.user.token
+      },
+      body: JSON.stringify(update)
+    })
+    .then(res => {
+      if (!res.ok) throw Error(res.statusText)
+      return res.json()
+    })
+    .then((data) => {
+      this.props.updateItem(data)
+      this.setState({
+        open: false,
+        alert: false,
+        success: true,
+        successMsg: 'Item status successfully updated!'
+      })
+    })
   }
 
   successClose = (event, reason) => {
@@ -214,17 +231,35 @@ class Owned extends React.Component {
         >
           Own items and offers
         </Typography>
-        <Button variant="contained" color="primary" onClick={this.openCreate}>Create item</Button>
 
-        <List>
+        <List style={{ maxWidth: 600, margin: 'auto' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={this.openCreate}
+          style={{ marginBottom: 5}}
+        >
+          Create item
+        </Button>
           {this.props.items.items.map(item => (
             <ListItem
               style={{ backgroundColor: 'white', opacity: 0.95 }}
               button divider={true} key={item._id} onClick={this.handleClick.bind(this, item)}>
               <ListItemText
                 primary={item.name}
-                secondary={`Price: ${item.price} €`}
+                secondary={
+                  <span>
+                    <span>Price: {item.price}</span>
+                    <br />
+                    <span>On sale: {item.onsale ? 'yes' : 'no' }</span>
+                  </span>
+                }
               />
+              <ListItemSecondaryAction>
+                  <Button color="primary" onClick={this.changeSaleStatus.bind(this, item)}>
+                    {item.onsale ? 'Remove from sale' : 'Put to sale'}
+                  </Button>
+                </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>
@@ -251,17 +286,6 @@ class Owned extends React.Component {
               onChange={this.handleChange}
               fullWidth
             />
-     <FormControlLabel
-        control={
-          <Checkbox
-            checked={this.state.onsale}
-            onChange={this.handleCheckBox.bind(this)}
-            value="onsale"
-            color="primary"
-          />
-        }
-        label="Onsale?"
-      />
           </DialogContent>
           <Collapse in={this.state.alert}>
             <Alert
@@ -300,10 +324,11 @@ class Owned extends React.Component {
           <DialogTitle id="form-dialog-title">Create a new item</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Give the required information to add a new item to the marketplace.
+              Give the required information to add a new item to sale on the marketplace.
             </DialogContentText>
             <TextField
               required
+              autoFocus
               label="Name"
               style={{ margin: 8 }}
               fullWidth
@@ -325,6 +350,7 @@ class Owned extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              type="number"
               name="createPrice"
               onChange={this.handleChange}
               variant="outlined"

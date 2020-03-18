@@ -139,7 +139,7 @@ class ItemList extends React.Component {
         >
           All items
         </Typography>
-        <List>
+        <List style={{ maxWidth: 600, margin: 'auto' }}>
           {this.props.items.items.map(item => (
             <ListItem
               style={{ backgroundColor: 'white', opacity: 0.95 }}
@@ -151,6 +151,8 @@ class ItemList extends React.Component {
                     <span>Price: {item.price} €</span>
                     <br />
                     <span>On sale? {item.onsale ? 'yes' : 'no'}</span>
+                    <br />
+                    <span>Owner: {item.owner.name}</span>
                   </span>
                 }
               />
@@ -175,8 +177,8 @@ class ItemList extends React.Component {
               margin="dense"
               label="price"
               value={this.state.price}
+              type="number"
               name="price"
-              type="text"
               onChange={this.handleChange}
               fullWidth
             />

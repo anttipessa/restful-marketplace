@@ -216,10 +216,16 @@ class Users extends React.Component {
         >
           User management
         </Typography>
-        <Button variant="contained" color="primary" onClick={this.openCreate}>
-          Create a new user
-        </Button>
-        <List>
+        
+        <List style={{ maxWidth: 600, margin: 'auto' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.openCreate}
+            style={{ marginBottom: 5}}
+          >
+            Create a new user
+          </Button>
           {this.props.users.users.map(user => (
             <ListItem
               style={{ backgroundColor: 'white', opacity: 0.95 }}

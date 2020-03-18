@@ -36,7 +36,8 @@ module.exports = {
 
   async listItems(req, res) {
     const items = await Item.find({})
-      .sort('_id')
+      .sort('name')
+      .populate('owner')
     return res.status(200).json(items)
   },
 

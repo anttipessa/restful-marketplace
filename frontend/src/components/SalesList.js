@@ -174,7 +174,7 @@ class ConnectedList extends React.Component {
         >
           Items currently on sale!
         </Typography>
-        <List>
+        <List style={{ maxWidth: 600, margin: 'auto' }}>
           {this.props.items.items.map(item => (
             <ListItem
               style={{ backgroundColor: 'white', opacity: 0.95 }}

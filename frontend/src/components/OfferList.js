@@ -5,6 +5,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -153,6 +155,27 @@ class ConnectedList extends React.Component {
           <p>Loading</p>
         </div>
       )
+    } else if (this.props.items.items.length === 0) {
+      return (
+        <div>
+          <Typography
+            variant="h3"
+            component="h4"
+            align="center"
+            style={{ marginTop: 20, marginBottom: 10 }}
+          >
+            Items currently offered by users
+          </Typography>
+          <Card style={{ margin: 'auto', marginTop: 70, maxWidth: 400 }} variant="outlined">
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Currently there are not any items being sold by registered users.
+              Please check back in later for more shopping!
+            </Typography>
+          </CardContent>
+        </Card>
+        </div>
+      )
     }
     return (
       <div>
@@ -164,7 +187,7 @@ class ConnectedList extends React.Component {
         >
           Items currently offered by users
         </Typography>
-        <List>
+        <List style={{ maxWidth: 600, margin: 'auto' }}>
           {this.props.items.items.map(item => (
             <ListItem
               style={{ backgroundColor: 'white', opacity: 0.95 }}

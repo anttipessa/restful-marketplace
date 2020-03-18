@@ -6,20 +6,20 @@ import tori from '../tori.png';
 
 class Logo extends React.Component {
 
-    render() {
-        return (
-            <Card >
-                <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        image={tori}
-                        title="Best marketplace in town"
-                        height="150"
-                    />
-                </CardActionArea>
-            </Card>
-        )
-    }
+  render() {
+    return (
+      <Card >
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            image={tori}
+            title="Best marketplace in town"
+            height="130"
+          />
+        </CardActionArea>
+      </Card>
+    )
+  }
 
 }
 

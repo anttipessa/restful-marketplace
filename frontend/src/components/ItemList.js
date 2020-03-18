@@ -22,6 +22,7 @@ import CloseIcon from '@material-ui/icons/Close';
 const mapStateToProps = (state) => {
   return {
     items: state.items,
+    user: state.loggedInUser
   }
 }
 
@@ -36,7 +37,7 @@ const mapDispatchToProps = (dispatch) => {
 class ItemList extends React.Component {
   constructor(props) {
     super(props);
-    this.props.fetchItems('/api/items/')
+    this.props.fetchItems('/api/items/', this.props.user.user.token)
     this.state = {
       open: false,
       name: "",

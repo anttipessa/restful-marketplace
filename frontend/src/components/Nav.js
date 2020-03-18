@@ -21,7 +21,9 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-import Logo from "./Logo.js"
+import Logo from "./Logo.js";
+import Toolbar from '@material-ui/core/Toolbar';
+import Grid from "@material-ui/core/Grid";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -41,48 +43,66 @@ class ConnectNav extends React.Component {
     if (this.props.role && this.props.role === 'normal') {
       return (
         <AppBar position="static" title="My App">
-
-          <Tabs value={false} centered>
-            <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)}/>
-            <Tab label="Sell items" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
-            <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
-            <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
-          </Tabs>
-        </AppBar>
+          <Toolbar>
+            <Logo />
+            <Grid container justify={"center"}>
+              <Tabs value={false} centered>
+                <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
+                <Tab label="Sell items" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
+                <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
+                <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
+              </Tabs>
+            </Grid>
+          </Toolbar>
+        </AppBar >
       )
     } else if (this.props.role && this.props.role === 'shopkeeper') {
       return (
         <AppBar position="static" title="My App">
-          <Tabs value={false} centered>
-            <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
-            <Tab label="Sell items" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
-            <Tab label="On sale" icon={<AssessmentIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OFFERS)} />
-            <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
-            <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
-          </Tabs>
-        </AppBar>
+          <Toolbar>
+            <Logo />
+            <Grid container justify={"center"}>
+              <Tabs value={false} centered>
+                <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
+                <Tab label="Sell items" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
+                <Tab label="On sale" icon={<AssessmentIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OFFERS)} />
+                <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
+                <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
+              </Tabs>
+            </Grid>
+          </Toolbar>
+        </AppBar >
       )
     } else if (this.props.role && this.props.role === 'admin') {
       return (
         <AppBar position="static" title="My App">
-          <Tabs value={false} centered>
-            <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
-            <Tab label="All items" icon={<FormatListBulletedIcon />} onClick={() => this.props.setView(VIEW_ITEMS_ALL)}/>
-            <Tab label="Users" icon={<SupervisorAccountIcon />} onClick={() => this.props.setView(VIEW_USERS)} />
-            <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
-            <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
-          </Tabs>
-        </AppBar>
+          <Toolbar>
+            <Logo />
+            <Grid container justify={"center"}>
+              <Tabs value={false} centered>
+                <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
+                <Tab label="All items" icon={<FormatListBulletedIcon />} onClick={() => this.props.setView(VIEW_ITEMS_ALL)} />
+                <Tab label="Users" icon={<SupervisorAccountIcon />} onClick={() => this.props.setView(VIEW_USERS)} />
+                <Tab label="Account information" icon={<PersonPinIcon />} onClick={() => this.props.setView(VIEW_USER_INFO)} />
+                <Tab label="Logout" icon={<ExitToAppIcon />} onClick={this.logout} />
+              </Tabs>
+            </Grid>
+          </Toolbar>
+        </AppBar >
       )
     } else {
       return (
         <AppBar position="static" title="My App">
-          <Tabs value={false} centered>
-          <Logo/>
-            <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
-            <Tab label="Register" icon={<CreateIcon />} onClick={this.props.registerClick} />
-            <Tab label="Login" icon={<VpnKeyIcon />} onClick={this.props.loginClick} />
-          </Tabs>
+          <Toolbar>
+            <Logo />
+            <Grid container justify={"center"}>
+              <Tabs value={false} centered>
+                <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
+                <Tab label="Register" icon={<CreateIcon />} onClick={this.props.registerClick} />
+                <Tab label="Login" icon={<VpnKeyIcon />} onClick={this.props.loginClick} />
+              </Tabs>
+            </Grid>
+          </Toolbar>
         </AppBar>
       )
     }

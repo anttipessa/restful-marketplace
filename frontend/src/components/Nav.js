@@ -21,6 +21,7 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import Logo from "./Logo.js"
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -40,6 +41,7 @@ class ConnectNav extends React.Component {
     if (this.props.role && this.props.role === 'normal') {
       return (
         <AppBar position="static" title="My App">
+
           <Tabs value={false} centered>
             <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)}/>
             <Tab label="Sell items" icon={<LoyaltyIcon />} onClick={() => this.props.setView(VIEW_ITEMS_OWN)} />
@@ -76,6 +78,7 @@ class ConnectNav extends React.Component {
       return (
         <AppBar position="static" title="My App">
           <Tabs value={false} centered>
+          <Logo/>
             <Tab label="Main" icon={<ShoppingBasket />} onClick={() => this.props.setView(VIEW_MAIN_PAGE)} />
             <Tab label="Register" icon={<CreateIcon />} onClick={this.props.registerClick} />
             <Tab label="Login" icon={<VpnKeyIcon />} onClick={this.props.loginClick} />

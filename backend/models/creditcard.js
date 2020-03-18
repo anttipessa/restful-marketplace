@@ -5,6 +5,7 @@ const creditCardSchema = new Schema({
     number: {
         type: String,
         required: true,
+        unique: true
     },
     balance: {
         type: Number,

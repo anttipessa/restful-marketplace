@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchData } from '../actions/userData'
+import { fetchItems } from '../actions/items'
 import UserInfoDialog from './UserInfoDialog'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -8,21 +9,24 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar'
+import Alert from '@material-ui/lab/Alert'
+import AlertTitle from '@material-ui/lab/AlertTitle'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import CreditCardIcon from '@material-ui/icons/CreditCard'
 
 const mapStateToProps = (state) => {
   return {
     user: state.loggedInUser,
-    userData: state.userInfo
+    userData: state.userInfo,
+    items: state.items
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: (url, token) => dispatch(fetchData(url, token))
+    fetchData: (url, token) => dispatch(fetchData(url, token)),
+    fetchItems: (url) => dispatch(fetchItems(url))
   }
 }
 
@@ -30,6 +34,7 @@ class Info extends React.Component {
   constructor(props) {
     super(props)
     this.props.fetchData(`/api/users/${this.props.user.user.id}`, this.props.user.user.token)
+    this.checkOnsaleItems()
     this.state = {
       editUserDialog: false,
       addCardDialog: false,
@@ -37,7 +42,16 @@ class Info extends React.Component {
       deleteCardDialog: false,
       deleteUserDialog: false,
       success: false,
-      alert: false
+      alert: false,
+      addCardAlert: false
+    }
+  }
+
+  checkOnsaleItems = async () => {
+    await this.props.fetchItems(`/api/items/users/${this.props.user.user.id}`)
+    const saleItems = this.props.items.items.filter(item => item.onsale)
+    if (saleItems.length !== 0 && !this.props.userData.data.creditcard) {
+      this.setState({ addCardAlert: true })
     }
   }
 
@@ -56,6 +70,7 @@ class Info extends React.Component {
       newState.successMsg = 'User information updated!'
     } else if (event === 'addcard') {
       newState.success = true
+      newState.addCardAlert = false
       newState.successMsg = 'Credit card created!'
     } else if (event === 'updatecard') {
       newState.success = true
@@ -63,6 +78,7 @@ class Info extends React.Component {
     } else if (event === 'deletecard') {
       newState.success = true
       newState.successMsg = 'Credit card deleted!'
+      this.checkOnsaleItems()
     } else if(event === 'error') {
       newState.alert = true
       newState.alertMsg = 'Error occurred!'
@@ -141,6 +157,14 @@ class Info extends React.Component {
             : '' }
           </CardActions>
         </Card>
+        {this.state.addCardAlert ?
+        <Alert severity="error" variant="filled" style={{ maxWidth: 500, margin: 'auto' }}>
+          <AlertTitle>Add credit card</AlertTitle>
+          You have items that are on sale but they can't be bought by other users
+          because you haven't added payment information to your account - please
+          add a credit card now!
+        </Alert>
+        : ''}
         {this.props.userData.data.creditcard ?
         <Card style={{ margin: 40 }} variant="outlined">
           <CardActionArea>

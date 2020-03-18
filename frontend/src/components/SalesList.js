@@ -39,6 +39,7 @@ class ConnectedList extends React.Component {
       price: '',
       owner: '',
       open: false,
+      confirmation: false,
       success: false,
       alert: false
     }
@@ -61,44 +62,41 @@ class ConnectedList extends React.Component {
   }
 
   buy = () => {
-    console.log(this.state.name, this.state.owner, this.state.price, this.state.id)
-    console.log(this.props.userData.data)
     if (!this.props.userData.data.creditcard) {
-      console.log('missing creditcard')
       this.setState({
         open: false,
+        confirmation: false,
         success: false,
         alert: true,
         alertMsg: 'You don\'t have a credit card to buy - go to account information to add one'
       })
     } else if (!this.state.owner.creditcard) {
-      console.log('owner missing creditcard')
       this.setState({
         open: false,
+        confirmation: false,
         success: false,
         alert: true,
         alertMsg: 'Unfortunately buying from this seller is not possible at the moment :('
       })
     } else if (this.props.userData.data.creditcard.balance < this.state.price) {
-      console.log('not enough balance')
       this.setState({
         open: false,
+        confirmation: false,
         succeess: false,
         alert: true,
         alertMsg: 'You don\'t have enough credits to buy this item - go to account information to increase your balance'
       })
     } else {
-      console.log('can buy')
-      const sellerCCid=this.state.owner.creditcard;
-      const buyerCCid=this.props.userData.data.creditcard._id;
-      const itemId=this.state.id;
-      this.handlePayment(sellerCCid, buyerCCid, itemId);
-      const toDelete={};
-      toDelete._id=itemId;
-      this.props.deleteItem(toDelete);
+      const sellerCCid = this.state.owner.creditcard
+      const buyerCCid = this.props.userData.data.creditcard._id
+      const itemId = this.state.id
+      this.handlePayment(sellerCCid, buyerCCid, itemId)
+      const toDelete = { _id: itemId }
+      this.props.deleteItem(toDelete)
       this.setState({
         open: false,
         alert: false,
+        confirmation: false,
         success: true,
         successMsg: 'Purchase successful, item was added to your own items!'
       })
@@ -115,6 +113,7 @@ class ConnectedList extends React.Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.props.user.user.token
       },
       body: JSON.stringify(payment)
     })
@@ -122,7 +121,7 @@ class ConnectedList extends React.Component {
       if (!res.ok) throw Error(res.statusText)
       return res.json()
     })
-    .catch(()=>this.setState({alert: true, alertMsg: 'Something went wrong with the purchase, please contact admin!'}))
+    .catch(() => this.setState({alert: true, alertMsg: 'Something went wrong with the purchase, please contact admin!'}))
   }
 
   alertClose = (event, reason) => {
@@ -185,8 +184,8 @@ class ConnectedList extends React.Component {
             </ListItem>
           ))}
         </List>
-        <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Item preview </DialogTitle>
+        <Dialog open={this.state.open} onClose={this.handleClose}>
+          <DialogTitle>Item preview </DialogTitle>
           <DialogContent>
             <DialogContentText>
               {this.props.user.loggedIn ?  'Buy the following item' : 'You must log in to buy this item.'}
@@ -198,9 +197,33 @@ class ConnectedList extends React.Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
           </Button>
-            <Button onClick={this.buy} disabled={!this.props.user.loggedIn}>
+            <Button onClick={() => {
+              this.setState({ confirmation: true })
+            }} disabled={!this.props.user.loggedIn}>
               Buy
           </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={this.state.confirmation} onClose={() => {
+          this.setState({ confirmation: false })
+        }}>
+          <DialogTitle>Confirmation</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              You are about to buy the following item:
+            </DialogContentText>
+            <p>Name: {this.state.name}</p>
+            <p>Price: {this.state.price}</p>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={() => {
+              this.setState({ confirmation: false })
+            }} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.buy} color="primary">
+              Buy
+            </Button>
           </DialogActions>
         </Dialog>
         <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.successClose}>

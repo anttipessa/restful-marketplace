@@ -78,7 +78,7 @@ class ConnectDialog extends React.Component {
           alert: false
         })
       })
-      .catch(() => this.props.handleClose('error'))
+      .catch(() => this.setState({ alert: true, alertMsg: 'Card creation failed - please check your card number!' }))
     }
   }
 
@@ -213,6 +213,7 @@ class ConnectDialog extends React.Component {
             <DialogContentText>You can add a new credit card by giving credit card number.</DialogContentText>
             <TextField
               required
+              autoFocus
               label="Number"
               style={{ margin: 8 }}
               fullWidth
@@ -263,6 +264,7 @@ class ConnectDialog extends React.Component {
               You can add more credits to the account.
             </DialogContentText>
             <TextField
+              autoFocus
               label="Amount"
               style={{ margin: 8 }}
               fullWidth

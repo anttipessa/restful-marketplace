@@ -1,13 +1,22 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { VIEW_MAIN_PAGE } from '../constants/action-types'
+import { setView } from '../actions/viewFilter'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 
-class Unregister extends React.Component {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setView: (filter) => dispatch(setView(filter))
+  }
+}
+
+class ConnectUnregister extends React.Component {
   handleClick = () => {
-    console.log('handleCLick')
+    this.props.setView(VIEW_MAIN_PAGE)
   }
 
   render() {
@@ -40,4 +49,5 @@ class Unregister extends React.Component {
   }
 }
 
+const Unregister = connect(null, mapDispatchToProps)(ConnectUnregister)
 export default Unregister

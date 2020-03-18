@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch) => {
     addItem: (payload) => dispatch(addItem(payload)),
     deleteItem: (payload) => dispatch(deleteItem(payload)),
     updateItem: (payload) => dispatch(updateItem(payload)),
-    fetchItems: (url) => dispatch(fetchItems(url)),
+    fetchItems: (url, payload) => dispatch(fetchItems(url, payload)),
   }
 }
 
@@ -43,7 +43,7 @@ class Owned extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.fetchItems(`/api/items/users/${props.user.user.id}`)
+    this.props.fetchItems(`/api/items/users/${props.user.user.id}`, this.props.user.user.token)
     this.state = {
       name: '',
       price: '',
@@ -110,7 +110,8 @@ class Owned extends React.Component {
       fetch('/api/items', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.props.user.user.token
         },
         body: JSON.stringify(newItem)
       })
@@ -137,7 +138,10 @@ class Owned extends React.Component {
 
   handleDelete = () => {
     fetch(`/api/items/${this.state.itemid}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.user.user.token
+      }
     })
       .then(res => res.json())
       .then(data => {
@@ -156,6 +160,7 @@ class Owned extends React.Component {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.props.user.user.token
       },
       body: JSON.stringify(update)
     })

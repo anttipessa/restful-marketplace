@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: (url, token) => dispatch(fetchData(url, token)),
-    fetchItems: (url) => dispatch(fetchItems(url))
+    fetchItems: (url, token) => dispatch(fetchItems(url, token))
   }
 }
 
@@ -48,7 +48,7 @@ class Info extends React.Component {
   }
 
   checkOnsaleItems = async () => {
-    await this.props.fetchItems(`/api/items/users/${this.props.user.user.id}`)
+    await this.props.fetchItems(`/api/items/users/${this.props.user.user.id}`, this.props.user.user.token)
     const saleItems = this.props.items.items.filter(item => item.onsale)
     if (saleItems.length !== 0 && !this.props.userData.data.creditcard) {
       this.setState({ addCardAlert: true })

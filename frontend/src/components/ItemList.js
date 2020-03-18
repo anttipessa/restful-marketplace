@@ -27,7 +27,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchItems: url => dispatch(fetchItems(url)),
+    fetchItems: (url, payload) => dispatch(fetchItems(url, payload)),
     deleteItem: (payload) => dispatch(deleteItem(payload)),
     updateItem: (payload) => dispatch(updateItem(payload))
   }
@@ -71,7 +71,10 @@ class ItemList extends React.Component {
 
   handleDelete = () => {
     fetch(`/api/items/${this.state.id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.user.user.token
+      }
     })
       .then(res => res.json())
       .then(data => {
@@ -88,6 +91,7 @@ class ItemList extends React.Component {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.props.user.user.token
       },
       body: JSON.stringify(update)
     })

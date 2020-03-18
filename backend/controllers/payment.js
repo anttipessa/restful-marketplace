@@ -21,7 +21,6 @@ module.exports = {
         
         // check that the item with id is found and the owner is the seller
         const item = await Item.findOne({ _id: itemId, owner: sellerCC.owner._id })
-        console.log(item)
 
         // calculate new balances and change item owner
         buyerCC.balance -= item.price

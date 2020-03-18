@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchItems: url => dispatch(fetchItems(url)),
+    fetchItems: (url, payload) => dispatch(fetchItems(url, payload)),
     deleteItem: (payload) => dispatch(deleteItem(payload))
   }
 }
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => {
 class ConnectedList extends React.Component {
   constructor(props) {
     super(props);
-    this.props.fetchItems('/api/items/offers')
+    this.props.fetchItems('/api/items/offers', this.props.user.user.token)
     this.state = {
       id: '',
       name: '',

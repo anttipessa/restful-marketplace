@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchItems: url => dispatch(fetchItems(url)),
+    fetchItems: (url, payload) => dispatch(fetchItems(url, payload)),
     deleteItem: (payload) => dispatch(deleteItem(payload))
   }
 }
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => {
 class ConnectedList extends React.Component {
   constructor(props) {
     super(props);
-    this.props.fetchItems('/api/items/onsale')
+    this.props.fetchItems('/api/items/onsale', '')
     this.state = {
       id: '',
       name: '',
@@ -62,7 +62,15 @@ class ConnectedList extends React.Component {
   }
 
   buy = () => {
-    if (!this.props.userData.data.creditcard) {
+    if (this.state.owner._id === this.props.user.user.id) {
+      this.setState({
+        open: false,
+        confirmation: false,
+        succeess: false,
+        alert: true,
+        alertMsg: 'You can\'t buy items that you are selling!'
+      })
+    } else if (!this.props.userData.data.creditcard) {
       this.setState({
         open: false,
         confirmation: false,
@@ -70,6 +78,14 @@ class ConnectedList extends React.Component {
         alert: true,
         alertMsg: 'You don\'t have a credit card to buy - go to account information to add one'
       })
+    } else if (this.props.userData.data.creditcard.balance < this.state.price) {
+        this.setState({
+          open: false,
+          confirmation: false,
+          succeess: false,
+          alert: true,
+          alertMsg: 'You don\'t have enough credits to buy this item - go to account information to increase your balance'
+        })
     } else if (!this.state.owner.creditcard) {
       this.setState({
         open: false,
@@ -77,14 +93,6 @@ class ConnectedList extends React.Component {
         success: false,
         alert: true,
         alertMsg: 'Unfortunately buying from this seller is not possible at the moment :('
-      })
-    } else if (this.props.userData.data.creditcard.balance < this.state.price) {
-      this.setState({
-        open: false,
-        confirmation: false,
-        succeess: false,
-        alert: true,
-        alertMsg: 'You don\'t have enough credits to buy this item - go to account information to increase your balance'
       })
     } else {
       const sellerCCid = this.state.owner.creditcard

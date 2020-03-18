@@ -27,7 +27,7 @@ import {
     }
   }
 
-  export const requestItems = (url) => {
+  export const requestItems = (url, payload) => {
     return {
       type: REQUEST_ITEMS,
       url
@@ -42,10 +42,16 @@ import {
     }
   }
   
-  export const fetchItems = (url) => {
+  export const fetchItems = (url, payload) => {
     return (dispatch) => {
       dispatch(requestItems(url))
-      return fetch(url)
+      return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + payload
+        }
+      })
         .then(res => res.json())
         .then(json => {dispatch(receiveItems(json));
         })

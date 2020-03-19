@@ -199,7 +199,7 @@ class ConnectedList extends React.Component {
           <Card style={{ margin: 'auto', marginTop: 70, maxHeight: 200, maxWidth: 500 }} variant="outlined">
             <CardContent>
               <Typography variant="body2" color="textSecondary" component="p">
-                Currently there are not any items on sale.<br /><br />
+                There are currently no items on sale.<br /><br />
                 Please check back in later for more shopping!
                 {this.props.user.loggedIn
                 ?

@@ -169,8 +169,8 @@ class ConnectedList extends React.Component {
           <Card style={{ margin: 'auto', marginTop: 70, maxWidth: 400 }} variant="outlined">
             <CardContent>
               <Typography variant="body2" color="textSecondary" component="p">
-                Currently there are not any items being sold by registered users.
-                Please check back in later for more shopping!
+                Currently there are no items being offered by registered users.
+                Please check back in later for more offers!
             </Typography>
             </CardContent>
           </Card>

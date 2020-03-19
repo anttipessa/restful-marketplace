@@ -131,6 +131,7 @@ Models we're planning to use and their attributes:
     - Name (String)
     - Owner (User)
     - Price (Number)
+    - Description (String)
     - Onsale (Boolean)
 - Creditcard
     - Number (String)
@@ -138,13 +139,13 @@ Models we're planning to use and their attributes:
 
 The system holds information about the items that have been saved to the database and also about users that are buying or selling items. Item is saved the first time it is listed to being sold and a user is created the moment they register at the website.<br><br>
 User model contains a username, email and password. User model also has a role, which defaults to normal (registered) user so that the user is able to buy listed items and sell items to the shopkeepers on the webstore. User can be promoted to shopkeeper role (requires admin rights) and that role is able to sell items to all other customers (these offers are listed on the store for everyone). Admin users can edit basically anything. User model also has an attribute list of offers, which holds items that the user is currently selling on the store.<br><br>
-Item model contains name of the item and the current owner of the item, which points to a user (each item belongs to some user). Item model also has attribute that holds information if the items is currently on sale or not (true/false). If the item is on sale, it also must have price attribute set (price must be >= 0).<br><br>
+Item model contains name of the item and the current owner of the item, which points to a user (each item belongs to some user). Item model also has attribute that holds information if the items is currently on sale or not (true/false). There is also an optional description field, where the item can be described with more detail. If the item is on sale, it also must have price attribute set (price must be >= 0).<br><br>
 Credit card / bank account information is modeled so that the Creditcard model contains number of the credit card and the balance of the card (how much money there is on the corresponding bank account). This model is being kept quite simple and straightforward on this imaginary webstore environment. On a real life application it would of course not be a good idea to keep track of a users bank account information and the payment would require authentication into a specific payment site.
 <br><br>
 If a user unregisters from the webstore (= user is deleted from database), all items that he/she owns are also removed from the database along with the credit card / bank account information of that user.
 
 ## API
-This documentation may still change a little during the coursework if more API paths are found the be needed or some changes must be done.
+This documentation may still change a little during the coursework if more API paths are found to be needed or some changes must be done.
 
 Base API path: http://localhost:3000/api
 
@@ -167,6 +168,7 @@ API endpoints:
     - `/purchase` - item changes owner and money transfers between credit cards
 - PUT-request
     - `/users/id` - modify a specific user by id
+    - `/users/id/role` - modify a specific user by id (including role - for admins only)
     - `/items/id` - modify a specific item by id
     - `/payments/id` - modify a specific credit card item by id
 - DELETE-request
@@ -178,12 +180,13 @@ API endpoints:
 Payloads:
 - POST-request (all of the listed attributes must be included)
     - `/users` - { username, email, password }
-    - `/items` - { name, price, owner }
+    - `/items` - { name, price, description, owner }
     - `/payments` - { number, owner }
     - `/purchase` - { sellerCCid, buyerCCid, itemId }
 - PUT-request (one or more of the listed attributes may be included)
-    - `/users/id` - { username, email, password, role, ccid } | *cc = credit card\**
-    - `/items/id` - { name, owner, onsale, price }
+    - `/users/id` - { username, email, password, ccid } | *cc = credit card\**
+    - `/users/id/role` - { username, email, password, role }
+    - `/items/id` - { name, owner, description, onsale, price }
     - `/payments/id` - { balance }
 
 ## React and Redux

@@ -4,6 +4,7 @@ import { fetchItems, deleteItem, updateItem } from '../actions/items'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Typography from '@material-ui/core/Typography';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -44,6 +45,7 @@ class ItemList extends React.Component {
       price: "",
       id: "",
       desc: "",
+      onsale: null,
       alert: false,
       success: false
     }
@@ -55,6 +57,7 @@ class ItemList extends React.Component {
       price: item.price,
       id: item._id,
       desc: item.description,
+      onsale: item.onsale,
       open: true
     })
   }
@@ -65,7 +68,7 @@ class ItemList extends React.Component {
       alert: false
     })
   }
-  
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
@@ -116,6 +119,31 @@ class ItemList extends React.Component {
       .catch(() => this.setState({ alert: true, alertMsg: 'Update failed - check information!' }))
   }
 
+  changeSaleStatus = (item) => {
+    const update = { onsale: !item.onsale }
+    fetch(`/api/items/${item._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.props.user.user.token
+      },
+      body: JSON.stringify(update)
+    })
+      .then(res => {
+        if (!res.ok) throw Error(res.statusText)
+        return res.json()
+      })
+      .then((data) => {
+        this.props.updateItem(data)
+        this.setState({
+          open: false,
+          alert: false,
+          success: true,
+          successMsg: 'Item status successfully updated!'
+        })
+      })
+  }
+
   render() {
     if (this.props.items.isFetching === true) {
       return (
@@ -132,7 +160,7 @@ class ItemList extends React.Component {
         </div>
       )
     }
-    
+
     return (
       <div>
         <Typography
@@ -162,6 +190,11 @@ class ItemList extends React.Component {
                   </span>
                 }
               />
+              <ListItemSecondaryAction>
+                <Button color="primary" onClick={this.changeSaleStatus.bind(this, item)}>
+                  {item.onsale ? 'Remove from sale' : 'Put to sale'}
+                </Button>
+              </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>
@@ -188,7 +221,7 @@ class ItemList extends React.Component {
               onChange={this.handleChange}
               fullWidth
             />
-                        <TextField
+            <TextField
               margin="normal"
               label="Description"
               multiline={true}

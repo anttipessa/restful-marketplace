@@ -19,6 +19,9 @@ import AlertTitle from '@material-ui/lab/AlertTitle';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
+import SaveIcon from '@material-ui/icons/Save';
 
 const mapStateToProps = (state) => {
   return {
@@ -202,7 +205,7 @@ class ItemList extends React.Component {
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Update or delete item </DialogTitle>
           <DialogContent>
-            <DialogContentText>You can change the name and price or delete the item.</DialogContentText>
+            <DialogContentText>You can change the name, price, description or delete the item.</DialogContentText>
             <TextField
               margin="dense"
               label="name"
@@ -260,13 +263,13 @@ class ItemList extends React.Component {
             </Alert>
           </Collapse>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose}startIcon={<CancelIcon />} color="default">
               Cancel
             </Button>
-            <Button onClick={this.handleDelete} color="primary">
+            <Button onClick={this.handleDelete}  startIcon={<DeleteIcon />} color="secondary">
               Delete
             </Button>
-            <Button onClick={this.handleUpdate} color="primary">
+            <Button onClick={this.handleUpdate} startIcon={<SaveIcon />} color="primary">
               Update
             </Button>
           </DialogActions>

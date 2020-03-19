@@ -11,6 +11,8 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
+import HowToRegIcon from '@material-ui/icons/HowToReg';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 class RegisterForm extends React.Component {
   constructor(props) {
@@ -158,10 +160,10 @@ class RegisterForm extends React.Component {
           </Alert>
         </Collapse>
         <DialogActions>
-          <Button onClick={this.props.close} color="primary">
+          <Button onClick={this.props.close}  startIcon={<CancelIcon />} color="default">
             Cancel
             </Button>
-          <Button onClick={this.handleRegister} color="primary">
+          <Button onClick={this.handleRegister}  startIcon={<HowToRegIcon />} color="primary">
             Register
             </Button>
         </DialogActions>

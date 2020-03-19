@@ -18,6 +18,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const mapStateToProps = (state) => {
   return {
@@ -277,10 +279,10 @@ class ConnectedList extends React.Component {
             <p>Price: {this.state.price} €</p>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} startIcon={<CancelIcon />}  color="default">
               Cancel
           </Button>
-            <Button onClick={() => {
+            <Button startIcon={<ShoppingCartIcon />} color="primary" onClick={() => {
               this.setState({ confirmation: true })
             }} disabled={!this.props.user.loggedIn}>
               Buy
@@ -299,12 +301,12 @@ class ConnectedList extends React.Component {
             <p>Price: {this.state.price}</p>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={() => {
+            <Button startIcon={<CancelIcon />} autoFocus onClick={() => {
               this.setState({ confirmation: false })
-            }} color="primary">
+            }} color="default">
               Cancel
             </Button>
-            <Button onClick={this.buy} color="primary">
+            <Button onClick={this.buy}  startIcon={<ShoppingCartIcon />} color="primary">
               Buy
             </Button>
           </DialogActions>

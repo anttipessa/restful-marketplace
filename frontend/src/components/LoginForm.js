@@ -12,6 +12,8 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
+import CancelIcon from '@material-ui/icons/Cancel';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const mapStateToProps = (state) => {
   return {
@@ -105,10 +107,10 @@ class Login extends React.Component {
           </Alert>
         </Collapse>
         <DialogActions>
-          <Button onClick={this.props.close} color="primary">
+          <Button onClick={this.props.close} startIcon={<CancelIcon />}  color="default">
             Cancel
             </Button>
-          <Button onClick={this.handleLogin} color="primary">
+          <Button onClick={this.handleLogin}startIcon={<ExitToAppIcon />}  color="primary">
             Login
             </Button>
         </DialogActions>

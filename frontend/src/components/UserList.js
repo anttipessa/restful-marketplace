@@ -19,7 +19,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
+import SaveIcon from '@material-ui/icons/Save';
+import CreateIcon from '@material-ui/icons/Create';
 
 const mapStateToProps = (state) => {
   return {
@@ -315,15 +318,15 @@ class Users extends React.Component {
             </Alert>
           </Collapse>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+          <Button onClick={this.handleClose} startIcon={<CancelIcon />} color="default">
               Cancel
-          </Button>
-            <Button onClick={this.handleDelete} color="primary">
+            </Button>
+            <Button onClick={this.handleDelete}  startIcon={<DeleteIcon />} color="secondary">
               Delete
-          </Button>
-            <Button onClick={this.handleUpdate} color="primary">
+            </Button>
+            <Button onClick={this.handleUpdate} startIcon={<SaveIcon />} color="primary">
               Update
-          </Button>
+            </Button>
           </DialogActions>
         </Dialog>
         <Dialog open={this.state.createOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
@@ -400,10 +403,10 @@ class Users extends React.Component {
             </Alert>
           </Collapse>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} startIcon={<CancelIcon />} color="default">
               Cancel
           </Button>
-            <Button onClick={this.handleCreate} color="primary">
+            <Button onClick={this.handleCreate}  startIcon={<CreateIcon />} color="primary">
               Create
           </Button>
           </DialogActions>

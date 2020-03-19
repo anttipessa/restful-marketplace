@@ -14,6 +14,8 @@ import Alert from '@material-ui/lab/Alert'
 import AlertTitle from '@material-ui/lab/AlertTitle'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import CreditCardIcon from '@material-ui/icons/CreditCard'
+import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const mapStateToProps = (state) => {
   return {
@@ -122,7 +124,9 @@ class Info extends React.Component {
           Account information
         </Typography>
         <Card style={{ margin: 40 }} variant="outlined">
-          <CardActionArea>
+          <CardActionArea onClick={() => {
+              this.setState({ editUserDialog: true })
+            }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
                 <AccountCircleIcon style={{marginRight: 10}} />
@@ -149,7 +153,7 @@ class Info extends React.Component {
               Add credit card
             </Button>}
             {this.props.user.user.role !== 'admin' ?
-            <Button size="small" color="primary" style={{ marginLeft: 'auto' }} onClick={() => {
+            <Button size="small" startIcon={<DeleteForeverIcon />} color="secondary" style={{ marginLeft: 'auto' }} onClick={() => {
               this.setState({ deleteUserDialog: true })
             }}>
               Unregister
@@ -187,7 +191,7 @@ class Info extends React.Component {
             }}>
               Add credits
             </Button>
-            <Button size="small" color="primary" style={{ marginLeft: 'auto' }} onClick={() => {
+            <Button size="small" color="secondary" style={{ marginLeft: 'auto' }} startIcon={<DeleteIcon />} onClick={() => {
               this.setState({ deleteCardDialog: true })
             }}>
               Delete

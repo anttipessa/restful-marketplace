@@ -16,6 +16,11 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
+import SaveIcon from '@material-ui/icons/Save';
+import CreateIcon from '@material-ui/icons/Create';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const mapStateToProps = (state) => {
   return {
@@ -249,10 +254,10 @@ class ConnectDialog extends React.Component {
             </Alert>
           </Collapse>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} startIcon={<CancelIcon />} color="default">
               Cancel
           </Button>
-            <Button onClick={this.addCard} color="primary">
+            <Button onClick={this.addCard} startIcon={<CreateIcon />} color="primary">
               Create
           </Button>
           </DialogActions>
@@ -301,10 +306,10 @@ class ConnectDialog extends React.Component {
             </Alert>
           </Collapse>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} startIcon={<CancelIcon />} color="default">
               Cancel
           </Button>
-            <Button onClick={this.editCard} color="primary">
+            <Button onClick={this.editCard} startIcon={<SaveIcon />} color="primary">
               Update
           </Button>
           </DialogActions>
@@ -396,10 +401,10 @@ class ConnectDialog extends React.Component {
             </Alert>
           </Collapse>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} startIcon={<CancelIcon />} color="default">
               Cancel
           </Button>
-            <Button onClick={this.editUser} color="primary">
+            <Button onClick={this.editUser} startIcon={<SaveIcon />}  color="primary">
               Update
           </Button>
           </DialogActions>
@@ -410,10 +415,10 @@ class ConnectDialog extends React.Component {
             <p>Are you sure you want to delete this card?</p>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={this.handleClose} color="primary">
+            <Button autoFocus onClick={this.handleClose} startIcon={<CancelIcon />} color="default">
               Cancel
             </Button>
-            <Button onClick={this.deleteCard} color="primary">
+            <Button onClick={this.deleteCard} startIcon={<DeleteIcon />}  color="secondary">
               Delete
             </Button>
           </DialogActions>
@@ -424,10 +429,10 @@ class ConnectDialog extends React.Component {
             <p>Are you sure you want to unregister - this will delete your account?</p>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={this.handleClose} color="primary">
+            <Button autoFocus onClick={this.handleClose} startIcon={<CancelIcon />} color="default">
               Cancel
             </Button>
-            <Button onClick={this.deleteUser} color="primary">
+            <Button onClick={this.deleteUser} startIcon={<DeleteForeverIcon />} color="secondary">
               Unregister
             </Button>
           </DialogActions>

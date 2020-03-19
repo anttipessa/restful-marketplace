@@ -47,6 +47,7 @@ class Owned extends React.Component {
       name: '',
       price: '',
       itemid: '',
+      desc: '',
       onsale: null,
       open: false,
       createName: '',
@@ -149,9 +150,11 @@ class Owned extends React.Component {
   }
 
   handleUpdate = () => {
-    const update = { description: this.state.description }
-    if (this.state.name) update.name = this.state.name
-    if (this.state.price) update.price = this.state.price
+    const update = {
+      name: this.state.name,
+      price: this.state.price,
+      description: this.state.desc
+    }
     fetch(`/api/items/${this.state.itemid}`, {
       method: 'PUT',
       headers: {
@@ -174,7 +177,7 @@ class Owned extends React.Component {
         })
 
       })
-      .catch(() => this.setState({ alert: true, alertMsg: 'Update failed - check information!' }))
+      .catch(() => this.setState({ alert: true, alertMsg: 'Update failed - check the required information!' }))
   }
 
   changeSaleStatus = (item) => {
@@ -255,9 +258,9 @@ class Owned extends React.Component {
                   <span>
                     <span>Price: {item.price} €</span>
                     <br />
-                    <span>On sale: {item.onsale ? 'yes' : 'no' }</span>
-                    <br />
                     <span>Description: {item.description ? item.description : '–'}</span>
+                    <br />
+                    <span>On sale: {item.onsale ? 'yes' : 'no' }</span>
                   </span>
                 }
               />
@@ -273,23 +276,51 @@ class Owned extends React.Component {
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Update or delete item </DialogTitle>
           <DialogContent>
-            <DialogContentText>You can change the name, price or delete the item.</DialogContentText>
+            <DialogContentText>You can change the name, price, and description or delete the item.</DialogContentText>
             <TextField
-              margin="dense"
+              required
+              margin="normal"
               label="Name"
+              InputLabelProps={{
+                shrink: true,
+              }}
               value={this.state.name}
+              placeholder="Name can't be empty"
               name="name"
               type="text"
               onChange={this.handleChange}
+              variant="outlined"
               fullWidth
             />
             <TextField
-              margin="dense"
+              required
+              margin="normal"
               label="Price"
+              InputLabelProps={{
+                shrink: true,
+              }}
               value={this.state.price}
+              placeholder="0.00 €"
               name="price"
               type="number"
               onChange={this.handleChange}
+              variant="outlined"
+              fullWidth
+            />
+            <TextField
+              margin="normal"
+              label="Description"
+              multiline={true}
+              rows={3}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={this.state.desc}
+              placeholder="Description (optional)"
+              name="desc"
+              type="text"
+              onChange={this.handleChange}
+              variant="outlined"
               fullWidth
             />
           </DialogContent>

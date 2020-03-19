@@ -43,6 +43,7 @@ class ItemList extends React.Component {
       name: "",
       price: "",
       id: "",
+      desc: "",
       alert: false,
       success: false
     }
@@ -53,6 +54,7 @@ class ItemList extends React.Component {
       name: item.name,
       price: item.price,
       id: item._id,
+      desc: item.description,
       open: true
     })
   }
@@ -85,9 +87,11 @@ class ItemList extends React.Component {
   }
 
   handleUpdate = () => {
-    const update = {}
-    if (this.state.name) update.name = this.state.name
-    if (this.state.price) update.price = this.state.price
+    const update = {
+      name: this.state.name,
+      price: this.state.price,
+      description: this.state.desc
+    }
     fetch(`/api/items/${this.state.id}`, {
       method: 'PUT',
       headers: {
@@ -182,6 +186,22 @@ class ItemList extends React.Component {
               type="number"
               name="price"
               onChange={this.handleChange}
+              fullWidth
+            />
+                        <TextField
+              margin="normal"
+              label="Description"
+              multiline={true}
+              rows={3}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={this.state.desc}
+              placeholder="Description (optional)"
+              name="desc"
+              type="text"
+              onChange={this.handleChange}
+              variant="outlined"
               fullWidth
             />
           </DialogContent>

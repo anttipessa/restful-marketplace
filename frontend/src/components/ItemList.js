@@ -152,6 +152,8 @@ class ItemList extends React.Component {
                     <br />
                     <span>On sale? {item.onsale ? 'yes' : 'no'}</span>
                     <br />
+                    <span>Description: {item.description ? item.description : '–'}</span>
+                    <br />
                     <span>Owner: {item.owner.name}</span>
                   </span>
                 }

@@ -83,6 +83,7 @@ class RegisterForm extends React.Component {
             InputLabelProps={{
               shrink: true,
             }}
+            placeholder="Username"
             name="username"
             onChange={this.handleChange}
             variant="outlined"
@@ -97,6 +98,7 @@ class RegisterForm extends React.Component {
             InputLabelProps={{
               shrink: true,
             }}
+            placeholder="user@email.com"
             name="email"
             onChange={this.handleChange}
             variant="outlined"
@@ -111,6 +113,7 @@ class RegisterForm extends React.Component {
             InputLabelProps={{
               shrink: true,
             }}
+            placeholder="Password can't be empty"
             type="password"
             name="password"
             onChange={this.handleChange}
@@ -126,6 +129,7 @@ class RegisterForm extends React.Component {
             InputLabelProps={{
               shrink: true,
             }}
+            placeholder="Password can't be empty"
             type="password"
             name="passwordconf"
             onChange={this.handleChange}

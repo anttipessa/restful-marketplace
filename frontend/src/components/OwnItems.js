@@ -47,10 +47,10 @@ class Owned extends React.Component {
       name: '',
       price: '',
       itemid: '',
-      id: props.user.user.id,
       onsale: null,
       open: false,
       createName: '',
+      createDesc: '',
       createPrice: '',
       createOpen: false,
       alert: false,
@@ -69,6 +69,7 @@ class Owned extends React.Component {
     this.setState({
       name: item.name,
       price: item.price,
+      desc: item.description,
       itemid: item.id,
       onsale: item.onsale,
       open: true
@@ -80,6 +81,7 @@ class Owned extends React.Component {
       open: false,
       createOpen: false,
       createName: '',
+      createDesc: '',
       createPrice: '',
       alert: false
     })
@@ -98,7 +100,8 @@ class Owned extends React.Component {
       const newItem = {
         name: this.state.createName,
         price: this.state.createPrice,
-        owner: this.state.id
+        description: this.state.createDesc,
+        owner: this.props.user.user.id
       }
       fetch('/api/items', {
         method: 'POST',
@@ -117,6 +120,7 @@ class Owned extends React.Component {
           this.setState({
             createOpen: false,
             createName: '',
+            createDesc: '',
             createPrice: '',
             alert: false,
             success: true,
@@ -145,7 +149,7 @@ class Owned extends React.Component {
   }
 
   handleUpdate = () => {
-    const update = {}
+    const update = { description: this.state.description }
     if (this.state.name) update.name = this.state.name
     if (this.state.price) update.price = this.state.price
     fetch(`/api/items/${this.state.itemid}`, {
@@ -249,9 +253,11 @@ class Owned extends React.Component {
                 primary={item.name}
                 secondary={
                   <span>
-                    <span>Price: {item.price}</span>
+                    <span>Price: {item.price} €</span>
                     <br />
                     <span>On sale: {item.onsale ? 'yes' : 'no' }</span>
+                    <br />
+                    <span>Description: {item.description ? item.description : '–'}</span>
                   </span>
                 }
               />
@@ -336,6 +342,7 @@ class Owned extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              placeholder="Item name"
               name="createName"
               onChange={this.handleChange}
               variant="outlined"
@@ -350,11 +357,29 @@ class Owned extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              placeholder="0.00 €"
               type="number"
               name="createPrice"
               onChange={this.handleChange}
               variant="outlined"
               value={this.state.createPrice}
+            />
+            <TextField
+              label="Description"
+              style={{ margin: 8 }}
+              multiline={true}
+              rows={3}
+              fullWidth
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              placeholder="Description about the item (optional)"
+              type="text"
+              name="createDesc"
+              onChange={this.handleChange}
+              variant="outlined"
+              value={this.state.createDesc}
             />
           </DialogContent>
           <Collapse in={this.state.alert}>

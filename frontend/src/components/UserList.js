@@ -341,6 +341,7 @@ class Users extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              placeholder="Username"
               name="createName"
               onChange={this.handleChange}
               variant="outlined"
@@ -355,6 +356,7 @@ class Users extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              placeholder="user@email.com"
               name="createEmail"
               onChange={this.handleChange}
               variant="outlined"
@@ -369,6 +371,7 @@ class Users extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              placeholder="Password can't be empty"
               type="password"
               name="createPw"
               onChange={this.handleChange}

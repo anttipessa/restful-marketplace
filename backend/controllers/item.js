@@ -6,12 +6,13 @@ const errorMessage = { status: 'error' }
 module.exports = {
 
   async createItem(req, res) {
-    const { name, price, onsale, owner } = req.body
+    const { name, price, description, onsale, owner } = req.body
     if (name && price && owner) {
       console.log('Adding item', req.body.name);
       const newItem = new Item({
         name,
         price,
+        description,
         onsale,
         owner
       })

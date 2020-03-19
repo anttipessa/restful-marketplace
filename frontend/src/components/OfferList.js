@@ -117,11 +117,11 @@ class ConnectedList extends React.Component {
       },
       body: JSON.stringify(payment)
     })
-    .then(res => {
-      if (!res.ok) throw Error(res.statusText)
-      return res.json()
-    })
-    .catch(() => this.setState({alert: true, alertMsg: 'Something went wrong with the purchase, please contact admin!'}))
+      .then(res => {
+        if (!res.ok) throw Error(res.statusText)
+        return res.json()
+      })
+      .catch(() => this.setState({ alert: true, alertMsg: 'Something went wrong with the purchase, please contact admin!' }))
   }
 
   alertClose = (event, reason) => {
@@ -167,13 +167,13 @@ class ConnectedList extends React.Component {
             Items currently offered by users
           </Typography>
           <Card style={{ margin: 'auto', marginTop: 70, maxWidth: 400 }} variant="outlined">
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Currently there are not any items being sold by registered users.
-              Please check back in later for more shopping!
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Currently there are not any items being sold by registered users.
+                Please check back in later for more shopping!
             </Typography>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
         </div>
       )
     }
@@ -198,6 +198,8 @@ class ConnectedList extends React.Component {
                   <span>
                     <span>Price: {item.price} €</span>
                     <br />
+                    <span>Description: {item.description ? item.description : '–'}</span>
+                    <br />
                     <span>Seller: {item.owner.name}</span>
                   </span>
                 }
@@ -209,7 +211,7 @@ class ConnectedList extends React.Component {
           <DialogTitle>Item preview </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {this.props.user.loggedIn ?  'Buy the following item' : 'You must log in to buy this item.'}
+              {this.props.user.loggedIn ? 'Buy the following item' : 'You must log in to buy this item.'}
             </DialogContentText>
             <p>Name: {this.state.name}</p>
             <p>Price: {this.state.price} €</p>

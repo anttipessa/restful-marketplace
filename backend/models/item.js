@@ -12,6 +12,10 @@ const itemSchema = new Schema({
     required: true,
     min: 0
   },
+  description: {
+    type: String,
+    trim: true
+  },
   onsale: {
     type: Boolean,
     default: true

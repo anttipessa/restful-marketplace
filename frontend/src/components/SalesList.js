@@ -4,6 +4,8 @@ import { fetchItems, deleteItem } from '../actions/items';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -163,6 +165,42 @@ class ConnectedList extends React.Component {
           <p>Loading</p>
         </div>
       )
+    } else if (this.props.items.items.length === 0) {
+      return (
+        <div>
+          <Typography
+            variant="h3"
+            component="h4"
+            align="center"
+            style={{ marginTop: 20, marginBottom: 10 }}
+          >
+            Items currently on sale!
+          </Typography>
+          <Card style={{ margin: 'auto', marginTop: 70, maxHeight: 200, maxWidth: 500 }} variant="outlined">
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Currently there are not any items on sale.<br /><br />
+                Please check back in later for more shopping!
+                {this.props.user.loggedIn
+                ?
+                <span>
+                  <br /><br />
+                  You can view your own items on "Sell items" page and add
+                  new items for sale!
+                </span>
+                :
+                <span>
+                  <br /><br />
+                  You can log in to your account to view your own items and put
+                  something for sale. If you don't have an account yet, please
+                  register now.
+                </span>
+                }
+            </Typography>
+            </CardContent>
+          </Card>
+        </div>
+      )
     }
     return (
       <div>
@@ -184,6 +222,8 @@ class ConnectedList extends React.Component {
                 secondary={
                   <span>
                     <span>Price: {item.price} €</span>
+                    <br />
+                    <span>Description: {item.description ? item.description : '–'}</span>
                     <br />
                     <span>Seller: {item.owner.name}</span>
                   </span>

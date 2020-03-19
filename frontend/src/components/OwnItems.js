@@ -250,7 +250,7 @@ class Owned extends React.Component {
         </Button>
           {this.props.items.items.map(item => (
             <ListItem
-              style={{ backgroundColor: 'white', opacity: 0.95 }}
+              style={{ backgroundColor: 'white', opacity: 0.9 }}
               button divider={true} key={item._id} onClick={this.handleClick.bind(this, item)}>
               <ListItemText
                 primary={item.name}

@@ -228,7 +228,7 @@ class Users extends React.Component {
           </Button>
           {this.props.users.users.map(user => (
             <ListItem
-              style={{ backgroundColor: 'white', opacity: 0.95 }}
+              style={{ backgroundColor: 'white', opacity: 0.9 }}
               button divider={true} key={user._id} onClick={this.handleClick.bind(this, user)}>
               <ListItemText
                 primary={user.name}

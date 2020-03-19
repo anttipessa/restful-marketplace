@@ -9,6 +9,9 @@ import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -40,6 +43,7 @@ class ConnectedList extends React.Component {
       name: '',
       price: '',
       owner: '',
+      sortOrder: 'nameAsc',
       open: false,
       confirmation: false,
       success: false,
@@ -134,6 +138,22 @@ class ConnectedList extends React.Component {
     .catch(() => this.setState({alert: true, alertMsg: 'Something went wrong with the purchase, please contact admin!'}))
   }
 
+  changeSort = (e) => {
+    this.setState({ sortOrder: e.target.value })
+  }
+
+  sort = () => {
+    if (this.state.sortOrder === 'nameAsc') {
+      return this.props.items.items.sort((a, b) => (a.name > b.name) ? 1 : -1)
+    } else if (this.state.sortOrder === 'nameDesc') {
+      return this.props.items.items.sort((a, b) => (a.name < b.name) ? 1 : -1)
+    } else if (this.state.sortOrder === 'priceAsc') {
+      return this.props.items.items.sort((a, b) => (a.price > b.price) ? 1 : -1)
+    } else {
+      return this.props.items.items.sort((a, b) => (a.price < b.price) ? 1 : -1)
+    }
+  }
+
   alertClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -155,12 +175,12 @@ class ConnectedList extends React.Component {
       return (
         <div>
           <Typography
-            variant="h3"
+            variant="h4"
             component="h4"
             align="center"
-            style={{ marginTop: 20, marginBottom: 10 }}
+            style={{ marginTop: 20, marginBottom: 20 }}
           >
-            Items currently on sale!
+            ITEMS CURRENTLY ON SALE
           </Typography>
           <p>Loading</p>
         </div>
@@ -169,12 +189,12 @@ class ConnectedList extends React.Component {
       return (
         <div>
           <Typography
-            variant="h3"
+            variant="h4"
             component="h4"
             align="center"
-            style={{ marginTop: 20, marginBottom: 10 }}
+            style={{ marginTop: 20, marginBottom: 20 }}
           >
-            Items currently on sale!
+            ITEMS CURRENTLY ON SALE
           </Typography>
           <Card style={{ margin: 'auto', marginTop: 70, maxHeight: 200, maxWidth: 500 }} variant="outlined">
             <CardContent>
@@ -202,20 +222,35 @@ class ConnectedList extends React.Component {
         </div>
       )
     }
+    const sortedList = this.sort()
     return (
       <div>
         <Typography
-          variant="h3"
+          variant="h4"
           component="h4"
           align="center"
-          style={{ marginTop: 20, marginBottom: 10 }}
+          style={{ marginTop: 20, marginBottom: 20 }}
         >
-          Items currently on sale!
+          ITEMS CURRENTLY ON SALE
         </Typography>
         <List style={{ maxWidth: 600, margin: 'auto' }}>
-          {this.props.items.items.map(item => (
+        <FormControl variant="outlined" style={{ marginBottom: 5 }} size="small">
+          <InputLabel>Sort by</InputLabel>
+          <Select
+            native
+            value={this.state.sortOrder}
+            onChange={this.changeSort}
+            label="Sort by"
+          >
+            <option value="nameAsc">Name: Ascending</option>
+            <option value="nameDesc">Name: Descending</option>
+            <option value="priceAsc">Price: Ascending</option>
+            <option value="priceDesc">Price: Descending</option>
+          </Select>
+        </FormControl>
+          {sortedList.map(item => (
             <ListItem
-              style={{ backgroundColor: 'white', opacity: 0.95 }}
+              style={{ backgroundColor: 'white', opacity: 0.9 }}
               button divider={true} key={item._id} onClick={this.handleClick.bind(this, item)}>
               <ListItemText
                 primary={item.name}

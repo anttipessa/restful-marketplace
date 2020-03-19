@@ -142,7 +142,7 @@ class ItemList extends React.Component {
         <List style={{ maxWidth: 600, margin: 'auto' }}>
           {this.props.items.items.map(item => (
             <ListItem
-              style={{ backgroundColor: 'white', opacity: 0.95 }}
+              style={{ backgroundColor: 'white', opacity: 0.9 }}
               button onClick={this.handleClick.bind(this, item)} divider={true} key={item._id} >
               <ListItemText
                 primary={item.name}

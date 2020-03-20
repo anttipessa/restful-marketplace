@@ -298,7 +298,7 @@ class ConnectedList extends React.Component {
               You are about to buy the following item:
             </DialogContentText>
             <p>Name: {this.state.name}</p>
-            <p>Price: {this.state.price}</p>
+            <p>Price: {this.state.price} €</p>
           </DialogContent>
           <DialogActions>
             <Button startIcon={<CancelIcon />} autoFocus onClick={() => {

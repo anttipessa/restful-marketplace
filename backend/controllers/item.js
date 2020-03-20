@@ -23,6 +23,7 @@ module.exports = {
           return res.status(400).json(errorMessage)
         }
         const item = await newItem.save()
+        await Item.populate(item, 'owner')
         console.log('Inserted 1 document into the collection')
         return res.status(201).json(item)
       } catch (err) {

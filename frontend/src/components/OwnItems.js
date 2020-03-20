@@ -7,6 +7,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
@@ -22,7 +25,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SaveIcon from '@material-ui/icons/Save';
-import Createicon from '@material-ui/icons/Save';
+import CreateIcon from '@material-ui/icons/Create';
 
 const mapStateToProps = (state) => {
   return {
@@ -228,6 +231,35 @@ class Owned extends React.Component {
             OWN ITEMS AND OFFERS
           </Typography>
           <p>Loading</p>
+        </div>
+      )
+    } else if (this.props.items.items.length === 0 && !this.state.createOpen) {
+      return (
+        <div>
+          <Typography
+            variant="h4"
+            component="h4"
+            align="center"
+            style={{ marginTop: 20, marginBottom: 20 }}
+          >
+            OWN ITEMS AND OFFERS
+          </Typography>
+          <Card style={{ margin: 'auto', marginTop: 70, maxWidth: 400 }} variant="outlined">
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                You don't have any items at the moment.
+            </Typography>
+            </CardContent>
+            <CardActions>
+              <Button
+              size="small"
+              color="primary"
+              onClick={this.openCreate}
+              >
+                Create item
+              </Button>
+            </CardActions>
+          </Card>
         </div>
       )
     }
@@ -440,7 +472,7 @@ class Owned extends React.Component {
             <Button onClick={this.handleClose} startIcon={<CancelIcon />} color="default">
               Cancel
           </Button>
-            <Button onClick={this.handleCreate} startIcon={<Createicon />} color="primary">
+            <Button onClick={this.handleCreate} startIcon={<CreateIcon />} color="primary">
               Create
           </Button>
           </DialogActions>

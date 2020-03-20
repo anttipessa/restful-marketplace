@@ -147,12 +147,12 @@ class ConnectedList extends React.Component {
       return (
         <div>
           <Typography
-            variant="h3"
+            variant="h4"
             component="h4"
             align="center"
-            style={{ marginTop: 20, marginBottom: 10 }}
+            style={{ marginTop: 20, marginBottom: 20 }}
           >
-            Items currently offered by users
+            OFFERS FROM REGISTERED USERS
           </Typography>
           <p>Loading</p>
         </div>
@@ -161,12 +161,12 @@ class ConnectedList extends React.Component {
       return (
         <div>
           <Typography
-            variant="h3"
+            variant="h4"
             component="h4"
             align="center"
-            style={{ marginTop: 20, marginBottom: 10 }}
+            style={{ marginTop: 20, marginBottom: 20 }}
           >
-            Items currently offered by users
+            OFFERS FROM REGISTERED USERS
           </Typography>
           <Card style={{ margin: 'auto', marginTop: 70, maxWidth: 400 }} variant="outlined">
             <CardContent>
@@ -182,12 +182,12 @@ class ConnectedList extends React.Component {
     return (
       <div>
         <Typography
-          variant="h3"
+          variant="h4"
           component="h4"
           align="center"
-          style={{ marginTop: 20, marginBottom: 10 }}
+          style={{ marginTop: 20, marginBottom: 20 }}
         >
-          Items currently offered by users
+          OFFERS FROM REGISTERED USERS
         </Typography>
         <List style={{ maxWidth: 600, margin: 'auto' }}>
           {this.props.items.items.map(item => (

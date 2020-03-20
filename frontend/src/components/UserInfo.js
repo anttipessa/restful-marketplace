@@ -101,13 +101,13 @@ class Info extends React.Component {
       return (
         <div>
           <Typography
-            variant="h3"
+            variant="h4"
             component="h4"
             align="center"
             gutterBottom
             style={{ marginTop: 20 }}
           >
-            Account information
+            ACCOUNT INFORMATION
           </Typography>
           <p>Loading</p>
         </div>
@@ -116,12 +116,12 @@ class Info extends React.Component {
     return (
       <div>
         <Typography
-          variant="h3"
+          variant="h4"
           component="h4"
           align="center"
           style={{ marginTop: 20 }}
         >
-          Account information
+          ACCOUNT INFORMATION
         </Typography>
         <Card style={{ margin: 40 }} variant="outlined">
           <CardActionArea onClick={() => {

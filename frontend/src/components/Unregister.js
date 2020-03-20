@@ -23,12 +23,12 @@ class ConnectUnregister extends React.Component {
     return (
       <div>
         <Typography
-          variant="h3"
+          variant="h4"
           component="h4"
           align="center"
-          style={{ marginTop: 20, marginBottom: 10 }}
+          style={{ marginTop: 20, marginBottom: 20 }}
         >
-          Unregister
+          UNREGISTER
         </Typography>
         <Card style={{ margin: 'auto', marginTop: 70, maxWidth: 400 }} variant="outlined">
           <CardContent>

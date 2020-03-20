@@ -220,12 +220,12 @@ class Owned extends React.Component {
       return (
         <div>
           <Typography
-            variant="h3"
+            variant="h4"
             component="h4"
             align="center"
-            style={{ marginTop: 20, marginBottom: 10 }}
+            style={{ marginTop: 20, marginBottom: 20 }}
           >
-            Own items and offers
+            OWN ITEMS AND OFFERS
           </Typography>
           <p>Loading</p>
         </div>
@@ -234,12 +234,12 @@ class Owned extends React.Component {
     return (
       <div>
         <Typography
-          variant="h3"
+          variant="h4"
           component="h4"
           align="center"
-          style={{ marginTop: 20, marginBottom: 10 }}
+          style={{ marginTop: 20, marginBottom: 20 }}
         >
-          Own items and offers
+          OWN ITEMS AND OFFERS
         </Typography>
 
         <List style={{ maxWidth: 600, margin: 'auto' }}>

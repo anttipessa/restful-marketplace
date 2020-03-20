@@ -12,6 +12,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
@@ -152,14 +154,34 @@ class ItemList extends React.Component {
       return (
         <div>
           <Typography
-            variant="h3"
+            variant="h4"
             component="h4"
             align="center"
-            style={{ marginTop: 20, marginBottom: 10 }}
+            style={{ marginTop: 20, marginBottom: 20 }}
           >
-            All items
+            ALL ITEMS
           </Typography>
           <p>Loading</p>
+        </div>
+      )
+    } else if (this.props.items.items.length === 0) {
+      return (
+        <div>
+          <Typography
+            variant="h4"
+            component="h4"
+            align="center"
+            style={{ marginTop: 20, marginBottom: 20 }}
+          >
+            ALL ITEMS
+          </Typography>
+          <Card style={{ margin: 'auto', marginTop: 70, maxWidth: 400 }} variant="outlined">
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                No items on database.
+            </Typography>
+            </CardContent>
+          </Card>
         </div>
       )
     }
@@ -167,12 +189,12 @@ class ItemList extends React.Component {
     return (
       <div>
         <Typography
-          variant="h3"
+          variant="h4"
           component="h4"
           align="center"
-          style={{ marginTop: 20, marginBottom: 10 }}
+          style={{ marginTop: 20, marginBottom: 20 }}
         >
-          All items
+          ALL ITEMS
         </Typography>
         <List style={{ maxWidth: 600, margin: 'auto' }}>
           {this.props.items.items.map(item => (
@@ -203,25 +225,37 @@ class ItemList extends React.Component {
         </List>
 
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Update or delete item </DialogTitle>
+          <DialogTitle>Update or delete item</DialogTitle>
           <DialogContent>
             <DialogContentText>You can change the name, price, description or delete the item.</DialogContentText>
             <TextField
-              margin="dense"
+              required
+              margin="normal"
               label="name"
+              InputLabelProps={{
+                shrink: true,
+              }}
               value={this.state.name}
+              placeholder="Item name"
               name="name"
               type="text"
               onChange={this.handleChange}
+              variant="outlined"
               fullWidth
             />
             <TextField
-              margin="dense"
+              required
+              margin="normal"
               label="price"
+              InputLabelProps={{
+                shrink: true,
+              }}
               value={this.state.price}
+              placeholder="0.00 €"
               type="number"
               name="price"
               onChange={this.handleChange}
+              variant="outlined"
               fullWidth
             />
             <TextField

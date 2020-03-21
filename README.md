@@ -218,9 +218,9 @@ In this section we discuss how our marketplace functions.
 ![main view](./documentation/mainview.PNG)
 This is our landing page, where all sold items by shopkeepers are displayed. From this page the user can register or login with their account details. Items can be sorted name or price in ascending or descending order.
 
-![register](./documentation/register.PNG)</br> 
-Register view.</br> 
-![login](./documentation/login.PNG)</br> 
-Login view.</br> 
+![register](./documentation/register.PNG)<br><br>
+Register view.<br><br>
+![login](./documentation/login.PNG)<br><br>
+Login view.<br><br>
 
 *Good luck and happy WWWdevvin’!*

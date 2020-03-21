@@ -82,7 +82,7 @@ Also on deployment phase, the server script should be modified not to use nodemo
 
 
 ## Pages and navigation    
-![picture of navigation](navigation.png)
+![picture of navigation](./documentation/navigation.png)
 ## Modules your group created in your Node project
 ```
 ├── backend
@@ -208,5 +208,17 @@ We will move on to testing once all the backend and frontend work is done. Testi
 | Mongoose models               | 3.3.  | 6.3.  | Henri  |
 | API paths and functionality   | 3.3.  | 10.3. | All    |
 | Start on frontend             | 10.3  | 20.3  | All    |
+
+## Our implementation
+
+In this section we discuss how our marketplace functions.
+
+### Main page
+
+![main view](./documentation/mainview.PNG)
+This is our landing page, where all sold items by shopkeepers are displayed. From this page the user can register or login with their account details. Items can be sorted name or price in ascending or descending order.
+
+![register](./documentation/register.PNG) ![login](./documentation/login.PNG)
+Register and Login views.
 
 *Good luck and happy WWWdevvin’!*

@@ -216,11 +216,47 @@ In this section we discuss how our marketplace functions.
 ### Main page
 
 ![main view](./documentation/mainview.PNG)
-This is our landing page, where all sold items by shopkeepers are displayed. From this page the user can register or login with their account details. Items can be sorted name or price in ascending or descending order.
+This is our landing page, where all onsale items by shopkeepers are displayed. From this page the user can register or login with their account details. Items can be sorted by name or price in ascending or descending order.
 
 ![register](./documentation/register.PNG)<br><br>
 Register view.<br><br>
 ![login](./documentation/login.PNG)<br><br>
 Login view.<br><br>
+
+### Normal user view
+
+![createitem](./documentation/createitem.PNG)<br><br>
+![updatetem](./documentation/updateitem.PNG)<br><br>
+Once logged in, you can add new items or update owned items from the Sell items tab.<br><br>
+
+![accountinfo](./documentation/accountinfo.PNG)<br><br>
+From the Account information tab the user can edit his information, add credits, add or delete credit card or unregister from the service. <br><br>
+![editinfo](./documentation/editinfo.PNG)<br><br>
+User can change all his information.
+![unreg](./documentation/unreg.PNG)<br><br>
+If the user chooses to unregister all information will be deleted, including all the users items.<br><br>
+
+### Shopkeeper view
+
+![skbuy](./documentation/skbuy.PNG)<br><br>
+The shopkeeper has a Onsale tab, where he can buy items offered buy users. Shopkeeper can see the item name, price, description and the name of the user who is selling the item.<br><br>
+![skbuy2](./documentation/skbuy2.PNG)<br><br>
+Once the shopkeeper clicks buy, he is confronted with a confirmation message that must be accepted before the transaction is complete.<br><br>
+
+### Admin view
+
+#### User management
+![adminusers](./documentation/adminusers.PNG)<br><br>
+Logged in as admin, you can view all the users in the marketplace from the users tab.<br><br>
+![adminupdate](./documentation/adminupdate.PNG)<br><br>
+Admin can update any users name, email, password or role. Admin can also delete any user.<br><br>
+![adminnewuser](./documentation/adminnewuser.PNG)<br><br>
+Admin can create a new user. 
+
+#### Item management
+![adminitems](./documentation/allitems.PNG)<br><br>
+From the all items tab, the admin can view all the items in the marketplace. The admin can update or delete the items.<br><br>
+![admincitem](./documentation/admincitem.PNG)<br><br>
+The admin can also create a new item to the marketplace and assign it to any of the users. <br><br>
 
 *Good luck and happy WWWdevvin’!*

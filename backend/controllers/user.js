@@ -23,7 +23,6 @@ module.exports = {
         bcrypt.compare(password, user.password, (err, result) => {
           if (result) {
             jwt.sign({ id: user._id }, SECRET, { algorithm: 'HS256' }, (err, token) => {
-              console.log(token)
               return res.status(200).json({ token, role: user.role, id: user._id })
             })
           } else {

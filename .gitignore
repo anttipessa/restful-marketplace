@@ -43,6 +43,9 @@ jspm_packages/
 /.pnp
 .pnp.js
 
+# React production build directory
+build/
+
 # TypeScript v1 declaration files
 typings/
 

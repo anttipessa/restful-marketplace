@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "setup": "npm install && cd frontend && npm install && cd ../backend && npm install",
-    "server": "nodemon --watch backend/ -L -P 1000 backend/app.js",
-    "app": "cd frontend && npm start"
+    "devserver": "nodemon --watch backend/ -L -P 1000 backend/app.js",
+    "devapp": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "app": "node backend/app.js"
   },
   "repository": {
     "type": "git",

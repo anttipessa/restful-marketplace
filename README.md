@@ -21,7 +21,9 @@ Niki Väänänen, 428612, niki.vaananen@tuni.fi
 
 Gitlab repo URL: https://course-gitlab.tuni.fi/tieta12-2019-2020/internal-server-error.git
 
-## How to run the project application
+## Installation (development and production separately)
+
+### For development
 First of all, modify the Vagrantfile used so that it forwards also port 3001 which is reserved for React in this project. Add the following line to Vagrantfile under "Open ports" part:
 
 - config.vm.network "forwarded_port", guest: 3001, host: 3001   # React
@@ -46,40 +48,58 @@ During development, its required to start two terminal windows. One is for start
 
  This script installs the required modules for each subdirectory. After that the following commands must be run inside Vagrant on their own terminal windows:
 
-`$ npm run server` - starts the Express server (backend)<br>
-`$ npm run app` - starts the React application (frontend)
+`$ npm run devserver` - starts the Express server (backend)
+
+`$ npm run devapp` - starts the React application (frontend)
 
 Now the React application UI can be viewed on http://localhost:3001.
 
 Server is started with nodemon, so if any changes are made to the code, the server automatically restarts which makes the development and testing much easier. Also changes done to React application are immediately visible on the browser (requires page refresh).
 
-When the project is ready for deployment, its possible to add the following script to package.json, which both starts the server and the React application at the same time:
+<hr>
 
-`"dev": "run-p server app"`
+### For production
 
-Then it is possible to start both the backend and frontend with a single command:
+1. Install `nodejs` and `npm`, if not already installed.
 
-`$ npm run dev`
+2. Copy `.env.dist` in the root with the name `.env` (note the dot in the beginning of the file). This can be done on terminal with:
 
-Also on deployment phase, the server script should be modified not to use nodemon anymore, for example like:
+    `$ cp -i .env.dist .env`
 
-`"node backend/app.js"`
+    **Obs:** If `.env`-file already exists, do not overwrite it!
+
+    **Note:** Do not modify `.env.dist` file. It is a model to be copied as .env, it neither must not contain any sensitive data!
+
+3. Execute in the project root folder the following command:
+
+    
+    `$ npm run setup` - installs all the modules required for the application to run.
+    
+    `$ npm run build` - creates a production build of the React application
+
+4. Start Vagrant and navigate to `vagrant_data/internal-server-error` and
+start the app with:
+
+    `$ npm run app`
+
+5. Open on browser: `http://localhost:3000` to view the application. Admin-users login credentials can be found on `.env` file.
 
 ## Planned functionality
 
 ### Implementation order
 1. Backend 
 - REST API
-    - Role (Admin, Shopkeeper, registered user, unregistered user)
-    - Item
+    - API endpoints
 - MongoDB
+    - User (Admin, Shopkeeper, Normal)
+    - Item
+    - Creditcard
 2. Frontend 
 - React
 - Redux
 3. Testing (If enough time)
 - Mocha & Chai
 - CI/CD pipeline
-
 
 ## Pages and navigation    
 ![picture of navigation](./documentation/navigation.png)
@@ -89,10 +109,13 @@ Also on deployment phase, the server script should be modified not to use nodemo
 │   ├── app.js                  --> express app
 │   ├── router.js               --> main router that setups other routes
 │   ├── package.json            --> app info and dependencies
+│   ├── config                  --> custom environment variables
 │   ├── controllers             --> control the application behaviour
 │   │   ├── item.js             --> functions for item handling
 │   │   ├── payment.js          --> functions for payment handling
 │   │   └── user.js             --> functions for user handling
+│   ├── middleware              --> own middleware
+│   │   └── auth.js             --> for authentication
 │   ├── models                  --> models that reflect the db schemas
 │   │   ├── creditcard.js       --> hold data about credit cards
 │   │   ├── item.js             --> hold data about items
@@ -107,10 +130,8 @@ Also on deployment phase, the server script should be modified not to use nodemo
 ├── frontend
 │   ├── src                     --> all react and redux files
 │   │   ├── index.js            --> react app and store creation
-│   │   ├── actions             --> action creators
+│   │   ├── actions             --> redux action creators
 │   │   ├── components          --> react presentational components
-│   │   │   ├── ...
-│   │   │   └── ...
 │   │   ├── containers          --> container components
 │   │   ├── constants           --> redux constants
 │   │   ├── reducers            --> redux reducers
@@ -120,7 +141,7 @@ Also on deployment phase, the server script should be modified not to use nodemo
 
 ```
 ## Mongo database and Mongoose schemas
-Models we're planning to use and their attributes:
+Models we're planning to use and their attributes and attribute types:
 - User
     - Name (String)
     - Email (String)
@@ -136,17 +157,19 @@ Models we're planning to use and their attributes:
 - Creditcard
     - Number (String)
     - Balance (Number)
+    - Owner (User)
 
-The system holds information about the items that have been saved to the database and also about users that are buying or selling items. Item is saved the first time it is listed to being sold and a user is created the moment they register at the website.<br><br>
-User model contains a username, email and password. User model also has a role, which defaults to normal (registered) user so that the user is able to buy listed items and sell items to the shopkeepers on the webstore. User can be promoted to shopkeeper role (requires admin rights) and that role is able to sell items to all other customers (these offers are listed on the store for everyone). Admin users can edit basically anything. User model also has an attribute list of offers, which holds items that the user is currently selling on the store.<br><br>
-Item model contains name of the item and the current owner of the item, which points to a user (each item belongs to some user). Item model also has attribute that holds information if the items is currently on sale or not (true/false). There is also an optional description field, where the item can be described with more detail. If the item is on sale, it also must have price attribute set (price must be >= 0).<br><br>
+The system holds information about the items that have been saved to the database and also about users that are buying or selling items. Item is saved the first time it is listed to being sold and a user is created the moment they register at the website.
+
+User model contains a username, email and password. User model also has a role, which defaults to normal (registered) user so that the user is able to buy listed items and sell items to the shopkeepers on the webstore. User can be promoted to shopkeeper role (requires admin rights) and that role is able to sell items to all other customers (these offers are listed on the store for everyone). Admin users can edit basically anything.
+
+Item model contains name of the item and the current owner of the item, which points to a user (each item on the database belong to some of the users). Item model also has attribute that holds information if the items is currently on sale or not (true/false). There is also an optional description field, where the item can be described with more detail. If the item is on sale, it also must have price attribute set (price must be >= 0).
+
 Credit card / bank account information is modeled so that the Creditcard model contains number of the credit card and the balance of the card (how much money there is on the corresponding bank account). This model is being kept quite simple and straightforward on this imaginary webstore environment. On a real life application it would of course not be a good idea to keep track of a users bank account information and the payment would require authentication into a specific payment site.
-<br><br>
+
 If a user unregisters from the webstore (= user is deleted from database), all items that he/she owns are also removed from the database along with the credit card / bank account information of that user.
 
 ## API
-This documentation may still change a little during the coursework if more API paths are found to be needed or some changes must be done.
-
 Base API path: http://localhost:3000/api
 
 API endpoints:
@@ -165,7 +188,7 @@ API endpoints:
     - `/users` - creates a new user to database
     - `/items` - creates a new item to database
     - `/payments` - create a new credit card item to database
-    - `/purchase` - item changes owner and money transfers between credit cards
+    - `/purchase` - item changes owner and money is transferred between credit cards
 - PUT-request
     - `/users/id` - modify a specific user by id
     - `/users/id/role` - modify a specific user by id (including role - for admins only)
@@ -198,7 +221,9 @@ https://github.com/reduxjs/redux/blob/master/docs/faq/CodeStructure.md
 
 ## Testing 
 
-We will move on to testing once all the backend and frontend work is done. Testing will be done using Chai and Mocha. React testing with Jest and React testing library.
+~~We will move on to testing once all the backend and frontend work is done. Testing will be done using Chai and Mocha. React testing with Jest and React testing library.~~
+
+We did not have enough time to do any unit testing during the coursework, this could be implemented later on if interest.
 
 ## Project timetable and division of work  
 
@@ -211,52 +236,80 @@ We will move on to testing once all the backend and frontend work is done. Testi
 
 ## Our implementation
 
-In this section we discuss how our marketplace functions.
+In this section we discuss how our marketplace functions. Below are listed multiple screenshots from the application where the main functionality can be viewed.
+
+### Some notifications
+
+In the assignment task there was mentioned that "admininstrator has the right to access / edit everything." However we decided to leave the credit card listing out of the administrators possibilities to have an influence on. So only users can access their own credit card information through their Account Information -page on the application. Administrator can edit everything else and create new users / items as they wish.
+
+The application ideology is formed so, that when a user unregisters from the website (the account is deleted from the database) - all the items that are at that moment owned by that user are also removed from the database instead of left hanging around. The credit card information of the user is removed as well when the user unregisters.
+
+About selling the items - it is possible for a user to list his/her own items for sale even if there are not credit card information added for the account. However, when those items are tried to be bought by other users, an alert is displayed that the purchasing of the items from the selected user is currently unavailable. Also there is an visible alert on the users Account information -page if that user has some items on sale but no active credit card information added - you do want the money for your bank account from the sales, right?
 
 ### Main page
 
 ![main view](./documentation/mainview.PNG)
 This is our landing page, where all onsale items by shopkeepers are displayed. From this page the user can register or login with their account details. Items can be sorted by name or price in ascending or descending order.
 
-![register](./documentation/register.PNG)<br><br>
-Register view.<br><br>
-![login](./documentation/login.PNG)<br><br>
-Login view.<br><br>
+![register](./documentation/register.PNG)
+
+Register view.
+
+![login](./documentation/login.PNG)
+
+Login view.
 
 ### Normal user view
 
-![createitem](./documentation/createitem.PNG)<br><br>
-![updatetem](./documentation/updateitem.PNG)<br><br>
-Once logged in, you can add new items or update owned items from the Sell items tab.<br><br>
+![createitem](./documentation/createitem.PNG)
 
-![accountinfo](./documentation/accountinfo.PNG)<br><br>
-From the Account information tab the user can edit his information, add credits, add or delete credit card or unregister from the service. <br><br>
-![editinfo](./documentation/editinfo.PNG)<br><br>
+![updatetem](./documentation/updateitem.PNG)
+
+Once logged in, you can add new items or update owned items from the Sell items tab.
+
+![accountinfo](./documentation/accountinfo.PNG)
+
+From the Account information tab the user can edit his information, add credits, add or delete credit card or unregister from the service.
+
+![editinfo](./documentation/editinfo.PNG)
+
 User can change all his information.
-![unreg](./documentation/unreg.PNG)<br><br>
-If the user chooses to unregister all information will be deleted, including all the users items.<br><br>
+![unreg](./documentation/unreg.PNG)
+
+If the user chooses to unregister all information will be deleted, including all the users items.
 
 ### Shopkeeper view
 
-![skbuy](./documentation/skbuy.PNG)<br><br>
-The shopkeeper has a Onsale tab, where he can buy items offered buy users. Shopkeeper can see the item name, price, description and the name of the user who is selling the item.<br><br>
-![skbuy2](./documentation/skbuy2.PNG)<br><br>
-Once the shopkeeper clicks buy, he is confronted with a confirmation message that must be accepted before the transaction is complete.<br><br>
+![skbuy](./documentation/skbuy.PNG)
+
+The shopkeeper has a Onsale tab, where he can buy items offered buy users. Shopkeeper can see the item name, price, description and the name of the user who is selling the item.
+
+![skbuy2](./documentation/skbuy2.PNG)
+
+Once the shopkeeper clicks buy, he is confronted with a confirmation message that must be accepted before the transaction is complete.
 
 ### Admin view
 
 #### User management
-![adminusers](./documentation/adminusers.PNG)<br><br>
-Logged in as admin, you can view all the users in the marketplace from the users tab.<br><br>
-![adminupdate](./documentation/adminupdate.PNG)<br><br>
-Admin can update any users name, email, password or role. Admin can also delete any user.<br><br>
-![adminnewuser](./documentation/adminnewuser.PNG)<br><br>
+![adminusers](./documentation/adminusers.PNG)
+
+Logged in as admin, you can view all the users in the marketplace from the users tab.
+
+![adminupdate](./documentation/adminupdate.PNG)
+
+Admin can update any users name, email, password or role. Admin can also delete any user.
+
+![adminnewuser](./documentation/adminnewuser.PNG)
+
 Admin can create a new user. 
 
 #### Item management
-![adminitems](./documentation/allitems.PNG)<br><br>
-From the all items tab, the admin can view all the items in the marketplace. The admin can update or delete the items.<br><br>
-![admincitem](./documentation/admincitem.PNG)<br><br>
-The admin can also create a new item to the marketplace and assign it to any of the users. <br><br>
+![adminitems](./documentation/allitems.PNG)
+
+From the all items tab, the admin can view all the items in the marketplace. The admin can update or delete the items.
+
+![admincitem](./documentation/admincitem.PNG)
+
+The admin can also create a new item to the marketplace and assign it to any of the users.
 
 *Good luck and happy WWWdevvin’!*

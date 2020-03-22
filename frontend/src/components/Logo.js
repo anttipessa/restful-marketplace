@@ -1,7 +1,6 @@
 import React from 'react';
 import CardMedia from '@material-ui/core/CardMedia';
 import Card from '@material-ui/core/Card';
-import tori from '../tori.png';
 
 class Logo extends React.Component {
 
@@ -10,7 +9,7 @@ class Logo extends React.Component {
       <Card >
         <CardMedia
           component="img"
-          image={tori}
+          image={process.env.PUBLIC_URL + 'tori.png'}
           title="Best marketplace in town"
           height="130"
         />

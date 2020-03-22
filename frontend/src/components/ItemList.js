@@ -301,6 +301,9 @@ class ItemList extends React.Component {
                     <span>Owner: {item.owner.name}</span>
                   </span>
                 }
+                style={{
+                  flex: 0.75
+                }}
               />
               <ListItemSecondaryAction>
                 <Button color="primary" onClick={this.changeSaleStatus.bind(this, item)}>

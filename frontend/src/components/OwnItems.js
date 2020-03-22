@@ -298,6 +298,9 @@ class Owned extends React.Component {
                     <span>On sale: {item.onsale ? 'yes' : 'no' }</span>
                   </span>
                 }
+                style={{
+                  flex: 0.75
+                }}
               />
               <ListItemSecondaryAction>
                   <Button color="primary" onClick={this.changeSaleStatus.bind(this, item)}>

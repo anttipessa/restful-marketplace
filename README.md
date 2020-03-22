@@ -24,11 +24,6 @@ Gitlab repo URL: https://course-gitlab.tuni.fi/tieta12-2019-2020/internal-server
 ## Installation (development and production separately)
 
 ### For development
-First of all, modify the Vagrantfile used so that it forwards also port 3001 which is reserved for React in this project. Add the following line to Vagrantfile under "Open ports" part:
-
-- config.vm.network "forwarded_port", guest: 3001, host: 3001   # React
-
-Next step:
 
 Copy `.env.dist` in the root with the name `.env` (note the dot in the beginning of the file). This can be done on terminal with:
 
@@ -54,7 +49,7 @@ During development, its required to start two terminal windows. One is for start
 
 Now the React application UI can be viewed on http://localhost:3001.
 
-Server is started with nodemon, so if any changes are made to the code, the server automatically restarts which makes the development and testing much easier. Also changes done to React application are immediately visible on the browser (requires page refresh).
+Server is started with nodemon, so if any changes are made to the code, the server automatically restarts which makes the development and testing much easier. Also changes done to React application are immediately visible on the browser (might require page refresh).
 
 <hr>
 
@@ -77,8 +72,13 @@ Server is started with nodemon, so if any changes are made to the code, the serv
     
     `$ npm run build` - creates a production build of the React application
 
-4. Start Vagrant and navigate to `vagrant_data/internal-server-error` and
-start the app with:
+4. `Vagrantfile` is provided. It defines how the vagrant environment is set up, commands to be run:
+
+    `$ vagrant up`    // sets up the environment<br>
+    `$ vagrant ssh`   // moves a user inside vagrant
+    
+    Inside Vagrant navigate to the directory `/internal-server-error` and
+start the app:
 
     `$ npm run app`
 

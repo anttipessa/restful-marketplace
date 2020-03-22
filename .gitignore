@@ -43,6 +43,10 @@ jspm_packages/
 /.pnp
 .pnp.js
 
+# Vagrant
+.vagrant
+_vagrant
+
 # React production build directory
 build/
 

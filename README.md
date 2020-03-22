@@ -254,9 +254,17 @@ Admin can update any users name, email, password or role. Admin can also delete 
 Admin can create a new user. 
 
 #### Item management
+![adminlisting](./documentation/adminlisting.PNG)<br><br>
+From the all items tab, the admin can view all the items in the marketplace. Admin can change the item sale state.<br><br>
 ![adminitems](./documentation/allitems.PNG)<br><br>
-From the all items tab, the admin can view all the items in the marketplace. The admin can update or delete the items.<br><br>
+ The admin can update or delete the items.<br><br>
 ![admincitem](./documentation/admincitem.PNG)<br><br>
 The admin can also create a new item to the marketplace and assign it to any of the users. <br><br>
+
+## Future additions
+Things we didn't have time for but would be awesome!
+- Tests
+- Ability to add pictures for a item or user
+- Bidding feature
 
 *Good luck and happy WWWdevvin’!*

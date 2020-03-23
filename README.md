@@ -137,7 +137,10 @@ start the app:
 │   │   ├── reducers            --> redux reducers
 │   │   └── store               --> redux store config
 │   ├── public                  
-└── └── package.json            --> app info and dependencies
+│   └── package.json            --> app info and dependencies
+│
+├── documentation               --> pictures of the app
+└── package.json                --> app info and dependencies
 
 ```
 ## Mongo database and Mongoose schemas

@@ -1,25 +1,25 @@
-***Welcome to the home of your group's TIETA12, part 2 coursework code and documentation!***
 
-This README.md file is where your group writes your project plan/project report.
+# Restful Marketplace
 
-When you write it, you must use Markdown. [Documentation for GitLab Flavored Markdown (GFM)](https://docs.gitlab.com/ee/user/markdown.html).
+This was a group project for the TIETA12 course at Tampere University. We created a single page application for a marketplace using MERN stack and a REST API backend.
 
-The directory structure of the code is up to your group to decide, but this README.md file must remain in place.
+## Assignment
 
+The goal of the assignment is to create a webstore that buys and sells used items.
 
-# Initial project plan document
-The headers that must be present in this document are shown here. 
+In the system, you should have these roles: an administrator, shopkeeper, registered customer, and unregistered user. The administrator has the right to edit the roles of others and access / edit everything. Unregistered users can only view what is being sold, but not buy or sell anything. Registered customers can update their own information, unregister, buy and sell. Shopkeepers can accept sales offers from customers, modify prices and add other items to be sold. Customers use a (fake) credit card to pay.
 
-For instructions on what to add under these headers, see the course project assignment document, [see the coursework assignment document](https://docs.google.com/document/d/1ctG6mURrs1WlqwwPnMOFE_mSIEhZVCjp2XGefAZMdxQ/edit#heading=h.vsanic5plbto)
+An example of what could happen: A user registers to the system and logs in. The registered user submits an offer to sell a sofa for a price of 100 euros. A shopkeeper decides to accept the offer. The sofa is added to the items on sale and the shopkeeper sets the price to 150 euros. The customer gets paid 100 euros by bank transfer (bank account information is stored for each registered customer who wishes to sell). Another customer then sees the sofa and buys it. The customer pays 150 euros with a credit card.
+
+There can be other functionalities added that make the system more interesting. There is no need to take into account the physical location of the items or their shipment.
+
+ [Assignment in more detail](https://docs.google.com/document/d/1ctG6mURrs1WlqwwPnMOFE_mSIEhZVCjp2XGefAZMdxQ/edit#heading=h.vsanic5plbto)
 
 ## Course project group information 
 
-### Internal Server Error
-Antti Pessa, 431566, antti.pessa@tuni.fi<br>
-Henri Hakkarainen, 434896, henri.hakkarainen@tuni.fi<br>
-Niki Väänänen, 428612, niki.vaananen@tuni.fi
-
-Gitlab repo URL: https://course-gitlab.tuni.fi/tieta12-2019-2020/internal-server-error.git
+Antti Pessa, antti.pessa@tuni.fi<br>
+Henri Hakkarainen, henri.hakkarainen@tuni.fi<br>
+Niki Väänänen, niki.vaananen@tuni.fi
 
 ## Installation (development and production separately)
 

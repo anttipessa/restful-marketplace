@@ -1,3 +1,4 @@
+<img src="https://github.com/anttipessa/restful_marketplace/blob/master/frontend/public/tori2.png" width="220" height="200">
 
 # Restful Marketplace
 

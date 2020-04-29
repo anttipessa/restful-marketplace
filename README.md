@@ -1,8 +1,10 @@
 <img src="https://github.com/anttipessa/restful_marketplace/blob/master/frontend/public/tori2.png" width="220" height="200">
 
-# Restful Marketplace
+# Restful Marketplace 
 
 This was a group project for the TIETA12 course at Tampere University. We created a single page application for a marketplace using MERN stack and a REST API backend.
+
+Deployed to [Heroku](https://restful-marketplace.herokuapp.com/)
 
 ## Assignment
 
@@ -81,7 +83,7 @@ Server is started with nodemon, so if any changes are made to the code, the serv
     Inside Vagrant navigate to the directory `/internal-server-error` and
 start the app:
 
-    `$ npm run app`
+    `$ npm run start`
 
 5. Open on browser: `http://localhost:3000` to view the application. Admin-users login credentials can be found on `.env` file.
 
@@ -325,5 +327,3 @@ Things we didn't have time for but would be awesome!
 - Tests
 - Ability to add pictures for a item or user
 - Bidding feature
-
-*Good luck and happy WWWdevvin’!*

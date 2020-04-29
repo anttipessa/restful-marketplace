@@ -7,7 +7,8 @@
     "setup": "npm install && cd frontend && npm install && cd ../backend && npm install",
     "devserver": "nodemon --watch backend/ -L -P 1000 backend/app.js",
     "devapp": "cd frontend && npm start",
-    "build": "cp -i .env.dist .env && npm install && cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "build": "cd frontend && npm run build",
+    "heroku-postbuild": "cp -i .env.dist .env && npm install && cd backend && npm install && cd ../frontend && npm install && npm run build",
     "start": "node backend/app.js"
   },
   "repository": {
